@@ -17,11 +17,3 @@ a.footer { font-size: 20px; line-height: 1.4em; text-decoration: none; color: #f
 a.footer:hover { font-size: 20px; line-height: 1.4em; text-decoration: none; color: #fab7af; }
 a.footer { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_light_pink.png"), auto !important; }
 
-.header {
-  position: fixed;
-  top: 0;
-}
-.footer {
-  position: fixed;
-  bottom: 0;
-}
