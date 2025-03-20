@@ -13,8 +13,10 @@ a { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/m
 h1 { font-size: 40px; font-family:'Helvetica Neue', 'Helvetica', 'Arial', 'Sans-Serif'; margin-bottom: 10px; overflow: visible !important; }
 p { font-size: 20px; line-height: 1.4em; font-family:'Helvetica Neue', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 10px; margin-top: 0px; overflow: visible !important; }
 
-ol { font-size: 20px; font-family:'Helvetica Neue', 'Helvetica', 'Arial', 'Sans-Serif'; color: #878787; margin-bottom: 20px; overflow: visible !important; }
+ol { font-size: 20px; font-family:'Helvetica Neue', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 20px; overflow: visible !important; }
 ol p { font-size: 20px; line-height: 1.4em; font-family:'Helvetica Neue', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 10px; margin-top: 0px; overflow: visible !important; }
+
+hr { border: none; height: 1px; color: #333; background-color: #333; }
 
 a.footer { font-size: 20px; line-height: 1.4em; text-decoration: none; color: #ffffff; }
 a.footer:hover { font-size: 20px; line-height: 1.4em; text-decoration: none; color: #fab7af; }
