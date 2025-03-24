@@ -35,7 +35,7 @@ a.footer { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.gith
 
 .container-about img {
     height: auto;
-    max-width: 300px;
+    max-height: 300 px;
     align-self: stretch;
 }
 
