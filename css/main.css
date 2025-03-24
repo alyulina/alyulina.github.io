@@ -14,7 +14,7 @@ h1 { font-size: 42px; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'
 h2 { font-size: 24px; line-height: 1.4em; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 
-ol { font-size: 18px; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; overflow: visible !important; }
+ol { font-size: 18px; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 ol p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 
 hr { border: none; height: 1px; color: #333; background-color: #333; }
