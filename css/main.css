@@ -20,7 +20,7 @@ ol p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', '
 hr { border: none; height: 1px; color: #333; background-color: #333; }
 
 a.footer { font-size: 18px; line-height: 1.4em; text-decoration: none; color: #ffffff; }
-a.footer:hover { font-size: 18px; line-height: 1.4em; text-decoration: none; color: #fab7af; }
-a.footer { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_light_pink.png"), auto !important; }
+a.footer:hover { font-size: 18px; line-height: 1.4em; text-decoration: none; color: #fa8072; }
+a.footer { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
 
 .footnote { font-size: 0.95em; }
