@@ -10,8 +10,8 @@ a { font-size: 20px; line-height: 1.4em; text-decoration: none; color: #878787; 
 a:hover, #about.active, #research.active, #publications.active, #contact.active { font-size: 20px; line-height: 1.4em; text-decoration: none; color: #fa8072; }
 a { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
 
-h1 { font-size: 40px; font-family:'Tiempos', 'Georgia', 'Times New Roman', 'Serif'; margin-bottom: 10px; overflow: visible !important; }
-h2 { font-size: 20px; line-height: 1.4em; font-family:'Tiempos', 'Georgia', 'Times New Roman', 'Serif'; color: #333; margin-bottom: 10px; margin-top: 0px; overflow: visible !important; }
+h1 { font-size: 40px; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; margin-bottom: 10px; overflow: visible !important; }
+h2 { font-size: 18px; line-height: 1.4em; font-family:'Tiempos', 'Georgia', 'Times New Roman', 'Serif'; color: #333; margin-bottom: 0px; margin-top: 0px; overflow: visible !important; }
 p { font-size: 20px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif', 'Sans-Serif'; color: #333; margin-bottom: 10px; margin-top: 0px; overflow: visible !important; }
 
 ol { font-size: 20px; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 20px; overflow: visible !important; }
