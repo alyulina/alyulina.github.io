@@ -11,7 +11,7 @@ a:hover, #about.active, #research.active, #publications.active, #contact.active 
 a { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
 
 h1 { font-size: 52px; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; margin-bottom: 6px; overflow: visible !important; }
-h2 { font-size: 20px; line-height: 1.4em; font-weight: bold; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
+h2 { font-size: 20px; line-height: 1.4em; font-weight: bold; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; color: #333; margin-bottom: 20px; margin-top: 0px; overflow: visible !important; }
 p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 
 ol { font-size: 18px; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
