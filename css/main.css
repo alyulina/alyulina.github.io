@@ -6,6 +6,9 @@ html { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.i
 nav ul { padding: 0px; list-style: none; margin-top: 0px; margin-bottom: 40px; margin-right: 30px;}
 nav ul li { display: inline; margin-right: 30px; }
 
+nav a { font-size: 24px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; text-decoration: none; color: #878787; text-decoration: none; }
+nav a:hover, nav a.active { font-size: 24px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; text-decoration: none; color: #fa8072; text-decoration: none; }
+
 a { font-size: 18px; line-height: 1.4em; text-decoration: none; color: #878787; }
 a:hover, #about.active, #research.active, #publications.active, #contact.active { font-size: 18px; line-height: 1.4em; text-decoration: none; color: #fa8072; }
 a { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
@@ -23,4 +26,4 @@ a.footer { font-size: 18px; line-height: 1.4em; text-decoration: none; color: #f
 a.footer:hover { font-size: 18px; line-height: 1.4em; text-decoration: none; color: #fab7af; }
 a.footer { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_light_pink.png"), auto !important; }
 
-.footnote { font-size: 0.975em; }
+.footnote { font-size: 0.95em; }
