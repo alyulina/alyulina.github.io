@@ -27,22 +27,23 @@ a.footer { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.gith
 
 .container-about {
     display: flex;
-    align-items: flex-end;
-    gap: 40px;
+    align-items: stretch; /* Ensures equal height */
+    gap: 20px;
     max-width: 800px;
     margin: 0px auto;
-    flex-wrap: wrap;
 }
 
 .container-about img {
-    width: 220px;
-    height: 220px;
-    flex-shrink: 0;
+    height: auto;
+    max-width: 300px;
+    align-self: stretch;
 }
 
 .text {
     flex: 1;
-    max-width: calc(800px - 220px - 40px);
+    display: flex; /* Makes the text container take full height */
+    flex-direction: column; /* Ensures normal text flow */
+    justify-content: left; /* Centers text within the container */
 }
 
 @media (max-width: 1024px) {
@@ -51,7 +52,8 @@ a.footer { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.gith
         align-items: center;
         text-align: center;
     }
+
     .text {
-        text-align: left;
+        display: block; /* Reset flex for stacked layout */
     }
 }
