@@ -24,3 +24,36 @@ a.footer:hover { font-size: 18px; line-height: 1.4em; text-decoration: none; col
 a.footer { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_light_pink.png"), auto !important; }
 
 .footnote { font-size: 0.95em; }
+
+.container-about {
+    display: flex;
+    align-items: stretch; /* Ensures equal height */
+    gap: 20px;
+    max-width: 800px;
+    margin: 0px auto;
+}
+
+.container-about img {
+    height: auto;
+    max-height: 300 px;
+    align-self: stretch;
+}
+
+.text {
+    flex: 1;
+    display: flex; /* Makes the text container take full height */
+    flex-direction: column; /* Ensures normal text flow */
+    justify-content: left; /* Centers text within the container */
+}
+
+@media (max-width: 1024px) {
+    .container-about {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .text {
+        display: block; /* Reset flex for stacked layout */
+    }
+}
