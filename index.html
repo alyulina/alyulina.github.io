@@ -11,13 +11,48 @@ title: Anastasia Lyulina | About
 		<li><a href="/contact">CONTACT</a></li>
 	</ul>
 </nav>
+<style>
+    .blurb {
+        max-width: 800px;
+        margin: 60px auto;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .blurb img {
+        width: 180px;
+        height: 180px;
+        margin: -85px 0px 6px 40px;
+        float: right;
+    }
+
+    .blurb p {
+        flex: 1;
+    }
+
+    /* Media query for screens smaller than 1024px */
+    @media (max-width: 1024px) {
+        .blurb {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .blurb img {
+            margin: 20px 0 20px 0; /* Adjust margins to make space when image moves below */
+            float: none; /* Remove float so that image can be centered */
+        }
+    }
+</style>
+
 <div class="blurb">
-	<img src="/img/nastia.jpg" alt="Anastsia Lyulina" style="width:180px;height:180px;float:right;margin:-85px 0px 6px 40px">
-	<p>
-			How do evolutionary dynamics give rise to the emergent patterns of genetic diversity? I study theoretical models to understand what <i>can</i> happen and leverage genomic data to learn what <i>does</i> happen in evolving populations of cells and organisms – from microbes to cancer.
-	</p>
-	<br>
-	<p>
-		Currently, I am a graduate student in the Biology PhD program at Stanford University, advised by <a href="https://bgoodlab.github.io/" target="_blank">Benjamin Good</a> and <a href="https://petrovlab-stanford.squarespace.com/" target="_blank">Dmitri Petrov</a>. Prior to starting graduate school, I worked as a research assistant with <a href="https://www.oist.jp/research/fyodor-kondrashov/" target="_blank">Fyodor Kondrashov</a>. I hold a BSc in Physics from Saint Petersburg Polytechnic University.
-	</p>
+    <img src="/img/nastia.jpg" alt="Anastsia Lyulina">
+    <p>
+        How do evolutionary dynamics give rise to the emergent patterns of genetic diversity? I study theoretical models to understand what <i>can</i> happen and leverage genomic data to learn what <i>does</i> happen in evolving populations of cells and organisms – from microbes to cancer.
+    </p>
+    <br>
+    <p>
+        Currently, I am a graduate student in the Biology PhD program at Stanford University, advised by <a href="https://bgoodlab.github.io/" target="_blank">Benjamin Good</a> and <a href="https://petrovlab-stanford.squarespace.com/" target="_blank">Dmitri Petrov</a>. Prior to starting graduate school, I worked as a research assistant with <a href="https://www.oist.jp/research/fyodor-kondrashov/" target="_blank">Fyodor Kondrashov</a>. I hold a BSc in Physics from Saint Petersburg Polytechnic University.
+    </p>
 </div>
