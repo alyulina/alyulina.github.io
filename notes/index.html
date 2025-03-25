@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Anastasia Lyulina | Research
+title: Anastasia Lyulina | Notes
 ---
 <nav>
 	<ul>
@@ -12,8 +12,8 @@ title: Anastasia Lyulina | Research
 		<li><a href="/contact">CONTACT</a></li>
 	</ul>
 </nav>
- <ul class="notes">
+ <ul class="notes" style="list-style-type:none;">
    {% for post in site.notes %}
-     <li><a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a> <small>({{ post.date | date: "%B %d, %Y" }})</small></li>
+     <li><a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a> ({{ post.date | date: "%B %d, %Y" }})</li>
    {% endfor %}
  </ul>
