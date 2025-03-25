@@ -23,7 +23,7 @@ a.footer { font-size: 18px; line-height: 1.4em; text-decoration: none; color: #f
 a.footer:hover { font-size: 18px; line-height: 1.4em; text-decoration: none; color: #fa8072; }
 a.footer { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
 
-h2 a { font-size: 20px; line-height: 1.4em; font-weight: bold; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; text-decoration: none; color: #878787; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
-h2 a:hover { font-size: 20px; line-height: 1.4em; font-weight: bold; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; text-decoration: none; color: #fa8072; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
+h2 a { text-decoration: none; color: #878787; }
+h2 a:hover { color: #fa8072; }
 
 .footnote { font-size: 0.95em; }
