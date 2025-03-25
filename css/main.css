@@ -6,7 +6,7 @@ html { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.i
 nav ul { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; padding: 0px; list-style: none; margin-top: 0px; margin-bottom: 52px; margin-right: 25px;}
 nav ul li { display: inline; margin-right: 25px; }
 
-a { font-size: inherit; line-height: inherit; font-family: inherit; text-decoration: none; color: #878787; }
+a { font-size: inherit; line-height: inherit; font-family: inherit; text-decoration: none; color: #999999; }
 a:hover, #about.active, #research.active, #publications.active, #contact.active, #notes.active { text-decoration: none; color: #fa8072; }
 a { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
 
