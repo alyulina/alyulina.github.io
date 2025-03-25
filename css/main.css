@@ -24,4 +24,4 @@ a.footer:hover { text-decoration: none; color: #fa8072; }
 a.footer { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
 
 .footnote { font-size: 0.95em; }
-sup { vertical-align: top; }
+sup { vertical-align: top; font-size: 0.9em; }
