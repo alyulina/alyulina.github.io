@@ -14,6 +14,6 @@ title: Anastasia Lyulina | Notes
 </nav>
  <ul class="notes" style="list-style-type:none; padding:0;">
    {% for post in site.posts %}
-     <li><p><a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a> ({{ post.date | date: "%B %d, %Y" }})</p></li>
+     <li><h2><a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a> ({{ post.date | date: "%B %d, %Y" }})</h2></li>
    {% endfor %}
  </ul>
