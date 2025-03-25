@@ -12,8 +12,11 @@ title: Anastasia Lyulina | Notes
 		<li><a href="/contact">CONTACT</a></li>
 	</ul>
 </nav>
- <ul class="notes" style="list-style-type:none; padding:0;">
-   {% for post in site.posts %}
-     <li><h2><a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a> ({{ post.date | date: "%B %d, %Y" }})</h2></li>
-   {% endfor %}
- </ul>
+ <div class="notes">
+    {% for post in site.posts %}
+      <div class="note-entry">
+        <h2><a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></h2>
+        <p class="meta" style="font-size:0.95em;">{{ post.date | date: "%B %d, %Y" }}</p>
+      </div>
+    {% endfor %}
+ </div>
