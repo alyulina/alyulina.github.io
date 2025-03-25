@@ -6,8 +6,8 @@ html { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.i
 nav ul { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; padding: 0px; list-style: none; margin-top: 0px; margin-bottom: 52px; margin-right: 25px;}
 nav ul li { display: inline; margin-right: 25px; }
 
-a { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; text-decoration: none; color: #878787; }
-a:hover, #about.active, #research.active, #publications.active, #contact.active, #notes.active { color: #fa8072; }
+a { font-size: inherit; line-height: inherit; font-family: inherit; text-decoration: none; color: #878787; }
+a:hover, #about.active, #research.active, #publications.active, #contact.active, #notes.active { text-decoration: none; color: #fa8072; }
 a { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
 
 h1 { font-size: 52px; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; margin-bottom: 18px; overflow: visible !important; }
@@ -19,11 +19,8 @@ ol p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', '
 
 hr { border: none; height: 1px; color: #333; background-color: #333; }
 
-a.footer { font-size: 18px; line-height: 1.4em; text-decoration: none; color: #ffffff; }
-a.footer:hover { font-size: 18px; line-height: 1.4em; text-decoration: none; color: #fa8072; }
+a.footer { text-decoration: none; color: #ffffff; }
+a.footer:hover { text-decoration: none; color: #fa8072; }
 a.footer { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
-
-h2 a { text-decoration: none; color: #878787; }
-h2 a:hover { color: #fa8072; }
 
 .footnote { font-size: 0.95em; }
