@@ -13,7 +13,7 @@ title: Anastasia Lyulina | About
 </nav>
 <style>
   .blurb img {
-    width: 180px;
+    width: 200px;
     height: auto;
     max-width: 30%;
 		aspect-ratio:1/1;
@@ -23,13 +23,18 @@ title: Anastasia Lyulina | About
 
   @media (max-width: 1024px) {
     .blurb img {
-			width: 180px;
+			width: 200px;
 			height: auto;
 			aspect-ratio:1/1;
       float: none;
       display: block;
       margin: 20px auto 0;
+			order: 1;
     }
+		.blurb {
+	      display: flex;
+	      flex-direction: column;
+	    }
   }
 </style>
 <div class="blurb">
