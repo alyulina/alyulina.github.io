@@ -12,5 +12,8 @@ title: Anastasia Lyulina | Research
 		<li><a href="/contact">CONTACT</a></li>
 	</ul>
 </nav>
-	<div class="notes">
-	</div>
+ <ul class="notes">
+   {% for post in site.notes %}
+     <li><a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a> <small>({{ post.date | date: "%B %d, %Y" }})</small></li>
+   {% endfor %}
+ </ul>
