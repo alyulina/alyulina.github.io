@@ -20,4 +20,4 @@ ol p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', '
 hr { border: none; height: 1px; color: #333; background-color: #333; }
 
 .footnote { font-size: 0.95em; }
-sup { vertical-align: top; font-size: 0.75em; }
+sup { vertical-align: top; font-size: 0.75em; position: relative; top: -0.5em; }
