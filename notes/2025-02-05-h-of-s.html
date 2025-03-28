@@ -29,7 +29,7 @@ title: Anastasia Lyulina | Notes
    <p>which implies that, on a logarithmic scale, most of the probability density is contained within $\sim \mathcal{O}(1)$ of $\log (t/N) $.</p>
    <p>The allele frequency distribution can be understood in terms of the number of mutant lineages that end up in the frequency range $\log f \pm \mathcal{O}(1)$ at time $t$. The rate at which mutant lineages reach frequency $f$ is $N\mu \cdot 1/Nf$, and lineages that do so must have originated within $\Delta t \sim Nf$ generations in the past. Summing up their contributions yields</p>
       <p style="text-align: center; display: block; ">$ \displaystyle{p(\log f) \sim N\mu \cdot \frac{1}{Nf} \cdot \Delta t \sim N\mu} $,</p>
-   <p>emphasizing that is $p(f)$ evenly distributed on a logarithmic scale, with equal contributions from all orders of magnitude in $f$. Switching back to a linear scale, we recover the familiar allele frequency distribution,</p>
+   <p>emphasizing that $p(f)$ is evenly distributed on a logarithmic scale, with equal contributions from all orders of magnitude in $f$. Switching back to a linear scale, we recover the familiar allele frequency distribution,</p>
       <p style="text-align: center; display: block; ">$ \displaystyle{p(f) \sim \frac{N\mu}{f}}$.</p>
    <p>Note that this calculation is only valid for $t \ll N$. At longer times, there is $\sim\mathcal{O}(1)$ probability that a mutant lineage will have reached $f\sim 1$, or <em>fixed</em>. For a steady state to exist we thus need an influx of new mutations; <a href="https://www.jstor.org/stable/2984310?seq=1" target="_blank">Ewens (1963)</a> showed that this can be achieved by restarting the process at some infinitesimal frequency $\epsilon$ immediately upon fixation<sup>4</sup>.</p>
    <p>The pairwise heterozygosity is therefore given by</p>
@@ -42,7 +42,7 @@ title: Anastasia Lyulina | Notes
    <br>
    <h2>Beneficial alleles</h2>
    <p>Just like deleterious alleles, strongly advantageous alleles with fitness <em>benefit</em> $s$ will remain invisible to selection at frequencies below $1/Ns$. However, once they drift to this frequency, they begin to expand deterministically due to selection as</p>
-   <p style="text-align: center; display: block; ">$ \displaystyle{\partial_t f = sf(1-f)}$.</p>
+      <p style="text-align: center; display: block; ">$ \displaystyle{\partial_t f = sf(1-f)}$.</p>
    <br>
    <br>
    <hr style="width:25%" align="left">
