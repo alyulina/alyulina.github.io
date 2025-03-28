@@ -21,5 +21,3 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 
 .footnote { font-size: 0.95em; }
 sup { vertical-align: top; position: relative; top: -0.25em; }
-
-.math text { font-family: inherit; font-size: inherit; font-weight: inherit; font-style: inherit; }
