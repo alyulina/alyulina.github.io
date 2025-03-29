@@ -26,4 +26,4 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 .github-link a:hover { color: #fa8072; font-size: 0.95em; font-family: 'SF Mono', 'Consolas', 'Monaco', 'Courier New', monospace; }
 .github-link span { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
 
-.drop-cap::first-letter { font-size: 4em; font-weight: bold; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; float: left; margin-right: 10px; margin-bottom: -0.1em; line-height: 1.1; }
+.drop-cap::first-letter { font-size: 4em; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; float: left; margin-right: 10px; margin-bottom: -0.1em; line-height: 1.1; }
