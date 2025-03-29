@@ -12,7 +12,8 @@ a { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/m
 
 h1 { font-size: 52px; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; margin-bottom: 18px; overflow: visible !important; }
 h2 { font-size: 20px; line-height: 1.4em; font-weight: bold; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
-p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
+p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 1em; margin-top: 0px; overflow: visible !important; }
+sup { vertical-align: top; position: relative; top: -0.25em; }
 
 ol { font-size: 18px; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 ol p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
@@ -20,7 +21,5 @@ ol p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', '
 hr { border: none; height: 1px; color: #333; background-color: #333; }
 
 .footnote { font-size: 0.95em; margin-bottom: 1.4em; }
-sup { vertical-align: top; position: relative; top: -0.25em; }
-p { margin-bottom: 1em; }
-
 .footer { position: sticky; left: 60px; bottom: 0; width: calc(100%-60px); color: #d9d9d9; font-size: 0.95em; z-index: 10; }
+.footer p { color: #d9d9d9; font-size: 0.95em; }
