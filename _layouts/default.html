@@ -20,7 +20,7 @@
     const data = await response.json();
     const latestCommitHash = data[0].sha.substring(0, 7); // get the first 7 characters of the commit hash
     const commitLink = `https://github.com/alyulina/alyulina.github.io/`;
-    document.getElementById('commit-link').innerHTML = `<a href="${commitLink}" target="_blank"><.> ${latestCommitHash}</a>`;
+    document.getElementById('commit-link').innerHTML = `<.> <a href="${commitLink}" target="_blank">${latestCommitHash}</a>`;
   }
 
   fetchLatestCommit();
