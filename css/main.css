@@ -26,13 +26,7 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 .footer a:hover { color: #fa8072; }
 .footer span { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_black.png"), auto !important; }
 
-@media only screen and (max-width: 1024px) {
-  .main-content {
-    margin-bottom: 600px; 
-  }
 
-  .footer {
-    position: relative;
-    width: 100%;
+.main-content {
+    margin-bottom: 100vh;
   }
-}
