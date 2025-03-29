@@ -22,6 +22,6 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 .footnote { font-size: 0.95em; margin-bottom: 1.4em; }
 
 .commit { color: #d9d9d9; font-size: 0.95em; font-family: 'SF Mono', 'Consolas', 'Monaco', 'Courier New', monospace; }
-.commit a { color: #fa8072; font-size: 0.95em; font-family: 'SF Mono', 'Consolas', 'Monaco', 'Courier New', monospace; }
+.commit a { color: #d9d9d9; font-size: 0.95em; font-family: 'SF Mono', 'Consolas', 'Monaco', 'Courier New', monospace; }
 .commit a:hover { color: #fa8072; font-size: 0.95em; font-family: 'SF Mono', 'Consolas', 'Monaco', 'Courier New', monospace; }
 .commit span { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
