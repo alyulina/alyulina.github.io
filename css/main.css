@@ -18,15 +18,25 @@ sup { vertical-align: top; position: relative; top: -0.25em; }
 ol { font-size: 18px; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 ol p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 
+.drop-cap::first-letter { font-size: 3em; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; float: left; margin-right: 8px; margin-bottom: -0.2em; margin-top: 0; line-height: 1; }
+code { font-family: 'Courier New', Courier, monospace; font-style: normal; background-color: #f4f4f4; color: #333; padding: 1px 2px; border-radius: 3px; font-size: 0.9em; vertical-align: 0.05em; }
+.pub-note { font-size: 1em; font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-style: italic; }
+
 hr { border: none; height: 1px; color: #333; background-color: #333; }
 .footnote { font-size: 0.95em; margin-bottom: 1.4em; }
-.pub-note { font-size: 1em; font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-style: italic; }
 
 .github-link p { color: #d1d1d1; font-size: 0.95em; }
 .github-link a { color: #d1d1d1; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
 .github-link a:hover { color: #fa8072; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
 .github-link span { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
 
-.drop-cap::first-letter { font-size: 3em; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; float: left; margin-right: 8px; margin-bottom: -0.2em; margin-top: 0; line-height: 1; }
+.figure-container { display: flex; flex-direction: column; align-items: left; margin-bottom: 20px; }
+.figure-container figure { margin: 0; width: 100%; text-align: left; }
+.figure-container img { width: 100%; height: auto; max-width: 100%; }
+.figure-container figcaption { font-size: 0.95em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; }
 
-code { font-family: 'Courier New', Courier, monospace; font-style: normal; background-color: #f4f4f4; color: #333; padding: 1px 2px; border-radius: 3px; font-size: 0.9em; vertical-align: 0.05em; }
+@media screen and (min-width: 1024px) {
+    .figure-container { flex-direction: row; justify-content: flex-start; gap: 20px; }
+    .figure-container img { width: 50%; max-width: 500px; }
+    .figure-container figcaption { text-align: left; margin-top: 0; }
+}

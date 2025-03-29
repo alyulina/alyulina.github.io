@@ -21,6 +21,12 @@ title: Anastasia Lyulina | Notes
       <p>where $f_i$ denotes the population frequency of allele $i$, and the expectation $\langle .\rangle$ is taken over independent realizations of evolutionary dynamics.</p>
       <p>In the simplest model of evolution, $f_i$ depends on the rate at which loci mutate between allelic states, selection acting on fitness differences conferred by mutation, and random drift arising due to finite population size $N$. For $i\in\{0,1\}$, corresponding to the one-locus two-allele haploid<sup>1</sup> model, a solution for the allele frequency distribution was first derived by <a href="https://www.pnas.org/doi/10.1073/pnas.23.6.307" target="_blank">Wright (1937)</a> in the limit of large $N$. Moments such as $H$ can be straightforwardly calculated from this distribution.</p>
       <p>We forgo the aforementioned result and instead propose a heuristic argument<sup>2</sup>. If mutation is infrequent (such that $0\rightarrow1$ flips occur at a total rate $N\mu \ll 1$ per unit time), the population comprises primarily wildtype alleles. The vast majority of mutant lineages are short-lived, vanishing after only a few generations due to drift. However, some will survive long enough to reach appreciable frequencies. These dynamics are transient: eventually, each mutant lineage will either go extinct or take over the population<sup>3</sup>. The details of this process depend strongly on how mutation affects fitness.</p>
+<div class="figure-container">
+    <figure>
+        <img src="/img/nastia.jpg" alt="Description of the figure" width="600" height="auto" />
+        <figcaption>Please ignore this, I am just learning how to add figures.</figcaption>
+    	</figure>
+</div>
    <br>
    <h2>Neutral alleles</h2>
    <p>If mutation has no effect on fitness, the frequency of a mutant lineage is only influenced by drift. With probability $1/t$, this lineage will survive for at least $t$ generations, reaching a characteristic size of $f \sim t/N$. A more rigorous calculation (<a href="https://projecteuclid.org/journals/annals-of-mathematical-statistics/volume-19/issue-1/On-the-Generalized-Birth-and-Death-Process/10.1214/aoms/1177730285.full" target="_blank">Kendall, 1948</a>) shows that the frequency of the surviving lineage is exponentially distributed around this characteristic size,</p>
