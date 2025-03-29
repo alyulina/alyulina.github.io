@@ -19,9 +19,11 @@ ol { font-size: 18px; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; 
 ol p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 
 hr { border: none; height: 1px; color: #333; background-color: #333; }
-
 .footnote { font-size: 0.95em; margin-bottom: 1.4em; }
+
 .footer { clear: both; position: fixed; bottom: 0; background-color: white; padding-top: 20px; padding-bottom: 0px; width: 100%; font-size: 0.95em; font-family: 'SF Mono', 'Consolas', 'Monaco', 'Courier New', monospace; }
 .footer a { color: #d9d9d9; }
 .footer a:hover { color: #fa8072; }
 .footer span { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_black.png"), auto !important; }
+@media only screen and (max-width: 1024px) {
+  .footer { position: relative; bottom: auto; margin-top: 3em; }}
