@@ -20,8 +20,14 @@ SOFTWARE.
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-The Software incorporates icons from The Noun Project created by Son Aji Nur,
+The Software incorporates an icon created by Son Aji Nur from The Noun Project,
 licensed under CC BY 3.0.
 
-This Software MathJax by The MathJax Consortium, licensed under
+The Software incorporates an icon from Google Icons, licensed under
 the Apache License 2.0.
+
+This Software incorporates MathJax by The MathJax Consortium, licensed under
+the Apache License 2.0.
+
+This Software incorporates bsky-embed by Vincent Will, licensed under
+the MIT License.
