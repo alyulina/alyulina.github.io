@@ -22,4 +22,4 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 
 .footnote { font-size: 0.95em; margin-bottom: 1.4em; }
 .footer { position: sticky; left: 60px; bottom: 0; width: calc(100% - 60px); color: #d9d9d9; font-size: 0.95em; z-index: 10; }
-.footer p { color: #d9d9d9; font-size: 0.95em; }
+.footer p { font-family: 'SF Mono', 'Consolas', 'Monaco', 'Courier New', monospace; color: #d9d9d9; font-size: 0.95em; }
