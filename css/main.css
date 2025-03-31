@@ -30,12 +30,13 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 .github-link a:hover { color: #fa8072; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
 .github-link span { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
 
-.figure-container { display: flex; flex-direction: column; align-items: center; gap: 1em; margin-bottom: 0px; text-align: left; }
+.figure-container { display: flex; flex-direction: column; align-items: center; gap: 1em; margin-bottom: 1.4em; text-align: left; }
 .figure-container img { width: 100%; max-width: 480px; height: auto; }
-.legend { font-size: 0.95em; max-width: 480px; margin-top: 1em; }
+.legend { font-size: 0.95em; max-width: 480px; }
 
 @media screen and (min-width: 1024px) {
     .figure-container { flex-direction: row; justify-content: flex-start; align-items: flex-start; }
     .figure-container .figure { flex: 1; text-align: left; }
     .figure-container .legend { flex: 1; max-width: 400px; }
+    .legend { margin-top: 1em }
 }
