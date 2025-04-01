@@ -14,4 +14,40 @@ title: Anastasia Lyulina | Temporary
 </nav>
 <div class="tmp">
 	<p>How did you get here?</p>
+	<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .like-button {
+            font-size: 24px;
+            color: grey;
+            cursor: pointer;
+            transition: color 0.3s ease-in-out;
+            border: none;
+            background: none;
+        }
+
+        .like-button:hover {
+            color: salmon;
+        }
+
+        .liked {
+            color: salmon;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="like-button" onclick="toggleLike()">&#x1F90D;</button> <!-- Unicode heart symbol -->
+
+    <script>
+        function toggleLike() {
+            let button = document.querySelector(".like-button");
+            button.classList.toggle("liked");
+        }
+    </script>
+
+</body>
+</html>
+
 </div>
