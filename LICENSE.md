@@ -29,5 +29,5 @@ the Apache License 2.0.
 This Software incorporates MathJax by The MathJax Consortium, licensed under
 the Apache License 2.0.
 
-This Software incorporates bsky-embed by Vincent Will, licensed under
-the MIT License.
+This Software was inspired by Jonathan McGlone's website tutorial,
+and some of the code was adapted with permission.
