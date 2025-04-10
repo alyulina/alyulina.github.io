@@ -1,3 +1,4 @@
 name: Anastasia Lyulina
 markdown: kramdown
 permalink: /notes/:year/:month/:day/:title
+include: [".well-known"]
