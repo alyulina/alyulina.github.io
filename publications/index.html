@@ -52,36 +52,47 @@ title: Anastasia Lyulina | Publications
   }
 
   function replaceAsterisk(text) {
-    // Replace * with <sup>*</sup> ONLY when it's plain text
     return text.replace(/\*/g, '<sup>*</sup>');
   }
 
   function process(text) {
-    // Apply both transformations
     return replaceAsterisk(boldName(text));
   }
 
-  fetch('publications.json')
+  function italicizeJournal(journal) {
+    // Italicize everything before the first number (volume)
+    return journal.replace(/^(.+?)\s+(?=\d)/, '<em>$1</em> ');
+  }
+
+  fetch('publications.json') // adjust path if needed
     .then(response => response.json())
     .then(pubs => {
       const list = document.getElementById('pubList');
+
       pubs.forEach(p => {
-        const authors = process(p.authors);
-        const title   = process(p.title);
-        const journal = process(p.journal);
-        const note    = process(p.note);
+        let liHTML = `<p>
+          ${process(p.authors)}
+          ${process(p.title)}
+          ${italicizeJournal(p.journal)}
+        `;
+
+        // Only display code/doi links if they are non-empty
+        if (p.code) {
+          liHTML += `<code><a href="${p.code}" target="_blank">>&#8239;code</a></code> `;
+        }
+        if (p.doi) {
+          liHTML += `<code><a href="${p.doi}" target="_blank">doi</a></code>`;
+        }
+
+        // Only display note if non-empty
+        if (p.note) {
+          liHTML += `<br><span class="pub-note">${process(p.note)}</span>`;
+        }
+
+        liHTML += `</p>`;
 
         const li = document.createElement('li');
-        li.innerHTML = `
-          <p>
-            ${authors}
-            ${title}<br>
-            ${journal}
-            <code><a href="${p.code}" target="_blank">>&#8239;code</a></code>
-            <code><a href="${p.doi}" target="_blank">doi</a></code><br>
-            <span class="pub-note">${note}</span>
-          </p>
-        `;
+        li.innerHTML = liHTML;
         list.appendChild(li);
       });
     })
