@@ -61,7 +61,7 @@ title: Anastasia Lyulina | Publications
     return replaceAsterisk(boldName(text));
   }
 
-  fetch('/publications.json')
+  fetch('publications.json')
     .then(response => response.json())
     .then(pubs => {
       const list = document.getElementById('pubList');
