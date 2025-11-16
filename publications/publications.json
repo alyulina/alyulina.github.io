@@ -18,7 +18,9 @@
   {
     "authors": "Gurtovenko AA, Lyulina AS.",
     "title": "Electroporation of asymmetric phospholipid membranes.",
-    "journal": "<em>The Journal of Physical Chemistry B</em> 118, 9909–9918 (2014)."
+    "journal": "The Journal of Physical Chemistry B 118, 9909–9918 (2014).",
+    "code": "",
     "doi": "https://doi.org/10.1021/jp5028355",
-    "note": "Featured on the <a https://pubs.acs.org/toc/jpcbfk/118/33\" target=\"_blank\">cover</a>."
-}]
+    "note": "Featured on the <a href=\"https://pubs.acs.org/toc/jpcbfk/118/33\" target=\"_blank\">cover</a>."
+  }
+]
