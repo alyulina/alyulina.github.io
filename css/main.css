@@ -21,7 +21,7 @@ ol p { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', '
 .drop-cap::first-letter { font-size: 3em; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; float: left; margin-right: 8px; margin-bottom: -0.2em; margin-top: 0; line-height: 1; }
 code { font-family: 'Courier New', Courier, monospace; font-style: normal; background-color: #f4f4f4; color: #333; padding: 1px 2px; border-radius: 3px; font-size: 0.9em; vertical-align: 0.05em; }
 /*.pub-note { font-size: 1em; font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-style: italic; padding-left:2em; }*/
-.pub-note-link { font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; background-color: #f4f4f4; color: #888; padding: 1px 2px; border-radius: 3px; font-size: 0.9em; vertical-align: 0.05em; text-decoration: none; margin-left: 0.5em; }
+.pub-note-link { font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-style: italic; background-color: #f4f4f4; color: #888; padding: 1px 2px; border-radius: 3px; font-size: 0.9em; vertical-align: 0.05em; text-decoration: none; margin-left: 0.5em; }
 .pub-note-link:hover {  text-decoration: none; background-color: #fef2f1; color: #fa8072; }
 
 
