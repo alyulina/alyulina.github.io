@@ -84,11 +84,11 @@ title: Anastasia Lyulina | Publications
       pubs.forEach(p => {
         let liHTML = `<p>
           ${process(p.authors)}
-          ${process(p.title)}<br>
+          ${process(p.title)}
           ${italicizeJournal(p.journal)}
         `;
 
-        if (p.code) liHTML += `<code><a href="${p.code}" target="_blank">>&#8239;code</a></code> `;
+        if (p.code) liHTML += `<a class="pub-note-link" href="${p.code}" target="_blank">code</a>`;
         if (p.text) liHTML += `<a class="pub-note-link" href="${p.text}" target="_blank">text</a>`;
 
         // Add cover/commentary/press release links
