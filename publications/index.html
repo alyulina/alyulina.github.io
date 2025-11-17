@@ -70,6 +70,9 @@ title: Anastasia Lyulina | Publications
   // Render cover/commentary/press release links inline
   function renderNotes(p) {
     let notesHTML = '';
+		if (p.code) liHTML += `<a class="note-link" href="${p.code}" target="_blank">code</a>`;
+		if (p.text) liHTML += `<a class="note-link" href="${p.text}" target="_blank">text</a>`;
+		if (p.summary) notesHTML += `<a class="note-link" href="${p.summary}" target="_blank">summary</a>`;
     if (p.cover) notesHTML += `<a class="note-link" href="${p.cover}" target="_blank">cover</a> `;
     if (p.commentary) notesHTML += `<a class="note-link" href="${p.commentary}" target="_blank">commentary</a> `;
     if (p.news) notesHTML += `<a class="note-link" href="${p.news}" target="_blank">news</a>`;
@@ -87,9 +90,6 @@ title: Anastasia Lyulina | Publications
           ${process(p.title)}
           ${italicizeJournal(p.journal)}
         `;
-
-        if (p.code) liHTML += `<a class="note-link" href="${p.code}" target="_blank">code</a>`;
-        if (p.text) liHTML += `<a class="note-link" href="${p.text}" target="_blank">text</a>`;
 
         // Add cover/commentary/press release links
         liHTML += renderNotes(p);
