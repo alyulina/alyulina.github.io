@@ -45,23 +45,35 @@ title: Anastasia Lyulina | Publications
 	<hr style="width:25%" align="left">
 	<p class="footnote"><sup>*</sup> These authors contributed equally.</p>
 
-<!-- Parsing published papers -->
+<!-- Parsing published papers (thanks ChatGPT) -->
 <script>
+  // Highlight my name
   function boldName(text) {
     return text.replace(/Lyulina AS/g, '<strong>Lyulina AS</strong>');
   }
 
+  // Replace * with superscript
   function replaceAsterisk(text) {
     return text.replace(/\*/g, '<sup>*</sup>');
   }
 
+  // Apply both transformations
   function process(text) {
     return replaceAsterisk(boldName(text));
   }
 
+  // Italicize everything before first number in journal string
   function italicizeJournal(journal) {
-    // Italicize everything before the first number (volume)
     return journal.replace(/^(.+?)\s+(?=\d)/, '<em>$1</em> ');
+  }
+
+  // Render cover/commentary/press release links inline
+  function renderNotes(p) {
+    let notesHTML = '';
+    if (p.cover) notesHTML += `<a class="pub-note-link" href="${p.cover}" target="_blank">cover</a> `;
+    if (p.commentary) notesHTML += `<a class="pub-note-link" href="${p.commentary}" target="_blank">commentary</a> `;
+    if (p.news) notesHTML += `<a class="pub-note-link" href="${p.news}" target="_blank">news</a>`;
+    return notesHTML;
   }
 
   fetch('publications.json') // adjust path if needed
@@ -72,22 +84,15 @@ title: Anastasia Lyulina | Publications
       pubs.forEach(p => {
         let liHTML = `<p>
           ${process(p.authors)}
-          ${process(p.title)}
+          ${process(p.title)}<br>
           ${italicizeJournal(p.journal)}
         `;
 
-        // Only display code/doi links if they are non-empty
-        if (p.code) {
-          liHTML += `<code><a href="${p.code}" target="_blank">>&#8239;code</a></code> `;
-        }
-        if (p.doi) {
-          liHTML += `<code><a href="${p.doi}" target="_blank">doi</a></code>`;
-        }
+        if (p.code) liHTML += `<code><a href="${p.code}" target="_blank">>&#8239;code</a></code> `;
+        if (p.text) liHTML += `<a class="pub-note-link" href="${p.text}" target="_blank">text</a>`;
 
-        // Only display note if non-empty
-        if (p.note) {
-          liHTML += `<br><span class="pub-note">${process(p.note)}</span>`;
-        }
+        // Add cover/commentary/press release links
+        liHTML += renderNotes(p);
 
         liHTML += `</p>`;
 

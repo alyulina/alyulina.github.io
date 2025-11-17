@@ -4,23 +4,29 @@
     "title": "Beneficial reversal of dominance maintains a large-effect resistance polymorphism under fluctuating insecticide selection.",
     "journal": "<em>Nature Ecology and Evolution</em> 9, 2145–2160 (2025).",
     "code": "https://github.com/mkarageorgi/Beneficial_Dominance_Reversal",
-    "doi": "https://doi.org/10.1038/s41559-025-02853-x",
-    "note": "Featured in a <a href=\"https://news.stanford.edu/stories/2025/09/classic-recessive-dominant-gene-dynamics-pesticide-resistance-research\" target=\"_blank\">press release</a>."
+    "text": "https://doi.org/10.1038/s41559-025-02853-x",
+    "cover": "",
+    "commentary": "",
+    "news": "https://news.stanford.edu/stories/2025/09/classic-recessive-dominant-gene-dynamics-pesticide-resistance-research"
   },
   {
     "authors": "Lyulina AS*, Liu Z*, Good BH.",
     "title": "Linkage equilibrium between rare mutations.",
     "journal": "<em>Genetics</em> 228, iyae145 (2024).",
     "code": "https://github.com/alyulina/linkage-equilibrium",
-    "doi": "https://doi.org/10.1093/genetics/iyae145",
-    "note": "Featured on the <a href=\"https://academic.oup.com/genetics/issue/228/3\" target=\"_blank\">cover</a>."
+    "text": "https://doi.org/10.1093/genetics/iyae145",
+    "cover": "https://academic.oup.com/genetics/issue/228/3",
+    "commentary": "",
+    "news": ""
   },
   {
     "authors": "Gurtovenko AA, Lyulina AS.",
     "title": "Electroporation of asymmetric phospholipid membranes.",
     "journal": "The Journal of Physical Chemistry B 118, 9909–9918 (2014).",
     "code": "",
-    "doi": "https://doi.org/10.1021/jp5028355",
-    "note": "Featured on the <a href=\"https://pubs.acs.org/toc/jpcbfk/118/33\" target=\"_blank\">cover</a>."
+    "text": "https://doi.org/10.1021/jp5028355",
+    "cover": "https://pubs.acs.org/toc/jpcbfk/118/33",
+    "commentary": "",
+    "news": ""
   }
 ]
