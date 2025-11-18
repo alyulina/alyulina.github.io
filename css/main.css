@@ -28,8 +28,8 @@ code { font-family: 'Courier New', Courier, monospace; font-style: normal; backg
 hr { border: none; height: 1px; color: #333; background-color: #333; }
 .footnote { font-size: 0.95em; margin-bottom: 1.4em; }
 
-.github-link p { color: #cecece; font-size: 0.95em; }
-.github-link a { color: #cecece; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
+.github-link p { color: #c1c1c1; font-size: 0.95em; }
+.github-link a { color: #c1c1c1; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
 .github-link a:hover { color: #fa8072; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
 .github-link span { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
 
