@@ -70,8 +70,8 @@ title: Anastasia Lyulina | Publications
   // Render code/text/thread/cover/commentary/news links inline
   function renderNotes(p) {
     let notesHTML = '';
+		if (p.text) notesHTML += `<a class="note-link" href="${p.text}" target="_blank">text</a> `;
     if (p.code) notesHTML += `<a class="note-link" href="${p.code}" target="_blank">code</a> `;
-    if (p.text) notesHTML += `<a class="note-link" href="${p.text}" target="_blank">text</a> `;
     if (p.thread) notesHTML += `<a class="note-link" href="${p.thread}" target="_blank">thread</a> `;
     if (p.cover) notesHTML += `<a class="note-link" href="${p.cover}" target="_blank">cover</a> `;
     if (p.commentary) notesHTML += `<a class="note-link" href="${p.commentary}" target="_blank">commentary</a> `;
