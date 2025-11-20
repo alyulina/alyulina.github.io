@@ -67,12 +67,12 @@ title: Anastasia Lyulina | Publications
     return journal.replace(/^(.+?)\s+(?=\d)/, '<em>$1</em> ');
   }
 
-  // Render code/text/overview/cover/commentary/news links inline
+  // Render code/text/thread/cover/commentary/news links inline
   function renderNotes(p) {
     let notesHTML = '';
     if (p.code) notesHTML += `<a class="note-link" href="${p.code}" target="_blank">code</a> `;
     if (p.text) notesHTML += `<a class="note-link" href="${p.text}" target="_blank">text</a> `;
-    if (p.overview) notesHTML += `<a class="note-link" href="${p.overview}" target="_blank">overview</a> `;
+    if (p.thread) notesHTML += `<a class="note-link" href="${p.thread}" target="_blank">thread</a> `;
     if (p.cover) notesHTML += `<a class="note-link" href="${p.cover}" target="_blank">cover</a> `;
     if (p.commentary) notesHTML += `<a class="note-link" href="${p.commentary}" target="_blank">commentary</a> `;
     if (p.news) notesHTML += `<a class="note-link" href="${p.news}" target="_blank">news</a>`;
