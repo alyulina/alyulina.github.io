@@ -70,16 +70,19 @@ title: Anastasia Lyulina | Publications
   }
 
   // Render code/text/thread/cover/commentary/news links inline
-  function renderNotes(p) {
-    let notesHTML = '';
-		if (p.text) notesHTML += `<a class="note-link" href="${p.text}" target="_blank">text</a> `;
-    if (p.code) notesHTML += `<a class="note-link" href="${p.code}" target="_blank">code</a> `;
-    if (p.thread) notesHTML += `<a class="note-link" href="${p.thread}" target="_blank">thread</a> `;
-    if (p.cover) notesHTML += `<a class="note-link" href="${p.cover}" target="_blank">cover</a> `;
-    if (p.commentary) notesHTML += `<a class="note-link" href="${p.commentary}" target="_blank">commentary</a> `;
-    if (p.news) notesHTML += `<a class="note-link" href="${p.news}" target="_blank">news</a>`;
-    return notesHTML;
-  }
+	function renderNotes(p) {
+	  let notesHTML = '';
+	  const wrap = text => `<span class="note-link">${text}</span>`;
+
+	  if (p.text) notesHTML += wrap(`<a href="${p.text}" target="_blank">text</a> `);
+	  if (p.code) notesHTML += wrap(`<a href="${p.code}" target="_blank">code</a> `);
+	  if (p.thread) notesHTML += wrap(`<a href="${p.thread}" target="_blank">thread</a> `);
+	  if (p.cover) notesHTML += wrap(`<a href="${p.cover}" target="_blank">cover</a> `);
+	  if (p.commentary) notesHTML += wrap(`<a href="${p.commentary}" target="_blank">commentary</a> `);
+	  if (p.news) notesHTML += wrap(`<a href="${p.news}" target="_blank">news</a>`);
+
+	  return notesHTML;
+	}
 
   fetch('publications.json')
     .then(response => response.json())
@@ -95,7 +98,7 @@ title: Anastasia Lyulina | Publications
       //  </p>`;
 
 			pubs.forEach(p => {
-			  let liHTML = `<p class="pub-item">
+			  let liHTML = `<p>
 			    ${process(p.authors)}. <em>${process(p.title)}</em> (${p.year})
 			    ${renderNotes(p)}
 			  </p>`;
