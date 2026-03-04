@@ -64,7 +64,7 @@ title: Anastasia Lyulina | Publications
     return replaceAsterisk(boldName(text));
   }
 
-  // Italicize everything before first number in journal string
+  // Italicize everything before first number in journal string; not currently in use
   function italicizeJournal(journal) {
     return journal.replace(/^(.+?)\s+(?=\d)/, '<em>$1</em> ');
   }
@@ -86,12 +86,18 @@ title: Anastasia Lyulina | Publications
     .then(pubs => {
       const list = document.getElementById('pubList');
 
-      pubs.forEach(p => {
+      // pubs.forEach(p => {
+      //  let liHTML = `<p>
+      //    ${process(p.authors)}
+      //    ${process(p.title)}
+      //    ${italicizeJournal(p.journal)}
+      //    ${renderNotes(p)}
+      //  </p>`;
+
+			pubs.forEach(p => {
+        // Format: Title. Authors (Year). Links
         let liHTML = `<p>
-          ${process(p.authors)}
-          ${process(p.title)}
-          ${italicizeJournal(p.journal)}
-          ${renderNotes(p)}
+          <em>${process(p.title)}</em>. ${process(p.authors)} (${p.year}). ${renderNotes(p)}
         </p>`;
 
         const li = document.createElement('li');
