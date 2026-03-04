@@ -95,10 +95,11 @@ title: Anastasia Lyulina | Publications
       //  </p>`;
 
 			pubs.forEach(p => {
-        // Format: Title. Authors (Year). Links
-        let liHTML = `<p>
-          <em>${process(p.title)}</em>. ${process(p.authors)} (${p.year}). ${renderNotes(p)}
-        </p>`;
+				let liHTML = `<p>
+				  ${process(p.authors)}<br>
+				  <em>${process(p.title)}</em> (${p.year})<br>
+				  ${renderNotes(p)}
+				</p>`;
 
         const li = document.createElement('li');
         li.innerHTML = liHTML;
