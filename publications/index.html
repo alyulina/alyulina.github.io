@@ -82,33 +82,6 @@ title: Anastasia Lyulina | Publications
 	  return `<span class="notes-group">${notesHTML}</span>`;
 	}
 
-	function renderAuthors(authors, maxVisible = 3) {
-  const authorArray = authors.split(',').map(a => a.trim()).filter(a => a !== '');
-  const totalAuthors = authorArray.length;
-
-  if (totalAuthors <= maxVisible) {
-    return authorArray.join(', ');
-  }
-
-  const visible = authorArray.slice(0, maxVisible).join(', ');
-  const hidden = authorArray.slice(maxVisible).join(', ');
-  const remainingCount = totalAuthors - maxVisible;
-
-  return `
-    ${visible}<span class="authors-hidden" style="display:link;">, ${hidden}</span>
-    <span class="authors-toggle" style="cursor:pointer; color:#fa8072;">, and ${remainingCount} more authors</span>
-  `;
-}
-
-document.addEventListener('click', function(e) {
-  if (e.target.classList.contains('authors-toggle')) {
-    const toggle = e.target;
-    const hidden = toggle.previousElementSibling;
-    hidden.style.display = 'inline';
-    toggle.style.display = 'none';
-  }
-});
-
   fetch('publications.json')
     .then(response => response.json())
     .then(pubs => {
@@ -124,7 +97,7 @@ document.addEventListener('click', function(e) {
 
 			pubs.forEach(p => {
 			  const liHTML = `<p>
-			    ${renderAuthors(p.authors)}. <em>${process(p.title)}</em> (${p.year}).
+			    ${process(p.authors)}. <em>${process(p.title)}</em> (${p.year}).
 			    ${renderNotes(p)}
 			  </p>`;
 
