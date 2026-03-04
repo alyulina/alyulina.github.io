@@ -83,23 +83,22 @@ title: Anastasia Lyulina | Publications
 	}
 
 	function renderAuthors(authors, maxVisible = 3) {
-	  const authorArray = authors.split(', ').filter(a => a.trim() !== '');
-	  const totalAuthors = authorArray.length;
+  const authorArray = authors.split(',').map(a => a.trim()).filter(a => a !== '');
+  const totalAuthors = authorArray.length;
 
-	  if (totalAuthors <= maxVisible) {
-	    return authors;
-	  }
+  if (totalAuthors <= maxVisible) {
+    return authors;
+  }
 
-	  const firstAuthors = authorArray.slice(0, maxVisible).join(', ');
-	  const remainingCount = totalAuthors - maxVisible;
-	  const hiddenAuthors = authorArray.slice(maxVisible).join(', ');
+  const firstAuthors = authorArray.slice(0, maxVisible).join(', ');
+  const remainingCount = totalAuthors - maxVisible;
+  const hiddenAuthors = authorArray.slice(maxVisible).join(', ');
 
-	  return `
-	    ${firstAuthors}
-	    <span class="authors-hidden" style="display:none;">, ${hiddenAuthors}</span>
-	    <span class="authors-toggle" style="cursor:pointer; color:#fa8072;">, and ${remainingCount} more authors</span>
-	  `;
-	}
+  return `
+    ${firstAuthors}<span class="authors-hidden" style="display:none;">, ${hiddenAuthors}</span>
+    <span class="authors-toggle" style="cursor:pointer; color:#fa8072;">, and ${remainingCount} more authors</span>
+  `;
+}
 
 	document.addEventListener('click', function(e) {
   if (e.target.classList.contains('authors-toggle')) {
