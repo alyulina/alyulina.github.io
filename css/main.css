@@ -25,6 +25,8 @@ code { font-family: 'Courier New', Courier, monospace; font-style: normal; backg
 .note-link:hover { text-decoration: none; background-color: #fef2f1; color: #fa8072; }
 .notes-group { white-space: nowrap; display: inline-block; }
 
+.authors-toggle:hover { color: #fa8072; }
+
 hr { border: none; height: 1px; color: #333; background-color: #333; }
 .footnote { font-size: 0.95em; margin-bottom: 1.4em; }
 
