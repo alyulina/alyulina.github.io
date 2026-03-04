@@ -87,27 +87,27 @@ title: Anastasia Lyulina | Publications
   const totalAuthors = authorArray.length;
 
   if (totalAuthors <= maxVisible) {
-    return authors;
+    return authorArray.join(', ');
   }
 
-  const firstAuthors = authorArray.slice(0, maxVisible).join(', ');
+  const visible = authorArray.slice(0, maxVisible).join(', ');
+  const hidden = authorArray.slice(maxVisible).join(', ');
   const remainingCount = totalAuthors - maxVisible;
-  const hiddenAuthors = authorArray.slice(maxVisible).join(', ');
 
   return `
-    ${firstAuthors}<span class="authors-hidden" style="display:none;">, ${hiddenAuthors}</span>
+    ${visible}<span class="authors-hidden" style="display:link;">, ${hidden}</span>
     <span class="authors-toggle" style="cursor:pointer; color:#fa8072;">, and ${remainingCount} more authors</span>
   `;
 }
 
-	document.addEventListener('click', function(e) {
+document.addEventListener('click', function(e) {
   if (e.target.classList.contains('authors-toggle')) {
     const toggle = e.target;
     const hidden = toggle.previousElementSibling;
     hidden.style.display = 'inline';
-    toggle.style.display = 'none'; // hide the "and X more" after expanding
-    }
-  });
+    toggle.style.display = 'none';
+  }
+});
 
   fetch('publications.json')
     .then(response => response.json())
