@@ -20,14 +20,19 @@ SOFTWARE.
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-The Software incorporates an icon created by Son Aji Nur from The Noun Project,
-licensed under CC BY 3.0.
+Third-party notices
 
-The Software incorporates an icon from Google Icons, licensed under
+This Software incorporates an icon created by Son Aji Nur from The Noun Project,
+licensed under CC BY 3.0. Modified from the original.
+https://creativecommons.org/licenses/by/3.0/
+
+This Software incorporates an icon from Google Icons, licensed under
 the Apache License 2.0.
+http://www.apache.org/licenses/LICENSE-2.0
 
 This Software incorporates MathJax by The MathJax Consortium, licensed under
 the Apache License 2.0.
+http://www.apache.org/licenses/LICENSE-2.0
 
 This Software was inspired by Jonathan McGlone's website tutorial,
 and some of the code was adapted with permission.
