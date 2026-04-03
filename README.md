@@ -16,11 +16,11 @@ You are welcome to use this as a template for your own site as per `LICENSE.md`.
 - **Replace my personal information** by editing:
   - `_config.yml` — update the `name` field.
   - `index.html` — replace the about text and photo.
-  - `research/index.html` — replace the research description.
+  - `research/index.html` — replace my research description.
   - `publications/publications.json` — replace with your publications.
-  - `publications/index.html` — update `MY_NAME` to your name in author list format (e.g. `'Smith J'`).
-  - `notes/index.html` — do not include my notes without authorship attribution.
-  - `assets/cv.pdf` — replace with your CV.
+  - `publications/index.html` — update the `MY_NAME` variable to your name (e.g. `'Smith J'`) for publication formatting.
+  - `notes/index.html` — please do not include my notes without proper acknowledgments.
+  - `assets/cv.pdf` — replace with your own.
   - `contact/index.html` — replace the contact details.
 
 - Update **third-party account verification**:
