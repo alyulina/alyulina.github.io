@@ -14,21 +14,28 @@ title: Anastasia Lyulina | Publications
 </nav>
 <div class="publications">
 
-<h2><strong>Published manuscripts</strong></h2>
+<div id="publishedSection" style="display:none">
+	<h2><strong>Published manuscripts</strong></h2>
 	<ol id="pubList" reversed style="padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;"></ol>
-<br>
+	<br>
+</div>
 
-<h2><strong>Manuscripts under review</strong></h2>
+<div id="reviewSection" style="display:none">
+	<h2><strong>Manuscripts under review</strong></h2>
 	<ol id="reviewList" style="list-style-type:none; padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;"></ol>
-<br>
+	<br>
+</div>
 
-<h2><strong>Manuscripts in preparation</strong></h2>
+<div id="preparationSection" style="display:none">
+	<h2><strong>Manuscripts in preparation</strong></h2>
 	<ol id="prepList" style="list-style-type:none; padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;"></ol>
-<br>
+	<br>
+</div>
 
 <hr style="width:25%" align="left">
 <p class="footnote"><sup>*</sup> These authors contributed equally.</p>
 
+<!--Thank you Claude for this bit below-->
 <script>
 const MY_NAME = 'Lyulina AS';
 const COLLAPSE_THRESHOLD = 10;
@@ -177,9 +184,12 @@ fetch('publications.json')
       preparation: document.getElementById('prepList')
     };
     pubs.forEach(p => {
+      const list = lists[p.status];
+      if (!list) { console.error('Unknown status:', p.status, p.title); return; }
       const li = document.createElement('li');
       li.innerHTML = renderEntry(p);
-      lists[p.status].appendChild(li);
+      list.appendChild(li);
+      document.getElementById(p.status + 'Section').style.display = '';
     });
   })
   .catch(err => console.error("Error loading publications.json:", err));
