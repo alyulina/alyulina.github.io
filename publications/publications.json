@@ -2,8 +2,8 @@
   {
     "authors": "Karageorgi M, Lyulina AS, Bitter MC, Lappo E, Greenblum S, Mouza ZK, Tran CT, Huynh AV, Oken H, Schmidt P*, Petrov DA*",
     "title": "Beneficial reversal of dominance maintains a large-effect resistance polymorphism under fluctuating insecticide selection",
-    "journal": "<em>Nature Ecology and Evolution</em> 9, 2145–2160",
     "year": "2025",
+    "status": "published",
     "text": "https://doi.org/10.1038/s41559-025-02853-x",
     "code": "https://github.com/mkarageorgi/Beneficial_Dominance_Reversal",
     "thread": "https://bsky.app/profile/alyulina.github.io/post/3m4ykckyud222",
@@ -14,8 +14,8 @@
   {
     "authors": "Lyulina AS*, Liu Z*, Good BH",
     "title": "Linkage equilibrium between rare mutations",
-    "journal": "<em>Genetics</em> 228, iyae145",
     "year": "2024",
+    "status": "published",
     "text": "https://doi.org/10.1093/genetics/iyae145",
     "code": "https://github.com/alyulina/linkage-equilibrium",
     "thread": "https://bsky.app/profile/alyulina.github.io/post/3kqiyc6cd2j2t",
@@ -26,12 +26,60 @@
   {
     "authors": "Gurtovenko AA, Lyulina AS",
     "title": "Electroporation of asymmetric phospholipid membranes",
-    "journal": "The Journal of Physical Chemistry B 118, 9909–9918",
     "year": "2014",
+    "status": "published",
     "text": "https://doi.org/10.1021/jp5028355",
     "code": "",
     "thread": "",
     "cover": "https://pubs.acs.org/toc/jpcbfk/118/33",
+    "commentary": "",
+    "news": ""
+  },
+  {
+    "authors": "Konczal M, Lyulina AS, Zapata L, Camara F, Vlasova A, Saona R, Bello C, Fraïsse C, Gut M, Derelle R, Zheng C, Lin Y, Tutukina MN, Plyuscheva M, Fontsere C, Tomkovich PS, Iakushev NI, Shepelev IA, Clements J, Jarrett N, Clark N, Arkhipov VY, Zöckler C, Digby R, Lappo EG, Dong L, Li S, Hu J, Liu Y, Ossowski S, Marques-Bonet T, Guigó-Serra R, Syroechkovskiy EE, Kondrashov FA",
+    "title": "Population growth facilitated the retention of deleterious variance in the critically endangered spoon-billed sandpiper",
+    "year": "",
+    "status": "review",
+    "text": "",
+    "code": "https://github.com/alyulina/spoon-billed-sandpiper",
+    "thread": "",
+    "cover": "",
+    "commentary": "",
+    "news": ""
+  },
+  {
+    "authors": "Karmakar S*, Xiong X*, Lyulina AS*, Hebert JD, Tang Y, Andrejka L, Lopez SS, Ozaki M, Detrick C, Charville GW, Flowers B, Stanger B, Tuveson DA, Batra SK, Jaffee EM, Tessier-Lavigne M, Attardi LD, Petrov DA, Winslow MM",
+    "title": "Variable adaptation drives pancreatic cancer metastasis across diverse environments",
+    "year": "",
+    "status": "preparation",
+    "text": "",
+    "code": "https://github.com/alyulina/metastatic-phenotypes",
+    "thread": "",
+    "cover": "",
+    "commentary": "",
+    "news": ""
+  },
+  {
+    "authors": "Lyulina AS, Good BH",
+    "title": "Genetic diversity under nonequilibrium demography",
+    "year": "",
+    "status": "preparation",
+    "text": "",
+    "code": "",
+    "thread": "",
+    "cover": "",
+    "commentary": "",
+    "news": ""
+  },
+  {
+    "authors": "Lyulina AS, Severson A, Juan J, Sebastian L, Tran V, Nie W, Lai I, Wall GD, Winslow MM, Winters IP, Rosen M, Good BH, Petrov DA",
+    "title": "Early dynamics of cancer growth inferred from tracking thirty million clonal tumors in vivo",
+    "year": "",
+    "status": "preparation",
+    "text": "",
+    "code": "",
+    "thread": "",
+    "cover": "",
     "commentary": "",
     "news": ""
   }
