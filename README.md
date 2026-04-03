@@ -11,7 +11,7 @@ This repository contains the source code for my personal academic website. It is
 
 ## If you are forking this
 
-You are welcome to use this as a template for your own site as per `LICENSE.md`. A few things to take care of:
+You are welcome to use this as a template for your own site as per [`LICENSE.md`](LICENSE.md). A few things to take care of:
 
 - **Replace my personal information** by editing:
   - `_config.yml` — update the `name` field.
