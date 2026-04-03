@@ -17,7 +17,7 @@ Upload a new `assets/cv.pdf` file.
 Notes are standalone files in the `notes/` folder, named `YYYY-MM-DD-slug.html`. They must also be manually linked from `notes/index.html`. See [`notes/README.md`](notes/README.md) for detailed instructions.
 
 ### Deployment
-This site is hosted using GitHub Pages and is automatically deployed from the `main` branch.
+This site is built with Jekyll and hosted using GitHub Pages; it is automatically deployed from the `main` branch.
 
 ## If you are forking this
 
