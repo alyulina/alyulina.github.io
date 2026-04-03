@@ -20,15 +20,9 @@ title: Anastasia Lyulina | Publications
 	<br>
 </div>
 
-<div id="reviewSection" style="display:none">
-	<h2><strong>Manuscripts under review</strong></h2>
-	<ol id="reviewList" style="list-style-type:none; padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;"></ol>
-	<br>
-</div>
-
 <div id="preparationSection" style="display:none">
 	<h2><strong>Manuscripts in preparation</strong></h2>
-	<ol id="prepList" style="list-style-type:none; padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;"></ol>
+	<ol id="prepList" reversed style="list-style-type:none; padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;"></ol>
 	<br>
 </div>
 
@@ -130,9 +124,14 @@ function buildExpandedAuthors(authors) {
 
 function renderNotes(p, toggleBtn) {
   let html = '';
-  if (p.paper)       html += `<a class="note-link" href="${p.paper}"       target="_blank">paper</a>`;
+  if (p.status === 'review') {
+    if (p.paper) html += `<a class="note-link" href="${p.paper}" target="_blank">preprint</a>`;
+    html += `<span style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size:0.85em; font-style:italic; color:#a9a9a9;">under review</span>`;
+  } else {
+    if (p.paper) html += `<a class="note-link" href="${p.paper}" target="_blank">paper</a>`;
+  }
   if (p.code)       html += `<a class="note-link" href="${p.code}"       target="_blank">code</a>`;
-//  if (p.thread)     html += `<a class="note-link" href="${p.thread}"     target="_blank">thread</a>`;
+  // if (p.thread)  html += `<a class="note-link" href="${p.thread}"     target="_blank">thread</a>`;
   if (p.cover)      html += `<a class="note-link" href="${p.cover}"      target="_blank">cover</a>`;
   if (p.commentary) html += `<a class="note-link" href="${p.commentary}" target="_blank">commentary</a>`;
   if (p.news)       html += `<a class="note-link" href="${p.news}"       target="_blank">news</a>`;
@@ -182,30 +181,33 @@ function toggleAuthors(id) {
 fetch('publications.json')
   .then(response => response.json())
   .then(pubs => {
-    const lists = {
-      published:   document.getElementById('pubList'),
-      review:      document.getElementById('reviewList'),
-      preparation: document.getElementById('prepList')
-    };
-    pubs.forEach(p => {
-      const list = lists[p.status];
-      if (!list) { console.error('Unknown status:', p.status, p.title); return; }
+    const pubList  = document.getElementById('pubList');
+    const prepList = document.getElementById('prepList');
+
+    // Papers with a year go to published (includes review); no year goes to prep
+    const pubPapers  = pubs.filter(p => p.year);
+    const prepPapers = pubs.filter(p => !p.year);
+
+    pubPapers.forEach(p => {
       const li = document.createElement('li');
       li.innerHTML = renderEntry(p);
-      list.appendChild(li);
-      document.getElementById(p.status + 'Section').style.display = '';
+      pubList.appendChild(li);
+      document.getElementById('publishedSection').style.display = '';
     });
 
-    // Continuous numbering across review + published, excluding preparation
-    const numTotal  = pubs.filter(p => p.status !== 'preparation').length;
-    const numReview = pubs.filter(p => p.status === 'review').length;
+    prepPapers.forEach(p => {
+      const li = document.createElement('li');
+      li.innerHTML = renderEntry(p);
+      prepList.appendChild(li);
+      document.getElementById('preparationSection').style.display = '';
+    });
 
-    const reviewList = document.getElementById('reviewList');
-    reviewList.setAttribute('start', numTotal);
-    reviewList.style.listStyleType = 'decimal';
+    // Number published list: start at total count, count down
+    pubList.setAttribute('start', pubPapers.length);
 
-    const pubList = document.getElementById('pubList');
-    pubList.setAttribute('start', numTotal - numReview);
+    // Number prep list separately: start at total count, count down
+    prepList.setAttribute('start', prepPapers.length);
+    prepList.style.listStyleType = 'decimal';
   })
   .catch(err => console.error("Error loading publications.json:", err));
 </script>
