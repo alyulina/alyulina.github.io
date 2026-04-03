@@ -124,10 +124,9 @@ function buildExpandedAuthors(authors) {
 
 function renderNotes(p, toggleBtn) {
   let html = '';
-  if (p.status === 'review') {
-    if (p.paper) html += `<a class="note-link" href="${p.paper}" target="_blank">preprint</a>`;
-  } else {
-    if (p.paper) html += `<a class="note-link" href="${p.paper}" target="_blank">paper</a>`;
+  if (p.paper) {
+    const label = p.status === 'review' ? 'preprint' : 'paper';
+    html += `<a class="note-link" href="${p.paper}" target="_blank">${label}</a>`;
   }
   if (p.code)       html += `<a class="note-link" href="${p.code}"       target="_blank">code</a>`;
   // if (p.thread)  html += `<a class="note-link" href="${p.thread}"     target="_blank">thread</a>`;
