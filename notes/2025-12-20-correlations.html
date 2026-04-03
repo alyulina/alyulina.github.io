@@ -1,0 +1,121 @@
+---
+layout: default
+title: Anastasia Lyulina | Notes
+---
+<nav>
+	<ul>
+		<li><a href="/">ABOUT</a></li>
+		<li><a href="/research">RESEARCH</a></li>
+		<li><a href="/publications">PUBLICATIONS</a></li>
+    <li><a id="notes" class="active" href="/notes">NOTES</a></li>
+		<li><a href="https://alyulina.github.io/assets/cv.pdf" target="_blank">CV</a></li>
+		<li><a href="/contact">CONTACT</a></li>
+	</ul>
+</nav>
+
+<div class="notes">
+  <h2 style="font-size:1.9em;"> On allele frequency correlations</h2>
+  <p style="font-size:0.95em;"> December 20, 2025</p>
+  <br>
+
+  <p>
+	A common summary [description, macroscopic observable] of evolutionary dynamics in a populaiton is the allele frequency spectrum – or the stationary distribution [ensemble average] of mutant allele frequency - in models assumes single locus - and in data is averaged over the many loci on the genome. meh 
+
+
+  The single-locus allele frequency spectrum summarizes the distribution of allele frequencies while marginalizing over genomic context. This description is complete only in the limit of infinitely fast recombination, where loci segregate independently and alleles evolve as effectively unlinked variables. At finite recombination rates, however, mutations reside on the same chromosome and are inherited together. As a result, the fate of a mutation depends not only on its marginal frequency, but also on the genetic background on which it arises and spreads.
+  </p>
+
+  <p>
+  These correlations — genetic linkage and linkage disequilibrium (LD) — are invisible to the single-locus SFS, rendering it an insufficient summary of the evolutionary process. Many distinct evolutionary histories can produce identical single-locus spectra while generating qualitatively different patterns of linkage.
+  </p>
+
+  <p>
+  A minimal extension that captures these effects is the <em>two-locus allele frequency spectrum</em> (2-SFS), which records the joint distribution of haplotype frequencies at pairs of loci. For two biallelic loci, the relevant objects are the four haplotypes
+  </p>
+
+  <p style="text-align: center; display: block;">
+  $ \displaystyle{(AB,\; Ab,\; aB,\; ab)} $,
+  </p>
+
+  <p>
+  or, in a finite sample of $n$ chromosomes, the corresponding haplotype counts
+  </p>
+
+  <p style="text-align: center; display: block;">
+  $ \displaystyle{(n_{AB},\; n_{Ab},\; n_{aB},\; n_{ab}), \qquad \sum n_{\cdot\cdot}=n.} $
+  </p>
+
+  <p>
+  This object fully encodes correlations between loci and reduces to the single-locus SFS only after marginalization over genetic backgrounds.
+  </p>
+
+  <br>
+
+  <h2>Perturbative regime</h2>
+
+  <p>
+  Although the full two-locus spectrum is high-dimensional, analytic progress can be made in the low mutation rate / low marginal frequency regime, where most segregating variants are rare. In this limit, the population consists primarily of a wild-type background with a small number of mutant lineages, each arising from an independent mutation event.
+  </p>
+
+  <p>
+  To leading order in the mutation rate, these lineages evolve independently, with recombination acting perturbatively by reshuffling rare mutations onto shared genetic backgrounds. This separation of scales enables a perturbative construction of the 2-SFS around non-interacting single-mutant lineages, paralleling approaches developed for the one-locus SFS.
+  </p>
+
+  <p>
+  Formally, the two-locus spectrum can be encoded through a generating function for haplotype counts,
+  </p>
+
+  <p style="text-align: center; display: block;">
+  $ \displaystyle{
+  G(\boldsymbol{\lambda})
+  =
+  \Big\langle
+  \exp\!\big(
+  -\lambda_{AB} n_{AB}
+  -\lambda_{Ab} n_{Ab}
+  -\lambda_{aB} n_{aB}
+  -\lambda_{ab} n_{ab}
+  \big)
+  \Big\rangle
+  } $
+  </p>
+
+  <p>
+  from which the full distribution may be obtained, in principle, via an inverse Laplace transform. In practice, this inversion is intractable, but the generating-function framework provides direct access to low-order statistics of the spectrum.
+  </p>
+
+  <br>
+
+  <h2>Moments and interpretable statistics</h2>
+
+  <p>
+  Much of the biologically relevant information contained in the 2-SFS is captured by its moments, which are considerably easier to compute and interpret than the full haplotype distribution. Examples include moments of linkage disequilibrium,
+  </p>
+
+  <p style="text-align: center; display: block;">
+  $ \displaystyle{\langle D \rangle, \qquad \langle D^2 \rangle,} $
+  </p>
+
+  <p>
+  cross-moments of allele frequencies such as $\langle x_A x_B \rangle$, and frequency-weighted LD statistics that emphasize the contribution of rare variants. These quantities retain sensitivity to recombination, demography, and selection while avoiding the combinatorial complexity of the full spectrum, making them a practical and informative window into the dynamics of linked evolution.
+  </p>
+
+  <br>
+  <br>
+
+  <p style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif';">
+  <em>
+  Thanks to Zhiru Liu and Benjamin Good for many discussions that shaped how I think about genetic linkage.
+  </em>
+  </p>
+
+  <hr style="width:25%" align="left">
+
+  <p class="footnote">
+  <sup>1</sup> In the limit of infinite recombination, haplotypes decorrelate on timescales short compared to those governing allele frequency change, rendering loci effectively independent.
+  </p>
+
+  <p class="footnote">
+  <sup>2</sup> The perturbative viewpoint adopted here follows the logic developed in Hudson (2001), Ethier and Griffiths (1990), and more recent moment-based approaches to frequency-resolved linkage disequilibrium (Good 2022; Lyulina, Liu, and Good 2024).
+  </p>
+</div>
