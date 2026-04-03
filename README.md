@@ -24,8 +24,8 @@ You are welcome to use this as a template for your own site as per `LICENSE.md`.
   - `contact/index.html` — replace the contact details
 
 - Update **third-party account verification**:
-  - the file `google389ca975a7ef614c.html` in the root is an ownership verification file for Google Search Console – delete it or replace it with your own
-  - the `.well-known/` folder contains an `atproto-did` file used to verify my Bluesky account – delete it or replace it with your own.
+  - the file `google389ca975a7ef614c.html` in the root is an ownership verification file for [Google Search Console](https://search.google.com/search-console/about) – delete it or replace it with your own
+  - the `.well-known/` folder contains an `atproto-did` file used to verify my [Bluesky account](https://bsky.app/profile/alyulina.github.io) – delete it or replace it with your own.
 
 - **Attribution.** I would appreciate a note on your website, e.g.
   >Adapted from Anastasia Lyulina
