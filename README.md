@@ -1,10 +1,10 @@
-This repository contains the source code for my personal academic website. It is built with Jekyll, hosted on GitHub Pages, and automatically deployed from the `main` branch. I tried keeping it simple so that it could be maintained without much effort.
+This repository contains the source code for my personal academic website. It is built using [Jekyll](https://jekyllrb.com), hosted on [GitHub Pages](https://pages.github.com), and automatically deployed from the `main` branch. I tried keeping it simple so that it could be maintained without much effort.
 
 ## Basic maintenance and updates
 
 **Publications**. Publications are managed through the bibliography file `publications/publications.json`. See [`publications/README.md`](publications/README.md) for detailed instructions.
 
-**Notes**. Notes are standalone files in the `notes/` folder, named `YYYY-MM-DD-slug.html`. They must also be manually linked from `notes/index.html`. See [`notes/README.md`](notes/README.md) for detailed instructions.
+**Notes**. Notes are standalone files in the `notes/` folder, named `YYYY-MM-DD-note.html`. They must also be manually linked from `notes/index.html`. See [`notes/README.md`](notes/README.md) for detailed instructions.
 
 **Other content**. Each page (`index.html`, `research/index.html`, `contact/index.html`, etc.) is a standalone file; edit them directly. Updating the **CV** requires uploading a new `assets/cv.pdf` file. Note that adding a new page (e.g. `teaching/index.html`) will require changing the navigation menu across _all other pages_.
 
