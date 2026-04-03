@@ -135,7 +135,7 @@ function renderNotes(p, toggleBtn) {
   if (p.commentary) html += `<a class="note-link" href="${p.commentary}" target="_blank">commentary</a>`;
   if (p.news)       html += `<a class="note-link" href="${p.news}"       target="_blank">news</a>`;
   if (toggleBtn)    html += toggleBtn;
-  if (p.status === 'review') html += `<span style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size:0.85em; font-style:italic; color:#333;">under review</span>`;
+  if (p.status === 'review') html += `<span style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size:0.85em; font-style:italic; color:#333; vertical-align:0.05em;">under review</span>`;
   return html;
 }
 
