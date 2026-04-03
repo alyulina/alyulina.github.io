@@ -27,7 +27,7 @@ You are welcome to use this as a template for your own site as per `LICENSE.md`.
   - The file `google389ca975a7ef614c.html` in the root is an ownership verification file for [Google Search Console](https://search.google.com/search-console/about). Delete it or replace it with your own.
   - The `.well-known/` folder contains an `atproto-did` file used to verify my [Bluesky account](https://bsky.app/profile/alyulina.github.io). Delete it or replace it with your own.
 
-- **Attribution.** I would appreciate a note on your website, e.g.
+- Provide **attribution.** I would appreciate a note on your website, e.g.
   >Adapted from Anastasia Lyulina
 
 If you do use this as a template, I would love to know — feel free to drop me a line!
