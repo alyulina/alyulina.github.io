@@ -32,6 +32,10 @@ title: Anastasia Lyulina | Publications
 	<br>
 </div>
 
+<!--<br>
+<br>
+<p style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; "><em>Feel free to reach out if you cannot access any of the published manuscripts.</em></p>
+-->
 <hr style="width:25%" align="left">
 <p class="footnote"><sup>*</sup> These authors contributed equally.</p>
 
@@ -126,9 +130,9 @@ function buildExpandedAuthors(authors) {
 
 function renderNotes(p, toggleBtn) {
   let html = '';
-  if (p.text)       html += `<a class="note-link" href="${p.text}"       target="_blank">text</a>`;
+  if (p.paper)       html += `<a class="note-link" href="${p.paper}"       target="_blank">paper</a>`;
   if (p.code)       html += `<a class="note-link" href="${p.code}"       target="_blank">code</a>`;
-  if (p.thread)     html += `<a class="note-link" href="${p.thread}"     target="_blank">thread</a>`;
+//  if (p.thread)     html += `<a class="note-link" href="${p.thread}"     target="_blank">thread</a>`;
   if (p.cover)      html += `<a class="note-link" href="${p.cover}"      target="_blank">cover</a>`;
   if (p.commentary) html += `<a class="note-link" href="${p.commentary}" target="_blank">commentary</a>`;
   if (p.news)       html += `<a class="note-link" href="${p.news}"       target="_blank">news</a>`;
@@ -191,6 +195,17 @@ fetch('publications.json')
       list.appendChild(li);
       document.getElementById(p.status + 'Section').style.display = '';
     });
+
+    // Continuous numbering across review + published, excluding preparation
+    const numTotal  = pubs.filter(p => p.status !== 'preparation').length;
+    const numReview = pubs.filter(p => p.status === 'review').length;
+
+    const reviewList = document.getElementById('reviewList');
+    reviewList.setAttribute('start', numTotal);
+    reviewList.style.listStyleType = 'decimal';
+
+    const pubList = document.getElementById('pubList');
+    pubList.setAttribute('start', numTotal - numReview);
   })
   .catch(err => console.error("Error loading publications.json:", err));
 </script>
