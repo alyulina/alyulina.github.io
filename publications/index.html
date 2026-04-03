@@ -185,7 +185,7 @@ fetch('publications.json')
     const prepList = document.getElementById('prepList');
 
     // Papers with a year go to published (includes review); no year goes to prep
-    const pubPapers  = pubs.filter(p => p.year);
+    const pubPapers = pubs.filter(p => p.year).sort((a, b) => b.year - a.year);
     const prepPapers = pubs.filter(p => !p.year);
 
     pubPapers.forEach(p => {
