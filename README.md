@@ -13,21 +13,21 @@ This repository contains the source code for my personal academic website. It is
 
 You are welcome to use this as a template for your own site as per `LICENSE.md`. A few things to take care of:
 
-**Replace my personal information** by editing:
-- `_config.yml` — update the `name` field
-- `index.html` — replace the about text and photo
-- `research/index.html` — replace the research description
-- `publications/publications.json` — replace with your publications
-- `publications/index.html` — update `MY_NAME` to your name in author list format (e.g. `'Smith J'`)
-- `notes/index.html` — do not include my notes without authorship attribution
-- `assets/cv.pdf` — replace with your CV
-- `contact/index.html` — replace the contact details
+- **Replace my personal information** by editing:
+  - `_config.yml` — update the `name` field
+  - `index.html` — replace the about text and photo
+  - `research/index.html` — replace the research description
+  - `publications/publications.json` — replace with your publications
+  - `publications/index.html` — update `MY_NAME` to your name in author list format (e.g. `'Smith J'`)
+  - `notes/index.html` — do not include my notes without authorship attribution
+  - `assets/cv.pdf` — replace with your CV
+  - `contact/index.html` — replace the contact details
 
-Update **third-party account verification**:
-- The file `google389ca975a7ef614c.html` in the root is an ownership verification file for Google Search Console. Delete it or replace it with your own.
-- The `.well-known/` folder contains an `atproto-did` file used to verify my Bluesky account. Delete it or replace it with your own.
+- Update **third-party account verification**:
+  - The file `google389ca975a7ef614c.html` in the root is an ownership verification file for Google Search Console. Delete it or replace it with your own.
+  - The `.well-known/` folder contains an `atproto-did` file used to verify my Bluesky account. Delete it or replace it with your own.
 
-**Attribution.** I would appreciate a note on your website, e.g.
->Adapted from Anastasia Lyulina
+- **Attribution.** I would appreciate a note on your website, e.g.
+  >Adapted from Anastasia Lyulina
 
 If you do use this as a template, I'd love to know — feel free to drop me a line!
