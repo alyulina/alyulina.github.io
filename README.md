@@ -24,10 +24,10 @@ You are welcome to use this as a template for your own site as per `LICENSE.md`.
   - `contact/index.html` — replace the contact details
 
 - Update **third-party account verification**:
-  - The file `google389ca975a7ef614c.html` in the root is an ownership verification file for Google Search Console. Delete it or replace it with your own.
-  - The `.well-known/` folder contains an `atproto-did` file used to verify my Bluesky account. Delete it or replace it with your own.
+  - the file `google389ca975a7ef614c.html` in the root is an ownership verification file for Google Search Console – delete it or replace it with your own
+  - the `.well-known/` folder contains an `atproto-did` file used to verify my Bluesky account – delete it or replace it with your own.
 
 - **Attribution.** I would appreciate a note on your website, e.g.
   >Adapted from Anastasia Lyulina
 
-If you do use this as a template, I'd love to know — feel free to drop me a line!
+If you do use this as a template, I would love to know — feel free to drop me a line!
