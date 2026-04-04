@@ -8,7 +8,7 @@ This repository contains the source code for my personal academic website. It is
 
 **CV**. Replace `assets/cv.pdf` with an updated file.
 
-**Other content**. Each page (`index.html`, `research/index.html`, `contact/index.html`, etc.) is a standalone file; edit them directly. To add a new page, create a new folder with an `index.html` inside (e.g. `teaching/index.html`) following the structure of existing pages, and add it to `_includes/nav.html` to include it in the navigation bar.
+**Other content**. Each page (`index.html`, `research/index.html`, `contact/index.html`, etc.) is a standalone file; edit them directly. To add a new page, create a new folder with an `index.html` inside (e.g. `teaching/index.html`) following the structure of existing pages, and add it to `_includes/nav.html` to include it in the navigation bar. For better search engine results, add a `description` field to the front matter of any page you want indexed.
 
 
 ## If you are forking this
