@@ -12,7 +12,7 @@ This repository contains the source code for my personal academic website. It is
 
 ### Local preview
 
-To preview the site locally before pushing, run the commands below from the repository root and open http://localhost:4000 in your browser. Make sure Ruby and Jekyll are installed.
+To preview the site locally before pushing, run the commands below from the repository root and open http://localhost:4000 in your browser. Make sure Ruby and Jekyll are [installed](https://jekyllrb.com/docs/installation/).
 
 ```bash
 bundle install   # first time only
