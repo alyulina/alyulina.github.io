@@ -2,16 +2,7 @@
 layout: default
 title: Anastasia Lyulina | Notes
 ---
-<nav>
-	<ul>
-		<li><a href="/">ABOUT</a></li>
-		<li><a href="/research">RESEARCH</a></li>
-		<li><a href="/publications">PUBLICATIONS</a></li>
-    <li><a id="notes" class="active" href="/notes">NOTES</a></li>
-		<li><a href="https://alyulina.github.io/assets/cv.pdf" target="_blank">CV</a></li>
-		<li><a href="/contact">CONTACT</a></li>
-	</ul>
-</nav>
+{% include nav.html %}
 
 <div class="notes">
   <h2 style="font-size:1.9em;"> On allele frequency correlations</h2>
@@ -19,7 +10,7 @@ title: Anastasia Lyulina | Notes
   <br>
 
   <p>
-	A common summary [description, macroscopic observable] of evolutionary dynamics in a populaiton is the allele frequency spectrum – or the stationary distribution [ensemble average] of mutant allele frequency - in models assumes single locus - and in data is averaged over the many loci on the genome. meh 
+	A common summary [description, macroscopic observable] of evolutionary dynamics in a populaiton is the allele frequency spectrum – or the stationary distribution [ensemble average] of mutant allele frequency - in models assumes single locus - and in data is averaged over the many loci on the genome. meh
 
 
   The single-locus allele frequency spectrum summarizes the distribution of allele frequencies while marginalizing over genomic context. This description is complete only in the limit of infinitely fast recombination, where loci segregate independently and alleles evolve as effectively unlinked variables. At finite recombination rates, however, mutations reside on the same chromosome and are inherited together. As a result, the fate of a mutation depends not only on its marginal frequency, but also on the genetic background on which it arises and spreads.
