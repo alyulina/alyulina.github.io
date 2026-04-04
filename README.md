@@ -10,6 +10,14 @@ This repository contains the source code for my personal academic website. It is
 
 **Other content**. Each page (`index.html`, `research/index.html`, `contact/index.html`, etc.) is a standalone file; edit them directly. To add a new page, create a new folder with an `index.html` inside (e.g. `teaching/index.html`) following the structure of existing pages, and add it to `_includes/nav.html` to include it in the navigation bar. For better search engine results, add a `description` field to the front matter of any page you want indexed.
 
+### Local preview
+
+To preview the site locally before pushing, run the commands below from the repository root and open http://localhost:4000 in your browser. Make sure Ruby and Jekyll are installed.
+
+```bash
+bundle install   # first time only
+bundle exec jekyll serve
+```
 
 ## If you are forking this
 
@@ -29,7 +37,7 @@ You are welcome to use this as a template for your own site as per [`LICENSE.md`
   - The file `google389ca975a7ef614c.html` in the root is an ownership verification file for [Google Search Console](https://search.google.com/search-console/about). Delete it or replace it with your own.
   - The `.well-known/` folder contains an `atproto-did` file used to verify my [Bluesky account](https://bsky.app/profile/alyulina.github.io). Delete it or replace it with your own.
 
-- Provide **attribution.** I would appreciate a note on your website, e.g.
+- Provide **attribution**. I would appreciate a note on your website, e.g.
   >Adapted from Anastasia Lyulina
 
 If you do use this as a template, I would love to know — feel free to drop me a line!
