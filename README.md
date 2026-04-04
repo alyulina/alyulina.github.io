@@ -6,7 +6,9 @@ This repository contains the source code for my personal academic website. It is
 
 **Notes**. Notes are standalone files in the `notes/` folder, named `YYYY-MM-DD-note.html`. They must also be manually linked from `notes/index.html`. See [`notes/README.md`](notes/README.md) for detailed instructions.
 
-**Other content**. Each page (`index.html`, `research/index.html`, `contact/index.html`, etc.) is a standalone file; edit them directly. Updating the **CV** requires uploading a new `assets/cv.pdf` file. Note that adding a new page (e.g. `teaching/index.html`) will require changing the navigation menu across _all other pages_.
+**CV**. Replace `assets/cv.pdf` with an updated file.
+
+**Other content**. Each page (`index.html`, `research/index.html`, `contact/index.html`, etc.) is a standalone file; edit them directly. To add a new page, create a new folder with an `index.html` inside (e.g. `teaching/index.html`) following the structure of existing pages, and add it to `_includes/nav.html` to include it in the navigation bar.
 
 
 ## If you are forking this

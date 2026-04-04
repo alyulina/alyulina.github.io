@@ -2,3 +2,23 @@ name: Anastasia Lyulina
 markdown: kramdown
 permalink: /notes/:year/:month/:day/:title
 include: [".well-known"]
+
+plugins:
+  - jekyll-seo-tag
+
+title: Anastasia Lyulina
+description: Personal academic website of Anastasia Lyulina, graduate student in Biology at Stanford University.
+url: https://alyulina.github.io
+
+author:
+  name: Anastasia Lyulina
+
+social:
+  name: Anastasia Lyulina
+  links:
+    - https://bsky.app/profile/alyulina.github.io
+    - https://scholar.google.com/citations?hl=en&user=wSbesjsAAAAJ
+    - https://orcid.org/0000-0002-8450-9618
+    - https://profiles.stanford.edu/alyulina
+    - https://bgoodlab.github.io/people/
+    - https://petrovlab-stanford.squarespace.com/team/anastasia-lyulina

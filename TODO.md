@@ -1,6 +1,5 @@
-## Code improvement
+Code improvement and other ideas for when I have nothing else to do:
 
-- [ ] Extract `<nav>` into `_includes/nav.html` and use Liquid `page.url` for active link highlighting, replacing the per-page `id`-based approach (see README for details)
-- [ ] Use `_layouts/post.html` for notes instead of fully self-contained HTML files, so shared changes (scripts, styles) only need to be made once
-- [ ] Delete `tmp.html` from repo root
-- [ ] Remove dead `process()` function from `publications/index.html` (now only used for titles, could be inlined)
+- [x] Extract `<nav>` into `_includes/nav.html` and use Liquid `page.url` for active link highlighting, replacing the per-page `id`-based approach
+- [ ] Do I want to add a page dedicated to teaching?
+- [ ] Think if I want to add a separate page for misc stuff, e.g. CA backpacking notes and routes, or art that I make, including ceramics. I feel like I should not have that on my professional page, but realistically I will also not make another page for that; so it is either here or nowhere.
