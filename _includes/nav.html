@@ -1,0 +1,10 @@
+<nav>
+	<ul>
+		<li><a href="/" {% if page.url == '/' %}class="active"{% endif %}>ABOUT</a></li>
+		<li><a href="/research" {% if page.url contains 'research' %}class="active"{% endif %}>RESEARCH</a></li>
+		<li><a href="/publications" {% if page.url contains 'publications' %}class="active"{% endif %}>PUBLICATIONS</a></li>
+		<li><a href="/notes" {% if page.url contains 'notes' %}class="active"{% endif %}>NOTES</a></li>
+		<li><a href="https://alyulina.github.io/assets/cv.pdf" target="_blank">CV</a></li>
+		<li><a href="/contact" {% if page.url contains 'contact' %}class="active"{% endif %}>CONTACT</a></li>
+	</ul>
+</nav>
