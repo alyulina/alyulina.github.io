@@ -15,6 +15,12 @@ title: Anastasia Lyulina | Publications
 	<br>
 </div>
 
+<div id="submittedSection" style="display:none">
+	<h2><strong>Submitted manuscripts</strong></h2>
+	<ol id="subList" reversed style="list-style-type:none; padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;"></ol>
+	<br>
+</div>
+
 <div id="preparationSection" style="display:none">
 	<h2><strong>Manuscripts in preparation</strong></h2>
 	<ol id="prepList" reversed style="list-style-type:none; padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;"></ol>
@@ -176,10 +182,21 @@ fetch('publications.json')
   .then(pubs => {
     const pubList  = document.getElementById('pubList');
     const prepList = document.getElementById('prepList');
+    const subList  = document.getElementById('subList');
 
-    // Papers with a year go to published (includes review); no year goes to prep
-    const pubPapers = pubs.filter(p => p.year).sort((a, b) => b.year - a.year);
-    const prepPapers = pubs.filter(p => !p.year);
+    // Split by status: published / review (submitted) / preparation
+    const pubPapers  = pubs.filter(p => p.status === 'published').sort((a, b) => b.year - a.year);
+    const subPapers  = pubs.filter(p => p.status === 'review');
+    const prepPapers = pubs.filter(p => p.status === 'preparation');
+
+    subPapers.forEach(p => {
+      const li = document.createElement('li');
+      li.innerHTML = renderEntry(p);
+      subList.appendChild(li);
+      document.getElementById('submittedSection').style.display = '';
+    });
+    subList.setAttribute('start', subPapers.length);
+    subList.style.listStyleType = 'decimal';
 
     pubPapers.forEach(p => {
       const li = document.createElement('li');
