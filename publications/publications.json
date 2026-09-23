@@ -48,10 +48,10 @@
     "news": ""
   },
   {
-    "authors": "Karmakar S*, Xiong X*, Lyulina AS*, Hebert JD, Tang Y, Andrejka L, Lopez SS, Ozaki M, Detrick C, Charville GW, Flowers B, Stanger B, Tuveson DA, Batra SK, Jaffee EM, Tessier-Lavigne M, Attardi LD, Petrov DA, Winslow MM",
-    "title": "Variable adaptation drives pancreatic cancer metastasis across diverse environments",
+    "authors": "Karmakar S*, Xiong X*, Lyulina AS*, Ozaki MK, Hebert JD, Tang YJ, Andrejka L, Lopez SS, Wang J, Charville GW, Flowers B, Stanger B, Tuveson DA, Batra SK, Tessier-Lavigne M, Good BH, Attardi LD, Petrov DA, Winslow MM",
+    "title": "Context-specific regulatory rewiring dictates pancreatic ductal adenocarcinoma metastatic fitness",
     "year": "",
-    "status": "preparation",
+    "status": "review",
     "paper": "",
     "code": "https://github.com/alyulina/metastatic-phenotypes",
     "thread": "",
