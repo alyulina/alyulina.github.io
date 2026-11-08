@@ -160,9 +160,9 @@ function renderEntry(p) {
   const yearPart    = p.year ? ` (${p.year}).` : '.';
   const vol         = p.volume ? ` ${p.volume}` : '';
   const pages       = p.pages ? `, ${p.pages}` : '';
-  const journalPart = p.journal ? ` <span class="pub-journal">${p.journal}</span>${vol}${pages}` : '';
+  const journalPart = p.journal ? `. <span class="pub-journal">${p.journal}</span>${vol}${pages}` : '';
   const notes = renderNotes(p, toggleBtn);
-  return `<p>${authorsHtml}. <em>${p.title}</em>.${journalPart}${yearPart}</p>`
+  return `<p>${authorsHtml}. <em>${p.title}</em>${journalPart}${yearPart}</p>`
        + (notes ? `<p>${notes}</p>` : '');
 }
 
