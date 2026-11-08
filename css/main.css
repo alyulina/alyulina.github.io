@@ -46,3 +46,7 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
     .figure-container .legend { flex: 1; max-width: 400px; }
     .legend { margin-top: 1em }
 }
+
+.epigraph { font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-style: italic; font-size: 0.95em; margin-bottom: 2em; }
+.epigraph .attribution { font-style: normal; font-size: 0.9em; }
+@media only screen and (min-width: 1025px) { .epigraph { margin-left: 67%; } }
