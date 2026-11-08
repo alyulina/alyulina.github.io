@@ -7,7 +7,7 @@ title: Anastasia Lyulina | Publications
 
 	<style>
 		.publications li { margin-bottom: 1em; }
-		.pub-title { font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-style: italic; }
+		.pub-journal { font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-style: italic; }
 	</style>
 
 <div id="publishedSection" style="display:none">
@@ -160,9 +160,9 @@ function renderEntry(p) {
   const yearPart    = p.year ? ` (${p.year}).` : '.';
   const vol         = p.volume ? ` ${p.volume}` : '';
   const pages       = p.pages ? `, ${p.pages}` : '';
-  const journalPart = p.journal ? ` <em>${p.journal}</em>${vol}${pages}` : '';
+  const journalPart = p.journal ? ` <span class="pub-journal">${p.journal}</span>${vol}${pages}` : '';
   const notes = renderNotes(p, toggleBtn);
-  return `<p>${authorsHtml}. <span class="pub-title">${p.title}</span>.${journalPart}${yearPart}</p>`
+  return `<p>${authorsHtml}. <em>${p.title}</em>.${journalPart}${yearPart}</p>`
        + (notes ? `<p>${notes}</p>` : '');
 }
 
