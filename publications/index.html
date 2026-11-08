@@ -156,9 +156,12 @@ function renderEntry(p) {
       onclick="toggleAuthors('${id}')" style="cursor:pointer">all authors</a>`;
   }
 
-  const yearPart = p.year ? ` (${p.year}).` : '.';
+  const yearPart    = p.year ? ` (${p.year}).` : '.';
+  const vol         = p.volume ? ` ${p.volume}` : '';
+  const pages       = p.pages ? `, ${p.pages}` : '';
+  const journalPart = p.journal ? ` ${p.journal}${vol}${pages}` : '';
   const notes = renderNotes(p, toggleBtn);
-  return `<p>${authorsHtml}. <em>${p.title}</em>${yearPart}</p>`
+  return `<p>${authorsHtml}. <em>${p.title}</em>.${journalPart}${yearPart}</p>`
        + (notes ? `<p>${notes}</p>` : '');
 }
 
