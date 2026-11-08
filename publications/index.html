@@ -162,8 +162,8 @@ function renderEntry(p) {
   const pages       = p.pages ? `, ${p.pages}` : '';
   const journalPart = p.journal ? `. <span class="pub-journal">${p.journal}</span>${vol}${pages}` : '';
   const notes = renderNotes(p, toggleBtn);
-  return `<p>${authorsHtml}. <em>${p.title}</em>${journalPart}${yearPart}</p>`
-       + (notes ? `<p>${notes}</p>` : '');
+  return `<p>${authorsHtml}. <em>${p.title}</em>${journalPart}${yearPart}`
+       + (notes ? ` <span style="margin-left:0.4em">${notes}</span>` : '') + `</p>`;
 }
 
 function toggleAuthors(id) {
