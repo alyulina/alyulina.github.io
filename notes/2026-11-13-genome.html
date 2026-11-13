@@ -1,0 +1,203 @@
+---
+layout: default
+title: Anastasia Lyulina | Notes
+---
+{% include nav.html %}
+
+<style>
+  .gc { margin: 1.4em 0 1.4em 0; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; }
+  .gc-species { font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px; font-weight: normal; line-height: 1.4em; padding: 0; margin: 0 0 0.2em 0; list-style: none; display: flex; flex-wrap: nowrap; gap: 25px; white-space: nowrap; }
+  @media only screen and (max-width: 1024px) { .gc-species { font-size: 17px; gap: 12px; } }
+  .gc-species li { margin: 0; font-style: italic; color: #888; cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
+  .gc-species li.on { color: #fa8072; }
+  .gc-species li:hover { color: #fa8072; }
+  .gc-readout { min-height: 2.8em; margin-bottom: 0.4em; }
+  .gc-readout .name { font-size: 16px; color: #000; }
+  sup.exp { vertical-align: super; position: static; font-size: 0.7em; line-height: 0; }
+  .gc-readout .detail { font-size: 0.95em; color: #888; }
+  .gc-readout .seq { max-width: 420px; overflow: hidden; white-space: nowrap; font-family: 'Courier New', Courier, monospace; font-size: 0.9em; letter-spacing: 0.1em; color: #c1c1c1; -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
+  .gc-readout .seq .motif { animation: none; display: inline; color: #767676; }
+  .gc-readout .seq > span { display: inline-block; animation: gc-scroll 150s linear infinite; }
+  @keyframes gc-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .gc-readout .seq > span { animation: none; } }
+  .gc svg { display: block; width: 100%; max-width: 420px; height: auto; }
+  .gc svg circle { transition: fill .15s; }
+  .gc-legend { display: flex; flex-wrap: wrap; gap: 0.3em 1.2em; font-size: 0.95em; margin-top: 0.8em; }
+  .gc-legend span { display: inline-flex; align-items: center; gap: 0.45em; color: #000; cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_black.png"), auto !important; transition: color .15s; }
+  .gc-legend span.absent, .gc-legend span.dim { color: #c1c1c1; }
+  .gc-legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .gc-legend span.absent i, .gc-legend span.dim i { opacity: 0.35; }
+</style>
+
+<div class="notes">
+  <h2 style="font-size:1.9em;"> On what is in a genome</h2>
+  <p style="font-size:0.95em;"> November 13, 2026</p>
+  <br>
+
+  <p>
+  Genomes vary widely across species, in both size and composition. Try a species below.
+  </p>
+
+  <div class="gc" id="gc">
+    <ul class="gc-species">
+      <li data-o="ec">E. coli</li>
+      <li data-o="sc">S. cerevisiae</li>
+      <li data-o="dm">D. melanogaster</li>
+      <li data-o="hs" class="on">H. sapiens</li>
+    </ul>
+    <div class="gc-readout">
+      <div class="name" id="gc-name"></div>
+      <div class="detail" id="gc-detail"></div>
+      <div class="seq" id="gc-seq"><span></span></div>
+    </div>
+    <svg id="gc-svg" viewBox="0 0 400 400" role="img" aria-label="Genome composition shown as 1,000 dots"><g id="gc-dots"></g></svg>
+    <div class="gc-legend" id="gc-legend"></div>
+  </div>
+
+  <p>
+  Hover over a dot or a label to highlight a category. Each dot is 0.1% of the genome; reported numbers are approximate<sup>1–4</sup>. Each base pair is counted in only one category, even where categories overlap: for example, a transposon that sits inside an intron is counted as a transposon, not as part of the intron.
+  </p>
+
+  <br>
+  <br>
+
+  <hr style="width:25%" align="left">
+
+  <p class="footnote">
+  <sup>1</sup> <em>E. coli</em> K-12 MG1655: computed by Claude Opus 5.5 from the NCBI RefSeq genome NC_000913.3 (<a href="https://doi.org/10.1126/science.277.5331.1453" target="_blank">Blattner <em>et al.</em> 1997</a>). Short repeats are not annotated and are included in "other".
+  </p>
+
+  <p class="footnote">
+  <sup>2</sup> <em>S. cerevisiae</em> S288C: computed by Claude Opus 5.5 from the NCBI RefSeq genome GCF_000146045.2 (<a href="https://doi.org/10.1126/science.274.5287.546" target="_blank">Goffeau <em>et al.</em> 1996</a>), except protein-coding sequence, taken directly from that paper, and transposons, taken from <a href="https://doi.org/10.1101/gr.8.5.464" target="_blank">Kim <em>et al.</em> (1998)</a>. Other short repeats are not annotated and are included in "other".
+  </p>
+
+  <p class="footnote">
+  <sup>3</sup> <em>D. melanogaster</em>: computed by Claude Opus 5.5 from the NCBI RefSeq genome GCF_000001215.4 (<a href="https://doi.org/10.1101/gr.185579.114" target="_blank">Hoskins <em>et al.</em> 2015</a>) and its repeat annotation (<a href="https://www.repeatmasker.org" target="_blank">Smit, Hubley, and Green 2013–2015</a>), scaled to a total genome of ~1.8×10<sup class="exp">8</sup> bp (<a href="https://doi.org/10.1126/science.287.5461.2185" target="_blank">Adams <em>et al.</em> 2000</a>), with satellites from <a href="https://doi.org/10.1073/pnas.83.3.696" target="_blank">Lohe and Brutlag (1986)</a>.
+  </p>
+
+  <p class="footnote">
+  <sup>4</sup> <em>H. sapiens</em>: computed by Claude Opus 5.5 from the NCBI RefSeq genome GCF_009914755.1, the first telomere-to-telomere assembly (<a href="https://doi.org/10.1126/science.abj6987" target="_blank">Nurk <em>et al.</em> 2022</a>), and its repeat annotation (<a href="https://www.repeatmasker.org" target="_blank">Smit, Hubley, and Green 2013–2015</a>).
+  </p>
+</div>
+
+<script>
+(function () {
+  var CATS = [
+    ["Protein-coding", "#db5829", "sequence translated into proteins; typical size is ~10<sup class=\"exp\">3</sup> bp"],
+    ["RNA genes", "#f2b950", "sequence transcribed into RNAs other than mRNA"],
+    ["Introns", "#f9bcb2", "parts of genes that are cut out before translation"],
+    ["Transposons", "#ababab", "sequences that copy or move themselves around the genome"],
+    ["Other repeats", "#767676", "short sequences repeated many times, mostly at the centres and ends of chromosomes"],
+    ["Other", "#e6d9c6", "everything else: untranslated regions of genes, promoters, enhancers and sequence of unknown function"]
+  ];
+  var FADED = "#f7f7f7";
+  var SPECIES = {
+    ec: { name: "E. coli", bp: 4.6e6, gc: 0.51, genes: 4.3e3, f: [87, 1.2, 0, 1.1, 0, 10.7],
+          na: [4], d: { 2: "bacteria have almost no introns", 4: "any short repeats are counted under other" } },
+    sc: { name: "S. cerevisiae", bp: 1.2e7, gc: 0.38, genes: 6e3, f: [70, 0.5, 0.5, 3, 0, 26],
+          na: [4], d: { 4: "any short repeats are counted under other", 2: "introns are rare: ~5% of genes, usually one intron per gene" } },
+    dm: { name: "D. melanogaster", bp: 1.8e8, gc: 0.42, genes: 1.4e4, f: [12.7, 1.3, 26.4, 15.3, 21, 23.3],
+          d: { 2: "most genes have introns, 3 per gene on average" } },
+    hs: { name: "H. sapiens", bp: 3.1e9, gc: 0.41, genes: 2e4, f: [1.2, 1.3, 24.5, 44.9, 8.5, 19.6],
+          d: { 2: "almost all genes have introns, ~10 per gene on average" } }
+  };
+
+
+  function sci(v) {
+    var e = Math.floor(Math.log10(v)), m = v / Math.pow(10, e);
+    m = Math.round(m);
+    if (m >= 10) { m = 1; e += 1; }
+    return (m === 1 ? "" : m + "×") + "10<sup class=\"exp\">" + e + "</sup>";
+  }
+  function fmt(v) { return sci(v) + " bp"; }
+
+
+  var N = 1000, cx = 200, cy = 200, R = 192, ga = Math.PI * (3 - Math.sqrt(5));
+  var ns = "http://www.w3.org/2000/svg", g = document.getElementById("gc-dots"), dots = [];
+  for (var i = 0; i < N; i++) {
+    var r = R * Math.sqrt((i + 0.5) / N), t = i * ga, e = document.createElementNS(ns, "circle");
+    e.setAttribute("cx", (cx + r * Math.cos(t)).toFixed(1));
+    e.setAttribute("cy", (cy + r * Math.sin(t)).toFixed(1));
+    e.setAttribute("r", 4.7);
+    g.appendChild(e); dots.push(e);
+  }
+
+  var nameEl = document.getElementById("gc-name"), detailEl = document.getElementById("gc-detail"),
+      legend = document.getElementById("gc-legend"), cur = "hs",
+      seqEl = document.getElementById("gc-seq");
+
+  var MOTIF = "CACACACACA";
+
+  function randomBases(n, gc) {
+    var b = "";
+    for (var i = 0; i < n; i++) {
+      var u = Math.random();
+      b += u < gc / 2 ? "G" : u < gc ? "C" : u < gc + (1 - gc) / 2 ? "A" : "T";
+    }
+    return b;
+  }
+
+  function fillSequence() {
+    var html = "";
+    for (var r = 0; r < 6; r++) {
+      html += randomBases(r === 0 ? 44 : 28, 0.41) + '<span class="motif" title="a short tandem repeat">' + MOTIF + '</span>';
+    }
+    html += randomBases(28, 0.41);
+    seqEl.firstChild.innerHTML = html + html;
+  }
+  fillSequence();
+
+  function highlight(k) {
+    var o = SPECIES[cur];
+    dots.forEach(function (e) {
+      var c = +e.dataset.k;
+      e.setAttribute("fill", (k === null || c === k) ? CATS[c][1] : FADED);
+    });
+    Array.prototype.forEach.call(legend.children, function (sp, i) { sp.classList.toggle("dim", k !== null && i !== k); });
+    var base = "~" + fmt(o.bp) + " genome";
+    seqEl.style.display = k === null ? "" : "none";
+    detailEl.style.display = k === null ? "none" : "";
+    if (k === null) {
+      nameEl.innerHTML = base;
+      detailEl.textContent = "";
+      return;
+    }
+    var p = o.f[k], nm = CATS[k][0];
+    nm = /^[A-Z][A-Z]/.test(nm) ? nm : nm.charAt(0).toLowerCase() + nm.slice(1);
+    var share = (o.na && o.na.indexOf(k) >= 0) ? nm + " not annotated" : p === 0 ? "no " + nm : (p < 1 ? "<1% " : Math.round(p) + "% ") + nm + " (~" + fmt(p / 100 * o.bp) + ")";
+    nameEl.innerHTML = base + " · " + share;
+    detailEl.innerHTML = o.d[k] || CATS[k][2];
+  }
+
+  CATS.forEach(function (c, i) {
+    var s = document.createElement("span");
+    s.innerHTML = '<i style="background:' + c[1] + '"></i>' + c[0];
+    s.onmouseenter = function () { highlight(i); };
+    s.onmouseleave = function () { highlight(null); };
+    legend.appendChild(s);
+  });
+
+  function setSpecies(key) {
+    cur = key;
+    var o = SPECIES[key], lab = [];
+    o.f.forEach(function (p, i) {
+      if (p > 0) { var n = Math.max(1, Math.round(p / 100 * N)); for (var k = 0; k < n; k++) lab.push(i); }
+    });
+    while (lab.length < N) lab.push(5);
+    lab = lab.slice(0, N);
+    var seed = 7, rnd = function () { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    for (var i = N - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)), tmp = lab[i]; lab[i] = lab[j]; lab[j] = tmp; }
+    dots.forEach(function (e, i) { e.dataset.k = lab[i]; e.setAttribute("fill", CATS[lab[i]][1]); });
+    Array.prototype.forEach.call(legend.children, function (s, i) { s.classList.toggle("absent", !o.f[i]); });
+    document.querySelectorAll(".gc-species li").forEach(function (b) { b.classList.toggle("on", b.dataset.o === key); });
+    highlight(null);
+  }
+
+  document.querySelectorAll(".gc-species li").forEach(function (b) {
+    b.onclick = function () { setSpecies(b.dataset.o); };
+  });
+  g.addEventListener("mouseover", function (e) { if (e.target.dataset.k !== undefined) highlight(+e.target.dataset.k); });
+  document.getElementById("gc-svg").addEventListener("mouseleave", function () { highlight(null); });
+  setSpecies("hs");
+})();
+</script>
