@@ -20,7 +20,7 @@ Then write the note content inside a `<div>` with the nav block at the top. Use 
 Open `notes/index.html` and add a link to the new note inside the `<div class="notes">` block:
 
 ```html
-<p><a href="YYYY-MM-DD-note" class="note-title" style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px;">Note title</a></p>
+<p><a href="YYYY-MM-DD-note" class="note-title" style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px;">Note title</a><span class="note-date"> · Month D, YYYY</span></p>
 ```
 
 
