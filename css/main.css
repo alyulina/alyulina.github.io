@@ -27,6 +27,7 @@ code-link { font-style: normal; background-color: #f4f4f4; color: #404040; paddi
 .notes-group { white-space: nowrap; display: inline-block; }
 .note-title { color: #000; }
 .note-title:hover { color: #fa8072; }
+.note-date { font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 16px; color: #c1c1c1; }
 
 .authors-toggle:hover { color: #fa8072; }
 
