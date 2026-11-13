@@ -25,11 +25,13 @@ code-link { font-style: normal; background-color: #f4f4f4; color: #404040; paddi
 .note-link { background-color: #f4f4f4; color: #404040; padding: 1px 4px; border-radius: 4px; font-size: 0.9em; vertical-align: 0.05em; text-decoration: none; margin-right: 0.9em; white-space: nowrap; }
 .note-link:hover { text-decoration: none; background-color: #fef2f1; color: #fa8072; }
 .notes-group { white-space: nowrap; display: inline-block; }
+.note-title { color: #000; }
+.note-title:hover { color: #fa8072; }
 
 .authors-toggle:hover { color: #fa8072; }
 
 hr { border: none; height: 1px; color: #333; background-color: #333; }
-.footnote { font-size: 0.95em; margin-bottom: 1.4em; }
+.footnote { font-size: 0.9em; margin-bottom: 1.2em; }
 
 .github-link p { color: #c1c1c1; font-size: 0.95em; }
 .github-link a { color: #c1c1c1; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
