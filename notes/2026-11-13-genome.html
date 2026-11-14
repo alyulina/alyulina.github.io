@@ -18,6 +18,7 @@ title: Anastasia Lyulina | Notes
   .gc-readout .detail { font-size: 0.95em; color: #888; }
   .gc-readout .seq { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; font-family: 'Courier New', Courier, monospace; font-size: 0.9em; letter-spacing: 0.1em; color: #c1c1c1; -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
   .gc-readout .seq .motif { animation: none; display: inline; color: #767676; }
+  .gc-readout .seq.off, .gc-sep.off { flex: 0 0 0; width: 0; visibility: hidden; overflow: hidden; }
   .gc-readout .seq > span { display: inline-block; animation: gc-scroll 150s linear infinite; }
   @keyframes gc-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .gc-readout .seq > span { animation: none; } }
@@ -160,8 +161,8 @@ title: Anastasia Lyulina | Notes
     });
     Array.prototype.forEach.call(legend.children, function (sp, i) { sp.classList.toggle("dim", k !== null && i !== k); });
     var base = "~" + fmt(o.bp) + " genome";
-    seqEl.style.display = k === null ? "" : "none";
-    document.getElementById("gc-sep").style.display = k === null ? "" : "none";
+    seqEl.classList.toggle("off", k !== null);
+    document.getElementById("gc-sep").classList.toggle("off", k !== null);
     if (k === null) {
       nameEl.innerHTML = base;
       detailEl.textContent = "each dot is 0.1% of the genome · hover over a dot or a category";
@@ -177,7 +178,7 @@ title: Anastasia Lyulina | Notes
   CATS.forEach(function (c, i) {
     var s = document.createElement("span");
     s.innerHTML = '<i style="background:' + c[1] + '"></i>' + c[0];
-    s.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") highlight(i); });
+    s.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse" && pinned === null) highlight(i); });
     s.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") highlight(pinned); });
     s.onclick = function () { pin(i); };
     legend.appendChild(s);
@@ -196,15 +197,43 @@ title: Anastasia Lyulina | Notes
     dots.forEach(function (e, i) { e.dataset.k = lab[i]; e.setAttribute("fill", CATS[lab[i]][1]); });
     Array.prototype.forEach.call(legend.children, function (s, i) { s.classList.toggle("absent", !o.f[i]); });
     document.querySelectorAll(".gc-species li").forEach(function (b) { b.classList.toggle("on", b.dataset.o === key); });
-    highlight(null);
+    highlight(pinned);
   }
 
   document.querySelectorAll(".gc-species li").forEach(function (b) {
-    b.onclick = function () { pinned = null; setSpecies(b.dataset.o); };
+    b.onclick = function () { setSpecies(b.dataset.o); };
   });
-  g.addEventListener("pointerover", function (e) { if (e.pointerType === "mouse" && e.target.dataset.k !== undefined) highlight(+e.target.dataset.k); });
+  g.addEventListener("pointerover", function (e) { if (e.pointerType === "mouse" && pinned === null && e.target.dataset.k !== undefined) highlight(+e.target.dataset.k); });
   g.addEventListener("click", function (e) { if (e.target.dataset.k !== undefined) pin(+e.target.dataset.k); });
   document.getElementById("gc-svg").addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") highlight(pinned); });
   setSpecies("hs");
+
+  // click or tap anywhere else (or press Esc) to go back to the whole genome
+  function unpin() { if (pinned !== null) { pinned = null; highlight(null); } }
+  var down = null;
+  document.addEventListener("pointerdown", function (e) { down = [e.clientX, e.clientY]; });
+  document.addEventListener("pointercancel", function () { down = null; });
+  document.addEventListener("pointerup", function (e) {
+    if (!down) return;
+    var moved = Math.abs(e.clientX - down[0]) + Math.abs(e.clientY - down[1]) > 10;
+    down = null;
+    if (!moved && !e.target.closest("#gc-legend span, #gc-dots circle, .gc-species li")) unpin();
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") unpin(); });
+
+  // keep the strip's left edge fixed: the size text is as wide as the widest species'
+  function sizeName() {
+    nameEl.style.minWidth = "";
+    var w = 0;
+    Object.keys(SPECIES).forEach(function (key) {
+      nameEl.innerHTML = "~" + fmt(SPECIES[key].bp) + " genome";
+      w = Math.max(w, nameEl.offsetWidth);
+    });
+    nameEl.style.minWidth = w + "px";
+    highlight(pinned);
+  }
+  sizeName();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeName);
+  window.addEventListener("resize", sizeName);
 })();
 </script>
