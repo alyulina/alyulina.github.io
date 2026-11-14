@@ -37,7 +37,7 @@ title: Anastasia Lyulina | Notes
   <br>
 
   <p>
-  Genomes vary widely across species, in both size and composition. Try a species below.
+  Genomes vary widely across species, in both size and composition<sup>1–4</sup>. Try a species below<sup>5</sup>.
   </p>
 
   <div class="gc" id="gc">
@@ -55,9 +55,6 @@ title: Anastasia Lyulina | Notes
     <div class="gc-legend" id="gc-legend"></div>
   </div>
 
-  <p>
-  Hover over a dot or a label to highlight a category. Reported numbers are approximate<sup>1–4</sup>. Each base pair is counted in only one category, even where categories overlap: for example, a transposon that sits inside an intron is counted as a transposon, not as part of the intron.
-  </p>
 
   <br>
   <br>
@@ -78,6 +75,10 @@ title: Anastasia Lyulina | Notes
 
   <p class="footnote">
   <sup>4</sup> <em>H. sapiens</em>: computed by Claude Opus 5.5 from the NCBI RefSeq genome GCF_009914755.1, the first telomere-to-telomere assembly (<a href="https://doi.org/10.1126/science.abj6987" target="_blank">Nurk <em>et al.</em> 2022</a>), and its repeat annotation (<a href="https://www.repeatmasker.org" target="_blank">Smit, Hubley, and Green 2013–2015</a>).
+  </p>
+
+  <p class="footnote">
+  <sup>5</sup> Each base pair is counted in only one category: for example, a transposon inside an intron is counted as a transposon, not as part of the intron.
   </p>
 </div>
 
@@ -160,7 +161,7 @@ title: Anastasia Lyulina | Notes
     document.getElementById("gc-sep").style.display = k === null ? "" : "none";
     if (k === null) {
       nameEl.innerHTML = base;
-      detailEl.textContent = "each dot is 0.1% of the genome";
+      detailEl.textContent = "each dot is 0.1% of the genome · hover over a dot or a label";
       return;
     }
     var p = o.f[k], nm = CATS[k][0];
