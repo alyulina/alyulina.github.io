@@ -6,12 +6,11 @@ title: Anastasia Lyulina | Notes
 
 <style>
   .gc { margin: 1.4em 0 1.4em 0; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; }
-  .gc-species { font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px; font-weight: normal; line-height: 1.4em; padding: 0; margin: 0 0 0.2em 0; list-style: none; display: flex; flex-wrap: nowrap; gap: 25px; white-space: nowrap; }
-  @media only screen and (max-width: 1024px) { .gc-species { font-size: 17px; gap: 12px; } }
+  .gc-species { font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px; font-weight: normal; line-height: 1.4em; padding: 0; margin: 0 0 0.6em 0; list-style: none; display: flex; flex-wrap: nowrap; gap: 25px; white-space: nowrap; }
   .gc-species li { margin: 0; font-style: italic; color: #888; cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
   .gc-species li.on { color: #fa8072; }
   .gc-species li:hover { color: #fa8072; }
-  .gc-readout { min-height: 2.8em; margin-bottom: 0.4em; }
+  .gc-readout { min-height: 2.8em; margin-bottom: 0.8em; }
   .gc-readout .name { font-size: 16px; color: #000; white-space: nowrap; }
   .gc-row { display: flex; align-items: baseline; max-width: 420px; }
   .gc-sep { color: #000; white-space: nowrap; }
@@ -24,11 +23,12 @@ title: Anastasia Lyulina | Notes
   @media (prefers-reduced-motion: reduce) { .gc-readout .seq > span { animation: none; } }
   .gc svg { display: block; width: 100%; max-width: 420px; height: auto; }
   .gc svg circle { transition: fill .15s; }
-  .gc-legend { display: flex; flex-wrap: wrap; gap: 0.3em 1.2em; font-size: 0.95em; margin-top: 0.8em; }
-  .gc-legend span { display: inline-flex; align-items: center; gap: 0.45em; color: #000; cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_black.png"), auto !important; transition: color .15s; }
+  .gc-legend { display: flex; flex-wrap: wrap; gap: 0.3em 1.2em; font-size: 0.95em; margin-top: 1.2em; }
+  .gc-legend span { display: inline-flex; align-items: center; gap: 0.45em; color: #000; cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_black.png"), auto !important; transition: color .15s; -webkit-tap-highlight-color: transparent; }
   .gc-legend span.absent, .gc-legend span.dim { color: #c1c1c1; }
   .gc-legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
   .gc-legend span.absent i, .gc-legend span.dim i { opacity: 0.35; }
+  @media only screen and (max-width: 1024px) { .gc-species { font-size: 18px; gap: 12px; } .gc-readout .name { font-size: 18px; } .gc-readout .detail, .gc-readout .seq { font-size: 16px; } .gc-legend { font-size: 17px; } }
 </style>
 
 <div class="notes">
@@ -149,6 +149,9 @@ title: Anastasia Lyulina | Notes
   }
   fillSequence();
 
+  var pinned = null;
+  function pin(k) { pinned = pinned === k ? null : k; highlight(pinned); }
+
   function highlight(k) {
     var o = SPECIES[cur];
     dots.forEach(function (e) {
@@ -175,7 +178,8 @@ title: Anastasia Lyulina | Notes
     var s = document.createElement("span");
     s.innerHTML = '<i style="background:' + c[1] + '"></i>' + c[0];
     s.onmouseenter = function () { highlight(i); };
-    s.onmouseleave = function () { highlight(null); };
+    s.onmouseleave = function () { highlight(pinned); };
+    s.onclick = function () { pin(i); };
     legend.appendChild(s);
   });
 
@@ -196,10 +200,11 @@ title: Anastasia Lyulina | Notes
   }
 
   document.querySelectorAll(".gc-species li").forEach(function (b) {
-    b.onclick = function () { setSpecies(b.dataset.o); };
+    b.onclick = function () { pinned = null; setSpecies(b.dataset.o); };
   });
   g.addEventListener("mouseover", function (e) { if (e.target.dataset.k !== undefined) highlight(+e.target.dataset.k); });
-  document.getElementById("gc-svg").addEventListener("mouseleave", function () { highlight(null); });
+  g.addEventListener("click", function (e) { if (e.target.dataset.k !== undefined) pin(+e.target.dataset.k); });
+  document.getElementById("gc-svg").addEventListener("mouseleave", function () { highlight(pinned); });
   setSpecies("hs");
 })();
 </script>
