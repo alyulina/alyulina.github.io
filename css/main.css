@@ -14,6 +14,9 @@ h1 { font-size: 52px; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'
 h2 { font-size: 20px; line-height: 1em; font-weight: bold; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 p { font-size: 16px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 1em; margin-top: 0px; overflow: visible !important; }
 sup { vertical-align: top; position: relative; top: -0.25em; }
+.notes sup a { color: #888; }
+.notes sup a:hover { color: #fa8072; }
+.notes [id^="fn"] { scroll-margin-top: 1em; }
 
 ol { font-size: 16px; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 ol p { font-size: 16px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
