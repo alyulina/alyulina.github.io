@@ -24,11 +24,11 @@ title: Anastasia Lyulina | Notes
   .gc svg { display: block; width: 100%; max-width: 420px; height: auto; }
   .gc svg circle { transition: fill .15s; }
   .gc-legend { display: flex; flex-wrap: wrap; gap: 0.3em 1.2em; font-size: 0.95em; margin-top: 1.2em; }
-  .gc-legend span { display: inline-flex; align-items: center; gap: 0.45em; color: #000; cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_black.png"), auto !important; transition: color .15s; -webkit-tap-highlight-color: transparent; }
+  .gc-legend span { display: inline-flex; align-items: center; gap: 0.45em; color: #000; cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_black.png"), auto !important; transition: color .15s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
   .gc-legend span.absent, .gc-legend span.dim { color: #c1c1c1; }
   .gc-legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
   .gc-legend span.absent i, .gc-legend span.dim i { opacity: 0.35; }
-  @media only screen and (max-width: 1024px) { .gc-species { font-size: 18px; gap: 12px; } .gc-readout .name { font-size: 18px; } .gc-readout .detail, .gc-readout .seq { font-size: 16px; } .gc-legend { font-size: 17px; } }
+  @media only screen and (max-width: 1024px) { .gc-species { font-size: 18px; gap: 28px; } .gc-readout .name { font-size: 18px; } .gc-readout .detail, .gc-readout .seq { font-size: 16px; } .gc-legend { font-size: 17px; } }
 </style>
 
 <div class="notes">
@@ -62,19 +62,19 @@ title: Anastasia Lyulina | Notes
   <hr style="width:25%" align="left">
 
   <p class="footnote">
-  <sup>1</sup> <em>E. coli</em> K-12 MG1655: computed by Claude Opus 5.5 from the NCBI RefSeq genome NC_000913.3 (<a href="https://doi.org/10.1126/science.277.5331.1453" target="_blank">Blattner <em>et al.</em> 1997</a>). Short repeats are not annotated and are included in "other".
+  <sup>1</sup> <em>E. coli</em> K-12 MG1655: computed by Claude Opus 5.5 from the NCBI genome NC_000913.3 (<a href="https://doi.org/10.1126/science.277.5331.1453" target="_blank">Blattner <em>et al.</em> 1997</a>). Short repeats are not annotated and are included in "other".
   </p>
 
   <p class="footnote">
-  <sup>2</sup> <em>S. cerevisiae</em> S288C: computed by Claude Opus 5.5 from the NCBI RefSeq genome GCF_000146045.2 (<a href="https://doi.org/10.1126/science.274.5287.546" target="_blank">Goffeau <em>et al.</em> 1996</a>), except protein-coding sequence, taken directly from that paper, and transposons, taken from <a href="https://doi.org/10.1101/gr.8.5.464" target="_blank">Kim <em>et al.</em> (1998)</a>. Other short repeats are not annotated and are included in "other".
+  <sup>2</sup> <em>S. cerevisiae</em> S288C: computed by Claude Opus 5.5 from the NCBI genome GCF_000146045.2 (<a href="https://doi.org/10.1126/science.274.5287.546" target="_blank">Goffeau <em>et al.</em> 1996</a>), except protein-coding sequence, taken directly from that paper, and transposons, taken from <a href="https://doi.org/10.1101/gr.8.5.464" target="_blank">Kim <em>et al.</em> (1998)</a>. Other short repeats are not annotated and are included in "other".
   </p>
 
   <p class="footnote">
-  <sup>3</sup> <em>D. melanogaster</em>: computed by Claude Opus 5.5 from the NCBI RefSeq genome GCF_000001215.4 (<a href="https://doi.org/10.1101/gr.185579.114" target="_blank">Hoskins <em>et al.</em> 2015</a>) and its repeat annotation (<a href="https://www.repeatmasker.org" target="_blank">Smit, Hubley, and Green 2013–2015</a>), scaled to a total genome of ~1.8×10<sup class="exp">8</sup> bp (<a href="https://doi.org/10.1126/science.287.5461.2185" target="_blank">Adams <em>et al.</em> 2000</a>), with satellites from <a href="https://doi.org/10.1073/pnas.83.3.696" target="_blank">Lohe and Brutlag (1986)</a>.
+  <sup>3</sup> <em>D. melanogaster</em>: computed by Claude Opus 5.5 from the NCBI genome GCF_000001215.4 (<a href="https://doi.org/10.1101/gr.185579.114" target="_blank">Hoskins <em>et al.</em> 2015</a>) and its repeat annotation (<a href="https://www.repeatmasker.org" target="_blank">Smit, Hubley, and Green 2013–2015</a>), scaled to a total genome of ~1.8×10<sup class="exp">8</sup> bp (<a href="https://doi.org/10.1126/science.287.5461.2185" target="_blank">Adams <em>et al.</em> 2000</a>), with satellites from <a href="https://doi.org/10.1073/pnas.83.3.696" target="_blank">Lohe and Brutlag (1986)</a>.
   </p>
 
   <p class="footnote">
-  <sup>4</sup> <em>H. sapiens</em>: computed by Claude Opus 5.5 from the NCBI RefSeq genome GCF_009914755.1, the first telomere-to-telomere assembly (<a href="https://doi.org/10.1126/science.abj6987" target="_blank">Nurk <em>et al.</em> 2022</a>), and its repeat annotation (<a href="https://www.repeatmasker.org" target="_blank">Smit, Hubley, and Green 2013–2015</a>).
+  <sup>4</sup> <em>H. sapiens</em>: computed by Claude Opus 5.5 from the NCBI genome GCF_009914755.1, the first telomere-to-telomere assembly (<a href="https://doi.org/10.1126/science.abj6987" target="_blank">Nurk <em>et al.</em> 2022</a>), and its repeat annotation (<a href="https://www.repeatmasker.org" target="_blank">Smit, Hubley, and Green 2013–2015</a>).
   </p>
 
   <p class="footnote">
@@ -177,8 +177,8 @@ title: Anastasia Lyulina | Notes
   CATS.forEach(function (c, i) {
     var s = document.createElement("span");
     s.innerHTML = '<i style="background:' + c[1] + '"></i>' + c[0];
-    s.onmouseenter = function () { highlight(i); };
-    s.onmouseleave = function () { highlight(pinned); };
+    s.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") highlight(i); });
+    s.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") highlight(pinned); });
     s.onclick = function () { pin(i); };
     legend.appendChild(s);
   });
@@ -202,9 +202,9 @@ title: Anastasia Lyulina | Notes
   document.querySelectorAll(".gc-species li").forEach(function (b) {
     b.onclick = function () { pinned = null; setSpecies(b.dataset.o); };
   });
-  g.addEventListener("mouseover", function (e) { if (e.target.dataset.k !== undefined) highlight(+e.target.dataset.k); });
+  g.addEventListener("pointerover", function (e) { if (e.pointerType === "mouse" && e.target.dataset.k !== undefined) highlight(+e.target.dataset.k); });
   g.addEventListener("click", function (e) { if (e.target.dataset.k !== undefined) pin(+e.target.dataset.k); });
-  document.getElementById("gc-svg").addEventListener("mouseleave", function () { highlight(pinned); });
+  document.getElementById("gc-svg").addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") highlight(pinned); });
   setSpecies("hs");
 })();
 </script>
