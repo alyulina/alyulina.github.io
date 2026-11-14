@@ -12,10 +12,12 @@ title: Anastasia Lyulina | Notes
   .gc-species li.on { color: #fa8072; }
   .gc-species li:hover { color: #fa8072; }
   .gc-readout { min-height: 2.8em; margin-bottom: 0.4em; }
-  .gc-readout .name { font-size: 16px; color: #000; }
+  .gc-readout .name { font-size: 16px; color: #000; white-space: nowrap; }
+  .gc-row { display: flex; align-items: baseline; max-width: 420px; }
+  .gc-sep { color: #000; white-space: nowrap; }
   sup.exp { vertical-align: super; position: static; font-size: 0.7em; line-height: 0; }
   .gc-readout .detail { font-size: 0.95em; color: #888; }
-  .gc-readout .seq { max-width: 420px; overflow: hidden; white-space: nowrap; font-family: 'Courier New', Courier, monospace; font-size: 0.9em; letter-spacing: 0.1em; color: #c1c1c1; -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
+  .gc-readout .seq { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; font-family: 'Courier New', Courier, monospace; font-size: 0.9em; letter-spacing: 0.1em; color: #c1c1c1; -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
   .gc-readout .seq .motif { animation: none; display: inline; color: #767676; }
   .gc-readout .seq > span { display: inline-block; animation: gc-scroll 150s linear infinite; }
   @keyframes gc-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -46,16 +48,15 @@ title: Anastasia Lyulina | Notes
       <li data-o="hs" class="on">H. sapiens</li>
     </ul>
     <div class="gc-readout">
-      <div class="name" id="gc-name"></div>
+      <div class="gc-row"><span class="name" id="gc-name"></span><span class="gc-sep" id="gc-sep">&nbsp;&nbsp;</span><div class="seq" id="gc-seq"><span></span></div></div>
       <div class="detail" id="gc-detail"></div>
-      <div class="seq" id="gc-seq"><span></span></div>
     </div>
     <svg id="gc-svg" viewBox="0 0 400 400" role="img" aria-label="Genome composition shown as 1,000 dots"><g id="gc-dots"></g></svg>
     <div class="gc-legend" id="gc-legend"></div>
   </div>
 
   <p>
-  Hover over a dot or a label to highlight a category. Each dot is 0.1% of the genome; reported numbers are approximate<sup>1–4</sup>. Each base pair is counted in only one category, even where categories overlap: for example, a transposon that sits inside an intron is counted as a transposon, not as part of the intron.
+  Hover over a dot or a label to highlight a category. Reported numbers are approximate<sup>1–4</sup>. Each base pair is counted in only one category, even where categories overlap: for example, a transposon that sits inside an intron is counted as a transposon, not as part of the intron.
   </p>
 
   <br>
@@ -139,8 +140,8 @@ title: Anastasia Lyulina | Notes
 
   function fillSequence() {
     var html = "";
-    for (var r = 0; r < 6; r++) {
-      html += randomBases(r === 0 ? 44 : 28, 0.41) + '<span class="motif" title="a short tandem repeat">' + MOTIF + '</span>';
+    for (var r = 0; r < 8; r++) {
+      html += randomBases(r === 0 ? 30 : 15, 0.41) + '<span class="motif" title="a short tandem repeat">' + MOTIF + '</span>';
     }
     html += randomBases(28, 0.41);
     seqEl.firstChild.innerHTML = html + html;
@@ -156,10 +157,10 @@ title: Anastasia Lyulina | Notes
     Array.prototype.forEach.call(legend.children, function (sp, i) { sp.classList.toggle("dim", k !== null && i !== k); });
     var base = "~" + fmt(o.bp) + " genome";
     seqEl.style.display = k === null ? "" : "none";
-    detailEl.style.display = k === null ? "none" : "";
+    document.getElementById("gc-sep").style.display = k === null ? "" : "none";
     if (k === null) {
       nameEl.innerHTML = base;
-      detailEl.textContent = "";
+      detailEl.textContent = "each dot is 0.1% of the genome";
       return;
     }
     var p = o.f[k], nm = CATS[k][0];
