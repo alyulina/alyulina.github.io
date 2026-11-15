@@ -2,6 +2,8 @@
 
 All papers are stored in `publications.json`. To add a new paper, simply add a new entry.
 
+The file is embedded in `index.html` when the site is built (with Jekyll's `include_relative` tag, near the bottom of `index.html`), so the list appears together with the rest of the page. Changes show up after the next build — on push, or on save when previewing with `jekyll serve`. Keep the file valid JSON: a missing comma or quote leaves the page empty.
+
 ## Fields
 
 | Field | Description |
@@ -28,7 +30,7 @@ All papers are stored in `publications.json`. To add a new paper, simply add a n
   - **Manuscripts in preparation** (`"preparation"`): in the same order as in `publications.json`.
 - Each section is numbered in reverse and is hidden if empty.
 - Each entry reads: *Authors. Title. Journal Volume, Pages (Year).* The title is italic, and the journal name is in the serif italic (`.pub-journal` in `index.html`). Journal, volume, pages and year are each skipped when empty.
-- Buttons (`paper`, `code`, `cover`, …) appear on the same line as the citation and wrap to the next line together.
+- Buttons (`paper`, `code`, `cover`, …) appear on the same line as the citation and wrap to the next line together; when they wrap, they start flush left with the citation text.
 - For `status: "review"`, the `paper` link appears as a `preprint` button.
 - Author lists longer than 12 are collapsed automatically, with an "all authors" toggle button.
 - `Lyulina AS` is always bolded automatically — no need to add `<strong>` tags manually. Name can be changed in `index.html`.
