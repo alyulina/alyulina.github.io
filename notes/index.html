@@ -3,8 +3,27 @@ layout: default
 title: Anastasia Lyulina | Notes
 ---
 {% include nav.html %}
+<style>
+  .notes .note-date { white-space: nowrap; }
+  .notes .note-date.wrapped { display: block; }
+  .notes .note-date.wrapped .note-sep { display: none; }
+</style>
  <div class="notes">
-	 <p><a href="2026-11-14-h-transform" class="note-title" style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px;">On conditioning a random process</a><span class="note-date"> · November 14, 2026</span></p>
-	 <p><a href="2026-11-13-genome" class="note-title" style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px;">On what is in a genome</a><span class="note-date"> · November 13, 2026</span></p>
-	 <p><a href="2025-02-05-h-of-s" class="note-title" style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px;">On heterozygosity at a locus under selection</a><span class="note-date"> · February 5, 2025</span></p>
+	 <p><a href="2026-11-14-h-transform" class="note-title" style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px;">On conditioning a random process</a> <span class="note-date"><span class="note-sep">· </span>November 14, 2026</span></p>
+	 <p><a href="2026-11-13-genome" class="note-title" style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px;">On what is in a genome</a> <span class="note-date"><span class="note-sep">· </span>November 13, 2026</span></p>
+	 <p><a href="2025-02-05-h-of-s" class="note-title" style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px;">On heterozygosity at a locus under selection</a> <span class="note-date"><span class="note-sep">· </span>February 5, 2025</span></p>
 </div>
+<script>
+  // Drop the " · " when the date wraps onto its own line under the title.
+  function placeNoteDates() {
+    document.querySelectorAll('.notes p').forEach(function (p) {
+      var title = p.querySelector('.note-title'), date = p.querySelector('.note-date');
+      if (!title || !date) return;
+      date.classList.remove('wrapped');
+      var lines = title.getClientRects(), last = lines[lines.length - 1];
+      if (date.getBoundingClientRect().top > last.top + 2) date.classList.add('wrapped');
+    });
+  }
+  window.addEventListener('load', placeNoteDates);
+  window.addEventListener('resize', placeNoteDates);
+</script>
