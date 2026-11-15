@@ -1,14 +1,14 @@
-html { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_black.png"), auto !important; height: 101%; }
+html { cursor: url("/img/cursor_black.png"), auto !important; height: 101%; }
 
 @media only screen and (min-width: 1025px) { body { margin: 60px auto; width: 800px; overflow: visible !important; } }
-@media only screen and (max-width: 1024px) { body { margin: 60px 60px; width: 480px; transform: scale(1.8); transform-origin: 0 0; -webkit-text-size-adjust: 100%; overflow: visible !important; } }
+@media only screen and (max-width: 1024px) { body { margin: 40px auto; padding: 0 20px; max-width: 800px; -webkit-text-size-adjust: 100%; overflow: visible !important; } }
 
 nav ul { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; padding: 0px; list-style: none; margin-top: 0px; margin-bottom: 35px; margin-right: 0px;}
 nav ul li { display: inline-block; margin-right: 25px; margin-bottom: 15px}
 
 a { font-size: inherit; line-height: inherit; font-family: inherit; text-decoration: none; color: #888; }
 a:hover, a.active { text-decoration: none; color: #fa8072; }
-a { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
+a { cursor: url("/img/cursor_pink.png"), auto !important; }
 
 h1 { font-size: 52px; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; margin-bottom: 18px; overflow: visible !important; }
 h2 { font-size: 20px; line-height: 1em; font-weight: bold; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
@@ -40,7 +40,7 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 .github-link p { color: #c1c1c1; font-size: 0.95em; }
 .github-link a { color: #c1c1c1; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
 .github-link a:hover { color: #fa8072; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
-.github-link span { cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
+.github-link span { cursor: url("/img/cursor_pink.png"), auto !important; }
 
 .figure-container { display: flex; flex-direction: column; align-items: center; gap: 1em; margin-bottom: 1.4em; text-align: left; }
 .figure-container img { width: 100%; max-width: 480px; height: auto; }
@@ -57,4 +57,4 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 .epigraph .attribution { font-style: normal; font-size: 0.9em; }
 @media only screen and (min-width: 1025px) { .epigraph { margin-right: 50%; } }
 
-@media only screen and (max-width: 1024px) { p, ol, ol p { font-size: 18px; } .footnote { font-size: 16px; } }
+@media only screen and (max-width: 1024px) { h1 { font-size: 38px; } nav ul { font-size: 16px; margin-top: -11px; margin-bottom: 24px; } nav ul li { margin-right: 22px; margin-bottom: 0; } nav ul li a { display: inline-block; padding: 11px 10px; margin: 0 -10px; } p, ol, ol p { font-size: 18px; } .footnote { font-size: 16px; } }

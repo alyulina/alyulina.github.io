@@ -22,3 +22,9 @@ social:
     - https://profiles.stanford.edu/alyulina
     - https://bgoodlab.github.io/people/
     - https://petrovlab-stanford.squarespace.com/team/anastasia-lyulina
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /img/nastia_small.jpg
