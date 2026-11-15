@@ -1,0 +1,151 @@
+---
+layout: default
+title: Anastasia Lyulina | Notes
+---
+{% include nav.html %}
+
+<div class="notes">
+  <h2 style="font-size:1.9em;"> On conditioning a random process</h2>
+  <p style="font-size:0.95em;"> November 14, 2026</p>
+  <br>
+
+  <p>
+  A <a href="https://doi.org/10.1016/j.cell.2026.05.013" target="_blank">recent paper</a> on B cell evolution in germinal centers<sup id="fnref1"><a href="#fn1">1</a></sup> led me to think about Doob's $h$-transform (<a href="https://doi.org/10.24033/bsmf.1494" target="_blank">Doob, 1957</a>).
+  </p>
+
+  <p>
+  The $h$-transform formalizes a simple idea. Suppose we keep only the realizations of a random process that end in a particular way. These realizations still follow the original dynamics, except that they are biased toward that ending. The bias is set by $h$, the probability of the ending given where the process is now, and it enters as a correction to the deterministic term – so it can look a lot like selection (or drift, if you are a physicist<sup id="fnref2"><a href="#fn2">2</a></sup>).
+  </p>
+
+  <p>
+  This matters because in evolution we often see only the realizations that end up in our data<sup id="fnref3"><a href="#fn3">3</a></sup>, such as mutations that reached frequencies high enough to be detected. Unless we account for this, we can mistake the effect of conditioning for selection.
+  </p>
+
+  <br>
+
+  <h2>The transform</h2>
+
+  <p>
+  Let $f(t)$ be a Markov process, such as the frequency of an allele, and $E$ an event decided by its future, such as fixation. Let $h(f) = \Pr\big[E \mid f\big]$ be the probability of $E$ starting from $f$. Conditioning on $E$ and applying Bayes' rule to a single step $\Delta t$,
+  </p>
+
+  <p style="text-align: center; display: block;">
+  $ \displaystyle{ \Pr\big[f \to f{+}\Delta f \mid E\big] = \Pr\big[f \to f{+}\Delta f\big]\, \frac{h(f{+}\Delta f)}{h(f)} } $.
+  </p>
+
+  <p>
+  Steps toward states from which $E$ is likely are made more probable, and steps away from them less probable. The reweighting depends only on the current step, so the conditioned process is also Markov. The new probabilities still sum to one, because $h(f) = \langle h(f{+}\Delta f) \rangle$, with the average taken over the possible steps. This relation is an equation that one can solve to find fixation probabilities<sup id="fnref4"><a href="#fn4">4</a></sup>.
+  </p>
+
+  <p>
+  The time evolution of $f(t)$ can be written as a Langevin equation,
+  </p>
+
+  <p style="text-align: center; display: block;">
+  $ \displaystyle{ \partial_t f = A(f) + \sqrt{B(f)}\, \eta(t) } $,
+  </p>
+
+  <p>
+  with the first term deterministic and the second stochastic, where $\eta(t)$ is uncorrelated noise with unit variance, interpreted in the Itô sense. Conditioning reweights each step $\Delta f$ by $h(f{+}\Delta f)/h(f) \approx 1 + \Delta f\, \partial_f \ln h$, so that, to leading order in $\Delta t$,
+  </p>
+
+  <p style="text-align: center; display: block;">
+  $ \displaystyle{ \langle \Delta f \mid E \rangle \approx \langle \Delta f \rangle + \langle \Delta f^2 \rangle\, \partial_f \ln h \approx \big( A + B\, \partial_f \ln h \big) \Delta t } $,
+  </p>
+
+  <p>
+  and the conditioned process becomes
+  </p>
+
+  <p style="text-align: center; display: block;">
+  $ \displaystyle{ \partial_t f = A(f) + B(f)\, \partial_f \ln h(f) + \sqrt{B(f)}\, \eta(t) } $.
+  </p>
+
+  <p>
+  Conditioning thus leaves the noise unchanged and adds a deterministic term, $B\, \partial_f \ln h$, that points toward where $E$ is more likely. The term is a product of how much the steps vary and how strongly the conditioning prefers one direction over another: without noise there is nothing to choose between, however strong the preference.
+  </p>
+
+  <br>
+
+  <h2>At a finite time</h2>
+
+  <p>
+  Most observations condition on something weaker than ultimate fixation: a mutation only has to be present at some time $T$. The probability of this now depends on time,
+  </p>
+
+  <p style="text-align: center; display: block;">
+  $ \displaystyle{ h_T(f, t) = \Pr\big[ f(T) > 0 \mid f(t) = f \big] } $.
+  </p>
+
+  <p>
+  While the mutation is rare, its dynamics are linear, with descendants surviving to $T$ independently. The chance that at least one of them survives is then proportional to the frequency of the mutation, so $h_T \propto f$ and $\partial_f \ln h_T = 1/f$. Substituting $B(f) \approx f/N$<sup id="fnref5"><a href="#fn5">5</a></sup> gives a correction of
+  </p>
+
+  <p style="text-align: center; display: block;">
+  $ \displaystyle{ B(f)\, \partial_f \ln h_T \approx 1/N } $,
+  </p>
+
+  <p>
+  so a lineage that will be present at $T$ gets there by gaining one extra copy per generation. A neutral lineage that survives for $t$ generations therefore has a frequency of ${\sim}t/N$ (<a href="https://doi.org/10.1534/genetics.106.067678" target="_blank">Desai and Fisher, 2007</a>). The climb lasts until the mutation is large enough that it would almost certainly be present at $T$ anyway, which is at $Nf \sim T - t$. This linear growth comes entirely from conditioning – <em>not selection</em> – and the unconditioned average stays constant. The same reasoning, applied to the Laplace transform of $f(T)$, yields the full frequency distribution of a surviving lineage, which is exponential with mean ${\sim}(T - t)/N$ (<a href="https://projecteuclid.org/journals/annals-of-mathematical-statistics/volume-19/issue-1/On-the-Generalized-Birth-and-Death-Process/10.1214/aoms/1177730285.full" target="_blank">Kendall, 1948</a>).
+  </p>
+
+  <p>
+  The same conditioning, applied to the frequencies seen at several sampling times, can be used to infer selection from temporal data (<a href="https://doi.org/10.1016/j.tpb.2013.08.005" target="_blank">Schraiber, Griffiths, and Evans, 2013</a>; <a href="https://doi.org/10.1534/genetics.116.187278" target="_blank">Schraiber, Evans, and Slatkin, 2016</a>).
+  </p>
+
+  <br>
+
+  <h2>The Feynman–Kac correction</h2>
+
+  <p>
+  Imagine now that, as the lineage grows, it accumulates further mutations elsewhere on the genome that change its fitness. Its weight then builds up along the way, rather than being set by its fate at time $T$. Following the fitness $x(t)$ of the lineage, relative to the population mean, and weighting each path by its compound growth, gives the expected number of descendants,
+  </p>
+
+  <p style="text-align: center; display: block;">
+  $ \displaystyle{ h_T(x, t) = \Big\langle e^{\int_t^T x(u)\, du} \,\Big|\, x(t) = x \Big\rangle } $.
+  </p>
+
+  <p>
+  This is known as the Feynman–Kac formula (<a href="https://doi.org/10.1090/s0002-9947-1949-0027960-x" target="_blank">Kac, 1949</a>). The correction is again $B(x)\, \partial_x \ln h_T$.
+  </p>
+
+  <p>
+  Mutations that leave more descendants thus tend to arise on unusually fit backgrounds, an idea that runs through much of the theory of linked selection (e.g., <a href="https://doi.org/10.1534/genetics.106.067678" target="_blank">Desai and Fisher, 2007</a>; <a href="https://doi.org/10.1534/genetics.118.301058" target="_blank">Cvijović, Good, and Desai, 2018</a>).
+  </p>
+
+  <br>
+
+  <h2>Back to germinal centers</h2>
+
+  <p>
+  The genealogies of sampled B cells are conditioned in just this way. Far from the time of sampling, conditioning favors lineages with high affinity, so affinity appears to rise quickly early on; close to it, the correction fades and low-affinity cells that have not yet been removed still appear, so affinity appears to plateau. Neither pattern requires selection to change over time.
+  </p>
+
+  <br>
+  <br>
+
+  <hr style="width:25%" align="left">
+
+
+  <p class="footnote" id="fn1">
+  <sup><a href="#fnref1">1</a></sup> <a href="https://doi.org/10.1016/j.cell.2026.05.013" target="_blank">DeWitt <em>et al.</em> (2026)</a> argue that two features of B cell genealogies reconstructed from germinal centers – affinity increasing quickly early on and then plateauing, and low-affinity lineages persisting for a long time – do not mean that selection weakens over time. Instead, both arise because the genealogies contain only the ancestors of cells sampled at the end.
+  </p>
+
+  <p class="footnote" id="fn2">
+  <sup><a href="#fnref2">2</a></sup> In physics, the deterministic term of a stochastic differential equation is called the drift and the noise term the diffusion. In population genetics, drift refers to the noise, and the deterministic term is usually selection. I use the population genetics convention throughout.
+  </p>
+
+  <p class="footnote" id="fn3">
+  <sup><a href="#fnref3">3</a></sup> A classic example is phylogenies of extant species. A reconstructed tree contains only lineages that left descendants in the present, so lineages that went extinct are missing from it. <a href="https://doi.org/10.1098/rstb.1994.0068" target="_blank">Nee, May, and Harvey (1994)</a> showed that, as a result, the number of lineages through time bends upward toward the present even when speciation and extinction rates are constant: recent lineages have not yet had time to go extinct.
+  </p>
+
+  <p class="footnote" id="fn4">
+  <sup><a href="#fnref4">4</a></sup> A mutation <em>fixes</em> when it reaches frequency one, so that every individual in the population carries it. For a mutation with selection coefficient $s$ in a population of size $N$, solving this relation with absorbing boundary conditions, $h(0) = 0$ and $h(1) = 1$, gives the fixation probability $h(f) = (1 - e^{-2Nsf})/(1 - e^{-2Ns})$, as derived by <a href="https://doi.org/10.1093/genetics/47.6.713" target="_blank">Kimura (1962)</a>. For a new beneficial mutation in a large population, $h \approx 2s$, as first found by <a href="https://doi.org/10.1017/S0305004100015644" target="_blank">Haldane (1927)</a>.
+  </p>
+
+  <p class="footnote" id="fn5">
+  <sup><a href="#fnref5">5</a></sup> For a mutation with selection coefficient $s$ in a population of size $N$, the frequency follows $\partial_t f = s f(1-f) + \sqrt{f(1-f)/N}\, \eta(t)$. When $f \ll 1$, the factors of $1 - f$ can be dropped, and this becomes the linear branching process $\partial_t f = s f + \sqrt{f/N}\, \eta(t)$, with $A(f) \approx s f$ and $B(f) \approx f/N$.
+  </p>
+
+
+</div>
