@@ -7,7 +7,7 @@ title: Anastasia Lyulina | Notes
 <style>
   .gc { margin: 1.4em 0 1.4em 0; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; }
   .gc-species { font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px; font-weight: normal; line-height: 1.4em; padding: 0; margin: 0 0 0.6em 0; list-style: none; display: flex; flex-wrap: nowrap; gap: 25px; white-space: nowrap; }
-  .gc-species li { margin: 0; font-style: italic; color: #888; cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_pink.png"), auto !important; }
+  .gc-species li { margin: 0; font-style: italic; color: #888; cursor: url("/img/cursor_pink.png"), auto !important; }
   .gc-species li.on { color: #fa8072; }
   .gc-species li:hover { color: #fa8072; }
   .gc-readout { min-height: 2.8em; margin-bottom: 0.8em; }
@@ -25,11 +25,12 @@ title: Anastasia Lyulina | Notes
   .gc svg { display: block; width: 100%; max-width: 420px; height: auto; }
   .gc svg circle { transition: fill .15s; }
   .gc-legend { display: flex; flex-wrap: wrap; gap: 0.3em 1.2em; font-size: 0.95em; margin-top: 1.2em; }
-  .gc-legend span { display: inline-flex; align-items: center; gap: 0.45em; color: #000; cursor: url("https://raw.githubusercontent.com/alyulina/alyulina.github.io/master/img/cursor_black.png"), auto !important; transition: color .15s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .gc-legend span { display: inline-flex; align-items: center; gap: 0.45em; color: #000; cursor: url("/img/cursor_black.png"), auto !important; transition: color .15s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
   .gc-legend span.absent, .gc-legend span.dim { color: #c1c1c1; }
   .gc-legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
   .gc-legend span.absent i, .gc-legend span.dim i { opacity: 0.35; }
   @media only screen and (max-width: 1024px) { .gc-species { font-size: 18px; gap: 28px; } .gc-readout .name { font-size: 18px; } .gc-readout .detail, .gc-readout .seq { font-size: 16px; } .gc-readout .detail { line-height: 1.15em; min-height: 2.3em; } .gc-legend { font-size: 17px; } }
+  @media only screen and (max-width: 480px) { .gc-species { flex-wrap: wrap; gap: 0.1em 20px; } }
 </style>
 
 <div class="notes">
