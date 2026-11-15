@@ -28,6 +28,8 @@ code-link { font-style: normal; background-color: #f4f4f4; color: #404040; paddi
 .note-link { background-color: #f4f4f4; color: #404040; padding: 1px 4px; border-radius: 4px; font-size: 0.9em; vertical-align: 0.05em; text-decoration: none; margin-right: 0.9em; white-space: nowrap; }
 .note-link:hover { text-decoration: none; background-color: #fef2f1; color: #fa8072; }
 .notes-group { white-space: nowrap; display: inline-block; }
+/* Extra space before a row of buttons; it stays at the end of the text line, so buttons that wrap start flush left. */
+.nl-gap { padding-right: 0.4em; }
 .note-title { color: #000; }
 .note-title:hover { color: #fa8072; }
 .note-date { font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 16px; color: #c1c1c1; }

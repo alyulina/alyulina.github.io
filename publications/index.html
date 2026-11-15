@@ -163,7 +163,7 @@ function renderEntry(p) {
   const journalPart = p.journal ? `. <span class="pub-journal">${p.journal}</span>${vol}${pages}` : '';
   const notes = renderNotes(p, toggleBtn);
   return `<p>${authorsHtml}. <em>${p.title}</em>${journalPart}${yearPart}`
-       + (notes ? ` <span class="notes-group" style="margin-left:0.4em">${notes}</span>` : '') + `</p>`;
+       + (notes ? `<span class="nl-gap"></span> <span class="notes-group">${notes}</span>` : '') + `</p>`;
 }
 
 function toggleAuthors(id) {
@@ -180,8 +180,11 @@ function toggleAuthors(id) {
   }
 }
 
-fetch('publications.json')
-  .then(response => response.json())
+// The data is embedded at build time (from publications.json), so the list renders
+// before the page is first shown, instead of popping in after a separate download.
+const PUBLICATIONS = {% include_relative publications.json %};
+
+Promise.resolve(PUBLICATIONS)
   .then(pubs => {
     const pubList  = document.getElementById('pubList');
     const prepList = document.getElementById('prepList');
@@ -222,7 +225,7 @@ fetch('publications.json')
     prepList.setAttribute('start', prepPapers.length);
     prepList.style.listStyleType = 'decimal';
   })
-  .catch(err => console.error("Error loading publications.json:", err));
+  .catch(err => console.error("Error rendering publications:", err));
 </script>
 
 </div>
