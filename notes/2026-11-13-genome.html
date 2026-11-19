@@ -6,16 +6,16 @@ title: Anastasia Lyulina | Notes
 
 <style>
   .gc { margin: 1.4em 0 1.4em 0; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; }
-  .gc-species { font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px; font-weight: normal; line-height: 1.4em; padding: 0; margin: 0 0 0.6em 0; list-style: none; display: flex; flex-wrap: nowrap; gap: 25px; white-space: nowrap; }
+  .gc-species { font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px; font-weight: normal; line-height: 1.4em; padding: 0; margin: 0 0 0.8em 0; list-style: none; display: flex; flex-wrap: nowrap; gap: 25px; white-space: nowrap; }
   .gc-species li { margin: 0; font-style: italic; color: #888; cursor: url("/img/cursor_pink.png"), auto !important; }
   .gc-species li.on { color: #fa8072; }
   .gc-species li:hover { color: #fa8072; }
-  .gc-readout { min-height: 2.8em; margin-bottom: 0.8em; }
+  .gc-readout { min-height: 2.8em; margin-bottom: 0.5em; }
   .gc-readout .name { font-size: 16px; color: #000; white-space: nowrap; }
   .gc-row { display: flex; align-items: baseline; max-width: 420px; }
   .gc-sep { color: #000; white-space: nowrap; }
   sup.exp { vertical-align: super; position: static; font-size: 0.7em; line-height: 0; }
-  .gc-readout .detail { font-size: 0.95em; color: #888; }
+  .gc-readout .detail { font-size: 0.95em; color: #888; line-height: 1.15em; }
   .gc-readout .seq { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; font-family: 'Courier New', Courier, monospace; font-size: 0.9em; letter-spacing: 0.1em; color: #c1c1c1; -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
   .gc-readout .seq .motif { animation: none; display: inline; color: #767676; }
   .gc-readout .seq.off, .gc-sep.off { flex: 0 0 0; width: 0; visibility: hidden; overflow: hidden; }
@@ -24,12 +24,12 @@ title: Anastasia Lyulina | Notes
   @media (prefers-reduced-motion: reduce) { .gc-readout .seq > span { animation: none; } }
   .gc svg { display: block; width: 100%; max-width: 420px; height: auto; }
   .gc svg circle { transition: fill .15s; }
-  .gc-legend { display: flex; flex-wrap: wrap; gap: 0.3em 1.2em; font-size: 0.95em; margin-top: 1.2em; }
+  .gc-legend { display: flex; flex-wrap: wrap; gap: 0.3em 1.2em; font-size: 0.95em; margin-top: 1.5em; }
   .gc-legend span { display: inline-flex; align-items: center; gap: 0.45em; color: #000; cursor: url("/img/cursor_black.png"), auto !important; transition: color .15s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
   .gc-legend span.absent, .gc-legend span.dim { color: #c1c1c1; }
   .gc-legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
   .gc-legend span.absent i, .gc-legend span.dim i { opacity: 0.35; }
-  @media only screen and (max-width: 1024px) { .gc-species { font-size: 18px; gap: 28px; } .gc-readout .name { font-size: 18px; } .gc-readout .detail, .gc-readout .seq { font-size: 16px; } .gc-readout .detail { line-height: 1.15em; min-height: 2.3em; } .gc-legend { font-size: 17px; } }
+  @media only screen and (max-width: 1024px) { .gc-species { font-size: 18px; gap: 28px; } .gc-readout .name { font-size: 18px; } .gc-readout .detail, .gc-readout .seq { font-size: 16px; } .gc-legend { font-size: 17px; } }
   @media only screen and (max-width: 480px) { .gc-species { flex-wrap: wrap; gap: 0.1em 20px; } }
 </style>
 
@@ -95,6 +95,7 @@ title: Anastasia Lyulina | Notes
     ["Other", "#e6d9c6", "everything else: untranslated regions of genes, promoters, enhancers, and sequence of unknown function"]
   ];
   var FADED = "#f7f7f7";
+  var DEFAULT_DETAIL = "each dot is 0.1% of the genome · hover over a dot or a category";
   var SPECIES = {
     ec: { name: "E. coli", bp: 4.6e6, gc: 0.51, genes: 4.3e3, f: [87, 1.2, 0, 1.1, 0, 10.7],
           na: [4], d: { 2: "bacteria have almost no introns", 4: "any short repeats are counted under other" } },
@@ -166,7 +167,7 @@ title: Anastasia Lyulina | Notes
     document.getElementById("gc-sep").classList.toggle("off", k !== null);
     if (k === null) {
       nameEl.innerHTML = base;
-      detailEl.textContent = "each dot is 0.1% of the genome · hover over a dot or a category";
+      detailEl.textContent = DEFAULT_DETAIL;
       return;
     }
     var p = o.f[k], nm = CATS[k][0];
@@ -231,6 +232,15 @@ title: Anastasia Lyulina | Notes
       w = Math.max(w, nameEl.offsetWidth);
     });
     nameEl.style.minWidth = w + "px";
+    // and the description is as tall as the tallest one, so nothing below it moves
+    detailEl.style.minHeight = "";
+    var h = 0, texts = [DEFAULT_DETAIL];
+    CATS.forEach(function (c) { texts.push(c[2]); });
+    Object.keys(SPECIES).forEach(function (key) {
+      Object.keys(SPECIES[key].d).forEach(function (k) { texts.push(SPECIES[key].d[k]); });
+    });
+    texts.forEach(function (t) { detailEl.innerHTML = t; h = Math.max(h, detailEl.getBoundingClientRect().height); });
+    detailEl.style.minHeight = Math.ceil(h) + "px";
     highlight(pinned);
   }
   sizeName();
