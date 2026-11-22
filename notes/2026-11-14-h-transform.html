@@ -65,6 +65,10 @@ title: Anastasia Lyulina | Notes
   Conditioning thus leaves the noise unchanged and adds a deterministic term, $B\, \partial_f \ln h$, that points toward where $E$ is more likely. The term is a product of how much the steps vary and how strongly the conditioning prefers one direction over another: without noise there is nothing to choose between, however strong the preference.
   </p>
 
+  <p>
+  For a mutation with selection coefficient $s$, conditioning on fixation<sup><a href="#fn4">4</a></sup> gives an apparent selection coefficient $s \coth(Nsf) > s$. Mutations that fix therefore rise faster than expected early on (<a href="https://doi.org/10.1017/S0016672300014634" target="_blank">Maynard Smith and Haigh, 1974</a>; <a href="https://doi.org/10.1093/genetics/147.2.879" target="_blank">Otto and Barton, 1997</a>), and in lineage-tracking experiments can appear to have established before they arose (<a href="https://doi.org/10.1038/nature14279" target="_blank">Levy, Blundell, <em>et al.</em>, 2015</a>).
+  </p>
+
   <br>
 
   <h2>At a finite time</h2>
@@ -86,7 +90,7 @@ title: Anastasia Lyulina | Notes
   </p>
 
   <p>
-  so a lineage that will be present at $T$ gets there by gaining one extra copy per generation. A neutral lineage that survives for $t$ generations therefore has a frequency of ${\sim}t/N$ (<a href="https://doi.org/10.1534/genetics.106.067678" target="_blank">Desai and Fisher, 2007</a>). The climb lasts until the mutation is large enough that it would almost certainly be present at $T$ anyway, which is at $Nf \sim T - t$. This linear growth comes entirely from conditioning – <em>not selection</em> – and the unconditioned average stays constant. The same reasoning, applied to the Laplace transform of $f(T)$, yields the full frequency distribution of a surviving lineage, which is exponential with mean ${\sim}(T - t)/N$ (<a href="https://projecteuclid.org/journals/annals-of-mathematical-statistics/volume-19/issue-1/On-the-Generalized-Birth-and-Death-Process/10.1214/aoms/1177730285.full" target="_blank">Kendall, 1948</a>).
+  so a lineage that will be present at $T$ gets there by gaining one extra copy per generation. A neutral lineage that survives for $t$ generations therefore has a frequency of ${\sim}t/N$ (<a href="https://doi.org/10.1534/genetics.106.067678" target="_blank">Desai and Fisher, 2007</a>). The climb lasts until the mutation is large enough that it would almost certainly be present at $T$ anyway, which is at $Nf \sim T - t$. This linear growth comes entirely from conditioning – <em>not selection</em> – and the unconditioned average stays constant. The same reasoning, applied to the Laplace transform of $f(T)$, yields the full frequency distribution of a surviving lineage, which is exponential with mean ${\sim}(T - t)/N$, as first found by <a href="https://projecteuclid.org/journals/annals-of-mathematical-statistics/volume-19/issue-1/On-the-Generalized-Birth-and-Death-Process/10.1214/aoms/1177730285.full" target="_blank">Kendall (1948)</a>.
   </p>
 
   <p>
@@ -95,7 +99,7 @@ title: Anastasia Lyulina | Notes
 
   <br>
 
-  <h2>The Feynman–Kac correction</h2>
+  <h2>Feynman–Kac weighting</h2>
 
   <p>
   Imagine now that, as the lineage grows, it accumulates further mutations elsewhere on the genome that change its fitness. Its weight then builds up along the way, rather than being set by its fate at time $T$. Following the fitness $x(t)$ of the lineage, relative to the population mean, and weighting each path by its compound growth, gives the expected number of descendants,
@@ -141,6 +145,10 @@ title: Anastasia Lyulina | Notes
 
   <p class="footnote" id="fn4">
   <sup><a href="#fnref4">4</a></sup> A mutation <em>fixes</em> when it reaches frequency one, so that every individual in the population carries it. For a mutation with selection coefficient $s$ in a population of size $N$, solving this relation with absorbing boundary conditions, $h(0) = 0$ and $h(1) = 1$, gives the fixation probability $h(f) = (1 - e^{-2Nsf})/(1 - e^{-2Ns})$, as derived by <a href="https://doi.org/10.1093/genetics/47.6.713" target="_blank">Kimura (1962)</a>. For a new beneficial mutation in a large population, $h \approx 2s$, as first found by <a href="https://doi.org/10.1017/S0305004100015644" target="_blank">Haldane (1927)</a>.
+  </p>
+
+  <p class="footnote">
+  Conditioning on fixation with this $h$ gives $\partial_t f = s f(1-f) \coth(Nsf) + \sqrt{f(1-f)/N}\, \eta(t)$. The deterministic term is even in $s$, so a deleterious mutation <em>that fixes</em> follows the same dynamics as a beneficial one (this is known as Maruyama's symmetry; <a href="https://doi.org/10.1017/S0016672300014750" target="_blank">Maruyama, 1974</a>).
   </p>
 
   <p class="footnote" id="fn5">
