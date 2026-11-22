@@ -8,6 +8,8 @@ title: Anastasia Lyulina | Publications
 	<style>
 		.publications li { margin-bottom: 1em; }
 		.pub-journal { font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-style: italic; }
+		.pub-abstract { font-size: 0.9em; color: #555; margin-top: 0.4em; }
+		.note-link.on { background-color: #fef2f1; color: #fa8072; }
 	</style>
 
 <div id="publishedSection" style="display:none">
@@ -148,8 +150,9 @@ function buildExpandedAuthors(authors) {
   return authors.map(formatAuthor).join(', ');
 }
 
-function renderNotes(p, toggleBtn) {
+function renderNotes(p, toggleBtn, abstractBtn) {
   let html = '';
+  if (abstractBtn)  html += abstractBtn;
   if (p.paper) {
     const label = p.status === 'review' ? 'preprint' : 'paper';
     html += `<a class="note-link" href="${p.paper}" target="_blank">${label}</a>`;
@@ -186,9 +189,22 @@ function renderEntry(p) {
   const vol         = p.volume ? ` ${p.volume}` : '';
   const pages       = p.pages ? `, ${p.pages}` : '';
   const journalPart = p.journal ? `. <span class="pub-journal">${p.journal}</span>${vol}${pages}` : '';
-  const notes = renderNotes(p, toggleBtn);
+  let abstractBtn = '', abstractHtml = '';
+  if (p.abstract) {
+    const aid = 'abs_' + Math.random().toString(36).slice(2);
+    abstractBtn  = `<a class="note-link" id="${aid}_btn" onclick="toggleAbstract('${aid}')" style="cursor:pointer">abstract</a>`;
+    abstractHtml = `<p class="pub-abstract" id="${aid}" hidden>${p.abstract}</p>`;
+  }
+  const notes = renderNotes(p, toggleBtn, abstractBtn);
   return `<p>${authorsHtml}. <em>${p.title}</em>${journalPart}${yearPart}`
-       + (notes ? `<span class="nl-gap"></span> <span class="notes-group">${notes}</span>` : '') + `</p>`;
+       + (notes ? `<span class="nl-gap"></span> <span class="notes-group">${notes}</span>` : '') + `</p>`
+       + abstractHtml;
+}
+
+function toggleAbstract(id) {
+  const el = document.getElementById(id);
+  el.hidden = !el.hidden;
+  document.getElementById(id + '_btn').classList.toggle('on', !el.hidden);
 }
 
 function toggleAuthors(id) {
