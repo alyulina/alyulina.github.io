@@ -37,7 +37,7 @@ code-link { font-style: normal; background-color: #f4f4f4; color: #404040; paddi
 .authors-toggle:hover { color: #fa8072; }
 
 hr { border: none; height: 1px; color: #333; background-color: #333; }
-.footnote { font-size: 0.9em; margin-bottom: 1.2em; }
+.footnote { font-size: 14.4px; margin-bottom: 1.2em; }
 
 .github-link p { color: #c1c1c1; font-size: 0.95em; }
 .github-link a { color: #c1c1c1; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
