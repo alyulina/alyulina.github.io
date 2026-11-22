@@ -28,6 +28,31 @@ title: Anastasia Lyulina | Publications
 	<br>
 </div>
 
+<!-- Plain list for browsers without JavaScript, built by Jekyll from the same data. -->
+<noscript>
+{%- assign statuses = "published,review,preparation" | split: "," -%}
+{%- assign headings = "Published manuscripts,Submitted manuscripts,Manuscripts in preparation" | split: "," -%}
+{%- for status in statuses -%}
+	{%- assign papers = site.data.publications | where: "status", status -%}
+	{%- if status == "published" -%}{%- assign papers = papers | sort: "year" | reverse -%}{%- endif -%}
+	{%- if papers.size > 0 %}
+	<h2><strong>{{ headings[forloop.index0] }}</strong></h2>
+	<ol reversed style="padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;">
+	{%- for p in papers %}
+		<li><p>{{ p.authors | replace: "**", "@@" | replace: "*", "<sup>*</sup>" | replace: "@@", "<sup>**</sup>" | replace: "Lyulina AS", "<strong>Lyulina AS</strong>" }}. <em>{{ p.title }}</em>{% if p.journal != "" and p.journal %}. <span class="pub-journal">{{ p.journal }}</span>{% if p.volume != "" and p.volume %} {{ p.volume }}{% endif %}{% if p.pages != "" and p.pages %}, {{ p.pages }}{% endif %}{% endif %}{% if p.year != "" and p.year %} ({{ p.year }}).{% else %}.{% endif %}<span class="nl-gap"></span> <span class="notes-group">
+			{%- if p.paper != "" and p.paper %}<a class="note-link" href="{{ p.paper }}" target="_blank">{% if status == "review" %}preprint{% else %}paper{% endif %}</a>{% endif -%}
+			{%- if p.code != "" and p.code %}<a class="note-link" href="{{ p.code }}" target="_blank">code</a>{% endif -%}
+			{%- if p.cover != "" and p.cover %}<a class="note-link" href="{{ p.cover }}" target="_blank">cover</a>{% endif -%}
+			{%- if p.commentary != "" and p.commentary %}<a class="note-link" href="{{ p.commentary }}" target="_blank">commentary</a>{% endif -%}
+			{%- if p.news != "" and p.news %}<a class="note-link" href="{{ p.news }}" target="_blank">news</a>{% endif -%}
+		</span></p></li>
+	{%- endfor %}
+	</ol>
+	<br>
+	{%- endif -%}
+{%- endfor %}
+</noscript>
+
 <!--
 <p style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; "><em>See citations for publications <a href="https://scholar.google.com/citations?hl=en&user=wSbesjsAAAAJ" target="_blank">here</a>.</em></p>
 -->
@@ -180,9 +205,9 @@ function toggleAuthors(id) {
   }
 }
 
-// The data is embedded at build time (from publications.json), so the list renders
+// The data is embedded at build time (from _data/publications.json), so the list renders
 // before the page is first shown, instead of popping in after a separate download.
-const PUBLICATIONS = {% include_relative publications.json %};
+const PUBLICATIONS = {{ site.data.publications | jsonify }};
 
 Promise.resolve(PUBLICATIONS)
   .then(pubs => {

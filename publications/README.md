@@ -1,6 +1,6 @@
 # Adding a paper to the publications page
 
-All papers are stored in `publications.json`. To add a new paper, simply add a new entry.
+All papers are stored in `_data/publications.json`. To add a new paper, simply add a new entry.
 
 The file is embedded in `index.html` when the site is built (with Jekyll's `include_relative` tag, near the bottom of `index.html`), so the list appears together with the rest of the page. Changes show up after the next build — on push, or on save when previewing with `jekyll serve`. Keep the file valid JSON: a missing comma or quote leaves the page empty.
 
@@ -26,8 +26,8 @@ The file is embedded in `index.html` when the site is built (with Jekyll's `incl
 
 - Papers are split into three sections by `status`:
   - **Published manuscripts** (`"published"`): sorted by year (newest first).
-  - **Submitted manuscripts** (`"review"`): in the same order as in `publications.json`.
-  - **Manuscripts in preparation** (`"preparation"`): in the same order as in `publications.json`.
+  - **Submitted manuscripts** (`"review"`): in the same order as in `_data/publications.json`.
+  - **Manuscripts in preparation** (`"preparation"`): in the same order as in `_data/publications.json`.
 - Each section is numbered in reverse and is hidden if empty.
 - Each entry reads: *Authors. Title. Journal Volume, Pages (Year).* The title is italic, and the journal name is in the serif italic (`.pub-journal` in `index.html`). Journal, volume, pages and year are each skipped when empty.
 - Buttons (`paper`, `code`, `cover`, …) appear on the same line as the citation and wrap to the next line together; when they wrap, they start flush left with the citation text.

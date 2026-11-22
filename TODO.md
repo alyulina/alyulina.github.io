@@ -4,7 +4,7 @@ Code improvement and other ideas for when I have nothing else to do:
 - [x] Author collapse edge case: co-second and other middle `*` markers — the marked author is shown correctly with their `*` in the collapsed view, but co-authors sharing that mark are not shown. This is acceptable behavior; the `*` footnote still signals equal contribution. _No action needed unless this becomes confusing in practice._
 - [ ] Auto-generate notes index: if the notes section grows, consider moving notes to `_posts/` as HTML files with proper front matter (`title`, `date`), which would allow `notes/index.html` to loop over `site.posts` automatically instead of manually adding links. _Low priority while notes are infrequent._
 - [ ] Clean up CSS. The spacing feels off in a few places.
-- [ ] If `MY_NAME` is not found in the author list of a paper (e.g. due to a typo in `publications.json`), skip the entry and log a console warning. Do not attempt to render it.
+- [ ] If `MY_NAME` is not found in the author list of a paper (e.g. due to a typo in `_data/publications.json`), skip the entry and log a console warning. Do not attempt to render it.
 ```
 pubs.forEach(p => {
   if (!p.authors.includes(MY_NAME)) {

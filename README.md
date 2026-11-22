@@ -2,7 +2,7 @@ This repository contains the source code for my personal academic website. It is
 
 ## Basic maintenance and updates
 
-**Publications**. Publications are managed through the bibliography file `publications/publications.json`. See [`publications/README.md`](publications/README.md) for detailed instructions.
+**Publications**. Publications are managed through the bibliography file `_data/publications.json`. See [`publications/README.md`](publications/README.md) for detailed instructions.
 
 **Updates**. Edit the list next to the photo in `index.html`; newest first, three to five items.
 
@@ -35,7 +35,7 @@ You are welcome to use this as a template for your own site as per [`LICENSE.md`
   - `_config.yml` — update the `name`, `description`, `url` and `social` links.
   - `index.html` — replace the about text, updates and photo.
   - `research/index.html` — replace my research description.
-  - `publications/publications.json` — replace with your publications.
+  - `_data/publications.json` — replace with your publications.
   - `publications/index.html` — update the `MY_NAME` variable to your name (e.g. `'Smith J'`) for publication formatting.
   - `notes/index.html` — please do not include my notes without proper acknowledgments.
   - `assets/cv.pdf` — replace with your own.
