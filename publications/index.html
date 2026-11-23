@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Anastasia Lyulina | Publications
+title: Publications
 ---
 {% include nav.html %}
 <div class="publications">
@@ -10,6 +10,7 @@ title: Anastasia Lyulina | Publications
 		.pub-journal { font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-style: italic; }
 		.pub-abstract { font-size: 0.9em; color: #555; margin-top: 0.4em; }
 		.note-link.on { background-color: #fef2f1; color: #fa8072; }
+		button.note-link { border: 0; font-family: inherit; line-height: inherit; cursor: url("/img/cursor_pink.png"), auto !important; }
 	</style>
 
 <div id="publishedSection" style="display:none">
@@ -179,10 +180,10 @@ function renderEntry(p) {
     const expanded  = buildExpandedAuthors(authors);
     const id = 'auth_' + Math.random().toString(36).slice(2);
     authorsHtml = `<span id="${id}_text">${collapsed}</span>`;
-    toggleBtn = `<a class="note-link" id="${id}_btn" data-state="collapsed"
+    toggleBtn = `<button type="button" class="note-link" id="${id}_btn" data-state="collapsed" aria-expanded="false"
       data-collapsed="${encodeURIComponent(collapsed)}"
       data-expanded="${encodeURIComponent(expanded)}"
-      onclick="toggleAuthors('${id}')" style="cursor:pointer">all authors</a>`;
+      onclick="toggleAuthors('${id}')">all authors</button>`;
   }
 
   const yearPart    = p.year ? ` (${p.year}).` : '.';
@@ -192,7 +193,7 @@ function renderEntry(p) {
   let abstractBtn = '', abstractHtml = '';
   if (p.abstract) {
     const aid = 'abs_' + Math.random().toString(36).slice(2);
-    abstractBtn  = `<a class="note-link" id="${aid}_btn" onclick="toggleAbstract('${aid}')" style="cursor:pointer">abstract</a>`;
+    abstractBtn  = `<button type="button" class="note-link" id="${aid}_btn" aria-expanded="false" aria-controls="${aid}" onclick="toggleAbstract('${aid}')">abstract</button>`;
     abstractHtml = `<p class="pub-abstract" id="${aid}" hidden>${p.abstract}</p>`;
   }
   const notes = renderNotes(p, toggleBtn, abstractBtn);
@@ -204,7 +205,9 @@ function renderEntry(p) {
 function toggleAbstract(id) {
   const el = document.getElementById(id);
   el.hidden = !el.hidden;
-  document.getElementById(id + '_btn').classList.toggle('on', !el.hidden);
+  const btn = document.getElementById(id + '_btn');
+  btn.classList.toggle('on', !el.hidden);
+  btn.setAttribute('aria-expanded', String(!el.hidden));
 }
 
 function toggleAuthors(id) {
@@ -214,10 +217,12 @@ function toggleAuthors(id) {
     textEl.innerHTML  = decodeURIComponent(btn.dataset.expanded);
     btn.textContent   = 'fewer authors';
     btn.dataset.state = 'expanded';
+    btn.setAttribute('aria-expanded', 'true');
   } else {
     textEl.innerHTML  = decodeURIComponent(btn.dataset.collapsed);
     btn.textContent   = 'all authors';
     btn.dataset.state = 'collapsed';
+    btn.setAttribute('aria-expanded', 'false');
   }
 }
 

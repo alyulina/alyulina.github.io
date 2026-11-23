@@ -13,9 +13,11 @@ Create a new file in `notes/` named `YYYY-MM-DD-note.html`, where the date is th
 ```yaml
 ---
 layout: default
-title: Anastasia Lyulina | Notes
+title: On something
 ---
 ```
+
+Set `title` to the note's name. The browser tab then shows "Anastasia Lyulina | On something", and link previews show just the name.
 
 Then write the note content inside a `<div>` with the nav block at the top. Use the existing notes as a template – they all follow the same structure.
 
