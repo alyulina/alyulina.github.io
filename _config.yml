@@ -13,6 +13,14 @@ url: https://alyulina.github.io
 author:
   name: Anastasia Lyulina
 
+# Your name exactly as it appears in the author lists in _data/publications.json;
+# it is shown in bold on the publications page.
+publication_name: Lyulina AS
+
+# Search engine ownership verification, added to every page by jekyll-seo-tag.
+webmaster_verifications:
+  google: RIvn8sP16jiMLaGGnF1h_B-bjoIBx6Go_YZU3GL_3-I
+
 social:
   name: Anastasia Lyulina
   links:

@@ -35,6 +35,7 @@ title: Publications
 <noscript>
 {%- assign statuses = "published,review,preparation" | split: "," -%}
 {%- assign headings = "Published manuscripts,Submitted manuscripts,Manuscripts in preparation" | split: "," -%}
+{%- capture bold_name %}<strong>{{ site.publication_name }}</strong>{% endcapture -%}
 {%- for status in statuses -%}
 	{%- assign papers = site.data.publications | where: "status", status -%}
 	{%- if status == "published" -%}{%- assign papers = papers | sort: "year" | reverse -%}{%- endif -%}
@@ -42,7 +43,9 @@ title: Publications
 	<h2><strong>{{ headings[forloop.index0] }}</strong></h2>
 	<ol reversed style="padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;">
 	{%- for p in papers %}
-		<li><p>{{ p.authors | replace: "**", "@@" | replace: "*", "<sup>*</sup>" | replace: "@@", "<sup>**</sup>" | replace: "Lyulina AS", "<strong>Lyulina AS</strong>" }}. <em>{{ p.title }}</em>{% if p.journal != "" and p.journal %}. <span class="pub-journal">{{ p.journal }}</span>{% if p.volume != "" and p.volume %} {{ p.volume }}{% endif %}{% if p.pages != "" and p.pages %}, {{ p.pages }}{% endif %}{% endif %}{% if p.year != "" and p.year %} ({{ p.year }}).{% else %}.{% endif %}<span class="nl-gap"></span> <span class="notes-group">
+		{%- assign authors_html = p.authors | replace: "**", "@@" | replace: "*", "<sup>*</sup>" | replace: "@@", "<sup>**</sup>" -%}
+		{%- if site.publication_name != "" and site.publication_name -%}{%- assign authors_html = authors_html | replace: site.publication_name, bold_name -%}{%- endif %}
+		<li><p>{{ authors_html }}. <em>{{ p.title }}</em>{% if p.journal != "" and p.journal %}. <span class="pub-journal">{{ p.journal }}</span>{% if p.volume != "" and p.volume %} {{ p.volume }}{% endif %}{% if p.pages != "" and p.pages %}, {{ p.pages }}{% endif %}{% endif %}{% if p.year != "" and p.year %} ({{ p.year }}).{% else %}.{% endif %}<span class="nl-gap"></span> <span class="notes-group">
 			{%- if p.paper != "" and p.paper %}<a class="note-link" href="{{ p.paper }}" target="_blank">{% if status == "review" %}preprint{% else %}paper{% endif %}</a>{% endif -%}
 			{%- if p.code != "" and p.code %}<a class="note-link" href="{{ p.code }}" target="_blank">code</a>{% endif -%}
 			{%- if p.cover != "" and p.cover %}<a class="note-link" href="{{ p.cover }}" target="_blank">cover</a>{% endif -%}
@@ -64,7 +67,7 @@ title: Publications
 
 <!--Thank you Claude for this bit below-->
 <script>
-const MY_NAME = 'Lyulina AS';
+const MY_NAME = {{ site.publication_name | jsonify }};
 const COLLAPSE_THRESHOLD = 12;
 
 function parseAuthors(authorsStr) {
@@ -80,11 +83,6 @@ function formatAuthor(a) {
   const sup = a.star ? `<sup>${a.star}</sup>` : '';
   const nameHtml = a.name === MY_NAME ? `<strong>${a.name}</strong>` : a.name;
   return nameHtml + sup;
-}
-
-function process(text) {
-  return text.replace(/\*\*/g, '<sup>**</sup>').replace(/\*/g, '<sup>*</sup>')
-             .replace(/Lyulina AS/g, '<strong>Lyulina AS</strong>');
 }
 
 function getCoGroups(authors) {

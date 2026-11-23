@@ -32,17 +32,16 @@ Many recent changes were made with [Claude Code](https://claude.com/claude-code)
 You are welcome to use this as a template for your own site as per [`LICENSE.md`](LICENSE.md). A few things to take care of:
 
 - **Replace my personal information** by editing:
-  - `_config.yml` — update the `name`, `description`, `url` and `social` links.
-  - `index.html` — replace the about text, updates and photo.
-  - `research/index.html` — replace my research description.
+  - `_config.yml` — update the `name`, `description`, `url`, `social` links and `publication_name` (your name as it appears in author lists, e.g. `Smith J`). Most other pages read your name and address from here.
+  - `index.html` — replace the about text, updates and photo, and the `description` at the top of the file.
+  - `research/index.html` — replace my research description and the `description` at the top of the file.
   - `_data/publications.json` — replace with your publications.
-  - `publications/index.html` — update the `MY_NAME` variable to your name (e.g. `'Smith J'`) for publication formatting.
-  - `notes/index.html` — please do not include my notes without proper acknowledgments.
+  - `notes/` — please do not include my notes without proper acknowledgments. This also applies to the files they use, such as figures and notebooks.
   - `assets/cv.pdf` — replace with your own.
-  - `contact/index.html` — replace the contact details.
+  - `contact/index.html` — replace the contact details and the link to this repository at the bottom.
 
 - Update **third-party account verification**:
-  - The file `google389ca975a7ef614c.html` in the root is an ownership verification file for [Google Search Console](https://search.google.com/search-console/about). Delete it or replace it with your own.
+  - The file `google389ca975a7ef614c.html` in the root and the `webmaster_verifications` entry in `_config.yml` verify ownership for [Google Search Console](https://search.google.com/search-console/about). Delete both or replace them with your own.
   - The `.well-known/` folder contains an `atproto-did` file used to verify my [Bluesky account](https://bsky.app/profile/alyulina.github.io). Delete it or replace it with your own.
 
 - Provide **attribution**. I would appreciate a note on your website, e.g.
