@@ -97,7 +97,7 @@ const CFG = {
   weaveSpeed: 250,              // px of thread per second while weaving
 
   pullAfterLast: 80,            // px past the last bead the tip gets before the thread starts sliding out (Infinity = only once it is off-screen, then a pause)
-  pullAfterLastSmall: 1,        // …and how much further on phones (1 = twice as far), easing in below 900px wide
+  pullAfterLastSmall: 2,        // …and how much further on phones (2 = three times as far), easing in below 900px wide
   pullAccel: 260, pullMax: 460, // px/s², px/s: how the thread slides off to the right
   gravity: 850, bounce: 0.25, bounceRange: [0.2, 0.36], bounceMin: 60, maxBounces: 2, bounceHeights: [6, 22],   // landing: springiness range per bead, and the slowest impact that still bounces (px/s)
   floorGap: 170,                // px below the circle where the invisible line sits
