@@ -110,9 +110,10 @@ const CFG = {
   maxHops: 1,                   // how many times per run a stuck bead may hop over a neighbour (all other stuck pairs swap places)
   maxSwaps: 99,
   hopWait: 1.8,                 // s a bead must be stuck before it hops (last resort)
+  swapWait: 0.5,                // s two beads blocking each other wait before they swap places
   hopHeight: 3, hopReach: 99, hopFloat: 0.5, hopPause: 0.8,   // hops over another bead: height (bead radii), max reach, how floaty (lower = slower, gentler), s between hops
   settleBy: 24,                 // s after the thread starts pulling away: by then any bead still jostling eases into place
-  rollPull: 9, rollDamp: 5,     // how firmly a landed bead rolls towards its place, and how quickly that settles
+  rollPull: 30, rollDamp: 11,   // how firmly a landed bead rolls towards its place, and how quickly that settles
   colorSwaps: 3,                // how many small swaps break up the colour order along the thread
   rowSpread: 0.25,              // the final row spreads out towards its ends: outer beads roll further to the side
   rowGap: 3,                    // px between beads in the final row (sorted by colour: yellows → … → blues)
@@ -705,7 +706,7 @@ function step(dt) {
           // instead of hopping (only neighbours swap, so the row stays almost exactly in colour order)
           // one stuck bead per run may hop over its neighbour; any other stuck pair just swaps places in the row
           // (so the colours may end up slightly out of order)
-          if (!raised && blocked && b.stuck > CFG.hopWait * 0.5 && (hopsLeft <= 0 || hopper || hopRest > 0)) {
+          if (!raised && blocked && b.stuck > CFG.swapWait && (hopsLeft <= 0 || hopper || hopRest > 0)) {
             const o = fallen.find(o2 => o2 !== b && Math.abs(o2.y - b.y) < b.r && (o2.x - b.x) * dir > 0 && Math.abs(o2.x - b.x) < 2 * b.r + 2);
             if (o && (o.slotX - o.x) * dir < 0) { const t2 = o.slotX; o.slotX = b.slotX; b.slotX = t2; b.stuck = 0; o.stuck = 0; swapsLeft--; }
           }
