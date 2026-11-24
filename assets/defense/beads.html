@@ -55,6 +55,7 @@ const CFG = {
   jitter: 4.2,                  // px, max twitch offset
 
   threadColor: '#cdcdcd', threadWidth: 10,
+  startWhenSeen: 0.8, pauseWhenSeen: 0.35,   // starts once this much of it is on screen, pauses when less than this is
   designH: 560,                 // px: a frame shorter than this shows the same animation, scaled down to fit
   circle: 0.27,                 // circle radius as a fraction of the shorter window side (bigger = beads further apart)
   // the bead order is optimised for a short thread with gentle turns and few crossings
@@ -826,22 +827,28 @@ function showStill() {
 addEventListener('resize', () => { resize(); if (reducedMotion) showStill(); });
 resize();
 if (reducedMotion) { visible = true; showStill(); }
-// start only once it scrolls into view, and pause while it is off-screen
-let ioVisible = false;
+// start only once most of it has scrolled into view (so the whole fall can be seen), then pause while it is
+// mostly off-screen
+let ioRatio = 0, started = false;
 const setVisible = v => { if (v && !visible) last = performance.now(); visible = v; };
-new IntersectionObserver(es => { ioVisible = es[0].isIntersecting; setVisible(ioVisible || inParentView()); },
-                         { threshold: 0.35 }).observe(cv);
-// backup check (the observer above can miss updates): when embedded on the same site, look at where the frame
-// sits in the page; when opened on its own, it is always in view
-function inParentView() {
+const checkView = () => {
+  const r = Math.max(ioRatio, parentRatio());
+  if (r >= CFG.startWhenSeen) started = true;
+  setVisible(started && r >= CFG.pauseWhenSeen);
+};
+new IntersectionObserver(es => { ioRatio = es[0].intersectionRatio; checkView(); },
+                         { threshold: [0, CFG.pauseWhenSeen, CFG.startWhenSeen, 1] }).observe(cv);
+// backup check (the observer above can miss updates): when embedded on the same site, look at how much of the
+// frame is inside the window; when opened on its own, it is all in view
+function parentRatio() {
   try {
     const fe = window.frameElement;
-    if (!fe) return parent === window;
+    if (!fe) return parent === window ? 1 : 0;
     const r = fe.getBoundingClientRect(), vh = parent.innerHeight;
-    return r.bottom - r.height * 0.35 > 0 && r.top + r.height * 0.35 < vh;
-  } catch (e) { return false; }
+    return Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0)) / (r.height || 1);
+  } catch (e) { return 0; }
 }
-setInterval(() => setVisible(ioVisible || inParentView()), 300);
+setInterval(checkView, 300);
 requestAnimationFrame(frame);
 </script>
 </body>

@@ -40,14 +40,14 @@
   #pw { font-size: 0.9em; margin-left: 0.5em; }   /* same gap as the other pills */
 
   /* replay button sits just below the row of beads (placed from where they land), hidden until they have settled */
-  .beads-wrap { position: relative; margin-top: 8px; }
+  .beads-wrap { position: relative; margin-top: 8px; padding-bottom: 72px; }   /* room for the replay button under the row */
   .replay { position: absolute; left: 0; right: 0; margin: 0; text-align: center; opacity: 0; visibility: hidden;
             transition: opacity .6s ease, visibility 0s .6s; }
   .replay.shown { opacity: 1; visibility: visible; transition: opacity .6s ease; }
   /* the animation runs the full width of the window, so the thread enters and leaves at the page edges */
   html { overflow-x: hidden; overflow-x: clip; }
   .beads { display: block; width: 100vw; position: relative; left: 50%; margin-left: -50vw; border: 0;
-           height: min(560px, 90vw); margin-top: max(-40px, -6.43vw);   /* on narrow screens the frame (and the animation in it) shrinks in proportion */
+           height: min(560px, 90vw, 85vh); margin-top: max(-40px, -6.43vw);   /* on narrow or short screens the frame (and the animation in it) shrinks in proportion, so it all fits */
            pointer-events: none; }   /* the animation ignores the mouse, so the page's own cursor shows over it */
 
   @media only screen and (max-width: 1024px) {
