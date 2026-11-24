@@ -204,8 +204,12 @@
   addEventListener('message', e => {
     // once every bead is down: bring the text in and close the box up around the row, with room above it for
     // the last bounces and hops, while they finish rolling into place
-    if (e.data && e.data.type === 'beads:landed') closeUp(e.data, true);
-    if (e.data && e.data.type === 'beads:rest') {   // all still: the replay (or, with reduced motion, play) button
+    if (e.data && e.data.type === 'beads:landed') {   // and "replay" right away, without waiting for them to settle
+      closeUp(e.data, true);
+      replayRow.classList.add('resting', 'shown');
+      document.getElementById('replay').textContent = 'replay';
+    }
+    if (e.data && e.data.type === 'beads:rest') {   // all still (or a still for reduced motion: then "play")
       closeUp(e.data, revealed || !e.data.still);
       replayRow.classList.add('resting', 'shown');
       document.getElementById('replay').textContent = e.data.still ? 'play' : 'replay';   // "play" when motion is reduced and it has not played yet
