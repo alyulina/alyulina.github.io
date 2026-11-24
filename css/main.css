@@ -62,3 +62,4 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 @media only screen and (max-width: 1024px) { h1 { font-size: 38px; } nav ul { font-size: 16px; margin-top: -13px; margin-bottom: 27px; } nav ul li { margin-right: 22px; margin-bottom: -7px; } nav ul li a { display: inline-block; padding: 8px 10px; margin: 0 -10px; } p, ol, ol p { font-size: 18px; } .footnote { font-size: 16px; } }
 
 p mjx-container[jax="CHTML"][display="true"] { margin: 0; }
+mjx-container { cursor: inherit !important; } /* keep the site cursor over equations */

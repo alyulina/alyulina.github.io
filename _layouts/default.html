@@ -62,6 +62,11 @@
       // so pages make no requests to outside servers.
       paths: { fonts: '/mathjax/fonts' }
     },
+    options: {
+      // Turn off MathJax's interactive explorer (highlighting, keyboard navigation and its
+      // help window) and give screen readers hidden MathML instead, which they read directly.
+      menuOptions: { settings: { enrich: false, assistiveMml: true } }
+    },
     tex: {
       inlineMath: [['$', '$'], ['\\(', '\\)']],
       displayMath: [['$$', '$$'], ['\\[', '\\]']]
