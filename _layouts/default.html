@@ -63,9 +63,11 @@
       paths: { fonts: '/mathjax/fonts' }
     },
     options: {
-      // Turn off MathJax's interactive explorer (highlighting, keyboard navigation and its
-      // help window) and give screen readers hidden MathML instead, which they read directly.
-      menuOptions: { settings: { enrich: false, assistiveMml: true } }
+      // Keep equations static: no interactive explorer (highlighting, keyboard navigation and its
+      // help window), no right-click menu and no Tab stops. Screen readers get hidden MathML
+      // instead, which they read directly.
+      enableMenu: false,
+      menuOptions: { settings: { enrich: false, assistiveMml: true, inTabOrder: false } }
     },
     tex: {
       inlineMath: [['$', '$'], ['\\(', '\\)']],
