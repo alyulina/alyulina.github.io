@@ -12,6 +12,8 @@ This repository contains the source code for my personal academic website. It is
 
 **Other content**. Each page (`index.html`, `research/index.html`, `contact/index.html`, etc.) is a standalone file; edit them directly. To add a new page, create a new folder with an `index.html` inside (e.g. `teaching/index.html`) following the structure of existing pages, and add it to `_includes/nav.html` to include it in the navigation bar. For better search engine results, add a `description` field to the front matter of any page you want indexed.
 
+**MathJax**. Equations are rendered with [MathJax](https://www.mathjax.org) 4.1.3, which is stored in `mathjax/` and served from this site, so visitors' browsers don't contact any outside server and their IP addresses are not shared with third parties (a concern under the EU's GDPR; see e.g. [Regional Court of Munich I, 3 O 17493/20](https://www.gesetze-bayern.de/Content/Document/Y-300-Z-GRURRS-B-2022-N-612)). To update, replace the folder with the same files from the new versions of the `mathjax` and `@mathjax/mathjax-newcm-font` npm packages, and check in a local preview that the notes render and that the browser's network tab shows no requests to other sites.
+
 ### Local preview
 
 To preview the site locally before pushing, run the commands below _from the repository root_ and open http://localhost:4000 in your browser. Make sure Ruby and Jekyll are [installed](https://jekyllrb.com/docs/installation/).

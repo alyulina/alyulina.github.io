@@ -31,8 +31,13 @@ the Apache License 2.0.
 http://www.apache.org/licenses/LICENSE-2.0
 
 This Software incorporates MathJax by The MathJax Consortium, licensed under
-the Apache License 2.0.
+the Apache License 2.0 (a copy is included in mathjax/LICENSE).
 http://www.apache.org/licenses/LICENSE-2.0
+
+This Software incorporates the MathJax New Computer Modern font by The MathJax
+Consortium, licensed under the Apache License 2.0. It is based on the New Computer
+Modern fonts by Antonis Tsolomitis, licensed under the GUST Font License.
+https://ctan.org/pkg/newcomputermodern
 
 This Software was inspired by Jonathan McGlone's website tutorial,
 and some of the code was adapted with permission.

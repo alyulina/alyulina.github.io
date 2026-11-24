@@ -57,6 +57,11 @@
   }
 
   MathJax = {
+    loader: {
+      // MathJax and its font are served from this site (mathjax/),
+      // so pages make no requests to outside servers.
+      paths: { fonts: '/mathjax/fonts' }
+    },
     tex: {
       inlineMath: [['$', '$'], ['\\(', '\\)']],
       displayMath: [['$$', '$$'], ['\\[', '\\]']]
@@ -74,7 +79,7 @@
     }
   };
 </script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-mml-chtml.js"></script>
+<script async src="/mathjax/tex-mml-chtml.js"></script>
 {% seo title=false %}
 	</head>
 		<body>
