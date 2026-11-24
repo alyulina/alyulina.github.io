@@ -25,6 +25,7 @@
   .tabs, .replay { font-size: 16px; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; }
   .tabs { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 0.5em; }   /* room between the rows when the buttons wrap on small screens */
   .tabs .note-link { margin-right: 0.6em; }
+  .tabs .note-link[aria-expanded="true"] { background-color: #fef2f1; color: #fa8072; }   /* the open one stays pink, like the current page in the menu */
   .tabs .full-text { font-size: 0.9em; margin-left: 0.2em; white-space: nowrap; }   /* same size as the pills */
   .panel { margin-top: 18px; animation: fade .35s ease; }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
@@ -39,11 +40,13 @@
   .rows .note-date.two-line { line-height: 1.1em; }   /* keeps the two-line label from opening a big gap below it */
   .rows .note-link { margin-left: 0.5em; margin-right: 0; }
   #pw { font-size: 0.9em; margin-left: 0.5em; }   /* same gap as the other pills */
+  #pw[data-shown], #pw[data-shown]:hover { background-color: #f4f4f4; color: #404040; }   /* once the password is showing, it is plain text, not a lit-up button */
+  @media (hover: none) { .note-link:hover { background-color: #f4f4f4; color: #404040; } }   /* on touch screens a tapped button does not stay pink */
 
   /* the page opens with the animation, sized to fit the window under the menu; once the beads have landed the
      text fades in above them and the animation's box closes up to a strip around the row, with replay below it */
-  html { overflow-x: hidden; overflow-x: clip; }   /* the animation runs the full width of the window */
-  .content { padding-bottom: 30px; }                /* room between the text and the row of beads under it */
+  html { overflow-x: hidden; overflow-x: clip; scrollbar-gutter: stable; }   /* the animation runs the full width of the window; room for a scrollbar is kept from the start, so nothing shifts when the text makes the page scroll */
+  .content { padding-bottom: 30px; box-sizing: border-box; }   /* room between the text and the row of beads under it */
   .js .content { display: none; }                   /* (without JavaScript the text simply shows, and there is no animation) */
   .beads-wrap { position: relative; width: 100vw; left: 50%; margin-left: -50vw; overflow: hidden; height: 0; }
   .beads { position: absolute; left: 0; bottom: 0; width: 100%; border: 0; display: block;
@@ -65,7 +68,7 @@
     .rows .note-date.two-line br { display: none; }
   }
 </style>
-<!-- without JavaScript: leave out the animation's empty space, and every button that only works with it (abstract and chapters, calendar, password) -->
+<!-- without JavaScript: leave out the animation's empty space, and every button that only works with it (abstract and chapters, password) -->
 <noscript><style>.beads-wrap, .replay, .needs-js { display: none; }</style></noscript>
 </head>
 <body>
@@ -118,7 +121,7 @@
 
     <ul class="rows">
       <li><span class="note-date">When</span>
-          <span>at 9&nbsp;am on <span class="ph">date</span> <span class="aside">&middot; with a private exam from 10&nbsp;am to 11&nbsp;am</span><a class="note-link needs-js" id="ics" download="lyulina-phd-defense.ics" href="#">add to calendar</a></span></li>
+          <span>at 9&nbsp;am on <span class="ph">date</span> <span class="aside">&middot; with a private exam from 10&nbsp;am to 11&nbsp;am</span><a class="note-link" id="ics" href="lyulina-phd-defense.ics">add to calendar</a><!-- the event is in lyulina-phd-defense.ics next to this page: edit it if the time or place changes --></span></li>
       <li><span class="note-date">Join in person</span>
           <span>in <span class="ph">room</span> of the Biology Department <span class="aside">&middot; 9&nbsp;am to 10&nbsp;am</span><a class="note-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bass+Biology+Building%2C+327+Campus+Drive%2C+Stanford%2C+CA+94305" target="_blank">map</a></span></li>
       <li><span class="note-date">Join online</span>
@@ -145,20 +148,6 @@
   </div>
 
 <script>
-  // "add to calendar" (.ics), built here so it needs no extra file; edit if the time or place changes
-  const ics = [
-    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//alyulina//phd-defense//EN', 'BEGIN:VEVENT',
-    'UID:lyulina-phd-defense-20270301@alyulina.github.io',
-    'DTSTAMP:20261123T000000Z',
-    'DTSTART;TZID=America/Los_Angeles:20270301T090000',
-    'DTEND;TZID=America/Los_Angeles:20270301T120000',
-    'SUMMARY:PhD Defense: Anastasia Lyulina',
-    'LOCATION:Room 122\\, Biology Department\\, Stanford University',
-    'DESCRIPTION:Join in person or online\\, and celebrate afterwards at an outdoor reception. https://alyulina.github.io/assets/phd-defense/',
-    'END:VEVENT', 'END:VCALENDAR'
-  ].join('\r\n');
-  document.getElementById('ics').href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
-
   // abstract / chapter pills: each opens its panel; only one open at a time, click again to close
   const tabs = [...document.querySelectorAll('.tabs .note-link')];
   tabs.forEach(t => t.onclick = e => {
@@ -195,10 +184,11 @@
     revealed = true;
     content.style.display = 'block';
     const h = content.scrollHeight;
-    Object.assign(content.style, { height: '0px', opacity: '0', overflow: 'hidden' });
-    content.offsetHeight;   // start the transition from here
-    Object.assign(content.style, { transition: `height ${EASE}, opacity ${EASE}`, height: h + 'px', opacity: '1' });
-    content.addEventListener('transitionend', e => { if (e.propertyName === 'height') Object.assign(content.style, { height: '', overflow: '', transition: '' }); }, { once: false });
+    const pad = getComputedStyle(content).paddingBottom;
+    Object.assign(content.style, { height: '0px', paddingBottom: '0px', opacity: '0', overflow: 'hidden' });
+    content.offsetHeight;   // start the transition from here (padding too, or it would show at once and make the beads jump)
+    Object.assign(content.style, { transition: `height ${EASE}, padding-bottom ${EASE}, opacity ${EASE}`, height: h + 'px', paddingBottom: pad, opacity: '1' });
+    content.addEventListener('transitionend', e => { if (e.propertyName === 'height') Object.assign(content.style, { height: '', paddingBottom: '', overflow: '', transition: '' }); });
   };
   addEventListener('message', e => {
     if (e.data && e.data.type === 'beads:rest') {
