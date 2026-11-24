@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">   <!-- keeps the page out of search results; delete this line to let search engines list it -->
+<title>Anastasia Lyulina | PhD Defense</title>
+<meta name="description" content="Anastasia Lyulina's PhD defense in Biology at Stanford University — join in person or online.">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="icon" href="/img/bacteria.ico">
+<style>
+  /* draft highlight on all text that may still change — delete these two rules to remove every highlight at once */
+  .ph { background: #fef2f1; border-radius: 4px; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .ph .ph { background: none; padding: 0; }   /* no double highlight where one sits inside another */
+
+  .lead { margin-bottom: 44px; }
+
+  /* thesis title (not clickable), and a row of pills under it that each open one panel */
+  .thesis { margin-bottom: 44px; }
+  .thesis h2 { font-size: 24px; line-height: 1.25em; margin: 0 0 12px; }
+  /* <button> pills look exactly like the site's link pills */
+  .tabs .note-link, #pw, #replay { border: 0; margin: 0; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.9em;
+                     line-height: inherit; cursor: url("/img/cursor_pink.png"), auto !important; }
+  .tabs, .replay { font-size: 16px; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; }
+  .tabs { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 0.5em; }   /* room between the rows when the buttons wrap on small screens */
+  .tabs .note-link { margin-right: 0.6em; }
+  .tabs .full-text { font-size: 0.9em; margin-left: 0.2em; white-space: nowrap; }   /* same size as the pills */
+  .panel { margin-top: 18px; animation: fade .35s ease; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+  /* schedule and people, laid out like the news list on the home page */
+  .rows { list-style: none; padding-left: 0; margin: 0 0 22px; }
+  .rows li { font-size: 16px; line-height: 1.4em; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif';
+             color: #333; margin-bottom: 0.35em; display: flex; gap: 1em;
+             align-items: baseline; }   /* labels line up with the first line of their text, two-line ones included */
+  .rows .aside { color: #c1c1c1; }   /* the times after the middle dot, in the same light grey as the labels */
+  .rows .note-date { flex: 0 0 8em; font-size: 1em; }   /* a little wider than the longest label, "Join in person"; always the same size as the text beside it */
+  .rows .note-date.two-line { line-height: 1.1em; }   /* keeps the two-line label from opening a big gap below it */
+  .rows .note-link { margin-left: 0.5em; margin-right: 0; }
+  #pw { font-size: 0.9em; margin-left: 0.5em; }   /* same gap as the other pills */
+
+  /* replay button sits just below the row of beads (placed from where they land), hidden until they have settled */
+  .beads-wrap { position: relative; margin-top: 8px; }
+  .replay { position: absolute; left: 0; right: 0; margin: 0; text-align: center; opacity: 0; visibility: hidden;
+            transition: opacity .6s ease, visibility 0s .6s; }
+  .replay.shown { opacity: 1; visibility: visible; transition: opacity .6s ease; }
+  /* the animation runs the full width of the window, so the thread enters and leaves at the page edges */
+  html { overflow-x: hidden; overflow-x: clip; }
+  .beads { display: block; width: 100vw; position: relative; left: 50%; margin-left: -50vw; border: 0;
+           height: min(560px, 90vw); margin-top: max(-40px, -6.43vw);   /* on narrow screens the frame (and the animation in it) shrinks in proportion */
+           pointer-events: none; }   /* the animation ignores the mouse, so the page's own cursor shows over it */
+
+  @media only screen and (max-width: 1024px) {
+    .thesis h2 { font-size: 22px; }
+    .rows li { font-size: 18px; line-height: 1.65em; }   /* more room between wrapped lines (and the buttons in them) */
+    .tabs, .replay { font-size: 18px; }
+  }
+  @media only screen and (max-width: 560px) {
+    .rows li { flex-direction: column; gap: 0.3em; margin-bottom: 1em; line-height: 1.5em; }   /* a little room under each label, wrapped lines a bit tighter */
+    .rows .note-date { flex: none; }
+    .rows .note-date.two-line { line-height: inherit; }   /* labels sit above the text here, so two-line ones fit on one line */
+    .rows .note-date.two-line br { display: none; }
+  }
+</style>
+<!-- without JavaScript: leave out the animation's empty space, and every button that only works with it (abstract and chapters, calendar, password) -->
+<noscript><style>.beads-wrap, .needs-js { display: none; }</style></noscript>
+</head>
+<body>
+  <div class="container">
+    <div class="blurb">
+      <h1>Anastasia Lyulina</h1>
+    </div>
+  </div>
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="/">ABOUT</a></li>
+        <li><a href="/research">RESEARCH</a></li>
+        <li><a href="/publications">PUBLICATIONS</a></li>
+        <li><a href="/notes">NOTES</a></li>
+        <li><a href="/assets/cv.pdf" target="_blank">CV</a></li>
+        <li><a href="/contact">CONTACT</a></li>
+      </ul>
+    </nav>
+
+    <div class="lead">
+      <p><span class="ph">A few warm sentences inviting people to the defense, in person or online, and thanking everyone who has been part of the journey.</span></p>
+    </div>
+
+    <div class="thesis">
+      <h2><span class="ph">Title of the dissertation</span></h2>
+      <div class="tabs">
+        <a href="#" role="button" class="note-link needs-js" aria-expanded="false" aria-controls="p-abstract">abstract</a>
+        <a href="#" role="button" class="note-link needs-js" aria-expanded="false" aria-controls="p-ch1">chapter i</a>
+        <a href="#" role="button" class="note-link needs-js" aria-expanded="false" aria-controls="p-ch2">chapter ii</a>
+        <a href="#" role="button" class="note-link needs-js" aria-expanded="false" aria-controls="p-ch3">chapter iii</a>
+        <span class="note-date full-text">full text to follow</span>   <!-- replace with a link to the dissertation once it is published -->
+      </div>
+      <div class="panel" id="p-abstract" hidden>
+        <p><span class="ph">Abstract, first paragraph: the question and why it matters.</span></p>
+        <p><span class="ph">Second paragraph: the approach and the main findings.</span></p>
+        <p><span class="ph">Closing sentence: what this opens up next.</span></p>
+      </div>
+      <div class="panel" id="p-ch1" hidden>
+        <p><span class="ph">Chapter I: title, and a few sentences on what it does and finds.</span></p>
+      </div>
+      <div class="panel" id="p-ch2" hidden>
+        <p><span class="ph">Chapter II: title, and a few sentences on what it does and finds.</span></p>
+      </div>
+      <div class="panel" id="p-ch3" hidden>
+        <p><span class="ph">Chapter III: title, and a few sentences on what it does and finds.</span></p>
+      </div>
+    </div>
+
+    <ul class="rows">
+      <li><span class="note-date">When</span>
+          <span>at 9&nbsp;am on <span class="ph">date</span> <span class="aside">&middot; with a private exam from 10&nbsp;am to 11&nbsp;am</span><a class="note-link needs-js" id="ics" download="lyulina-phd-defense.ics" href="#">add to calendar</a></span></li>
+      <li><span class="note-date">Join in person</span>
+          <span>in <span class="ph">room</span> of the Biology Department <span class="aside">&middot; 9&nbsp;am to 10&nbsp;am</span><a class="note-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bass+Biology+Building%2C+327+Campus+Drive%2C+Stanford%2C+CA+94305" target="_blank">map</a></span></li>
+      <li><span class="note-date">Join online</span>
+          <span>at the <a href="#" target="_blank">link</a> <span class="aside">&middot; 9&nbsp;am to 10&nbsp;am</span><a href="#" role="button" class="note-link needs-js" id="pw" data-pw="your password here">password</a><!-- TODO: meeting URL in href, password in data-pw --></span></li>
+      <li><span class="note-date two-line">Celebrate <br>afterwards</span>
+          <span>at an outdoor reception <span class="aside">&middot; 11&nbsp;am to 12&nbsp;pm</span><a class="note-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bass+Biology+Building%2C+327+Campus+Drive%2C+Stanford%2C+CA+94305" target="_blank">map</a></span></li>
+    </ul>
+
+    <ul class="rows">
+      <li><span class="note-date">Advisors</span>
+          <span><a href="https://bgoodlab.github.io/" target="_blank">Benjamin Good</a> and
+                <a href="https://petrovlab-stanford.squarespace.com/" target="_blank">Dmitri Petrov</a></span></li>
+      <li><span class="note-date two-line">Committee <br>members</span>
+          <span><a href="https://rosenberglab.stanford.edu/" target="_blank">Noah Rosenberg</a>, <a href="https://schumerlab.com/" target="_blank">Molly Schumer</a>, <a href="https://med.stanford.edu/winslowlab.html" target="_blank">Monte Winslow</a>, and <span class="ph">Name Surname</span> (chair)</span></li>
+    </ul>
+
+    <!-- threading beads: starts when scrolled into view; the replay button below restarts it. ?seed=2 fixes the arrangement. -->
+    <div class="beads-wrap">
+      <iframe class="beads" src="beads.html?seed=2&amp;bg=transparent" title="Animation: a thread weaves through colorful beads, which then fall into a row" loading="lazy"></iframe>
+      <p class="replay"><a href="#" role="button" class="note-link" id="replay">replay</a></p>
+    </div>
+    <br><br>
+  </div>
+
+<script>
+  // "add to calendar" (.ics), built here so it needs no extra file; edit if the time or place changes
+  const ics = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//alyulina//phd-defense//EN', 'BEGIN:VEVENT',
+    'UID:lyulina-phd-defense-20270301@alyulina.github.io',
+    'DTSTAMP:20261123T000000Z',
+    'DTSTART;TZID=America/Los_Angeles:20270301T090000',
+    'DTEND;TZID=America/Los_Angeles:20270301T120000',
+    'SUMMARY:PhD Defense: Anastasia Lyulina',
+    'LOCATION:Room 122\\, Biology Department\\, Stanford University',
+    'DESCRIPTION:Join in person or online\\, and celebrate afterwards at an outdoor reception. https://alyulina.github.io/assets/defense/',
+    'END:VEVENT', 'END:VCALENDAR'
+  ].join('\r\n');
+  document.getElementById('ics').href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+
+  // abstract / chapter pills: each opens its panel; only one open at a time, click again to close
+  const tabs = [...document.querySelectorAll('.tabs .note-link')];
+  tabs.forEach(t => t.onclick = e => {
+    e.preventDefault();
+    const open = t.getAttribute('aria-expanded') !== 'true';
+    tabs.forEach(o => { o.setAttribute('aria-expanded', 'false'); document.getElementById(o.getAttribute('aria-controls')).hidden = true; });
+    if (open) { t.setAttribute('aria-expanded', 'true'); document.getElementById(t.getAttribute('aria-controls')).hidden = false; }
+  });
+
+  // password pill: click to show the password (and copy it); click again to hide it
+  const pw = document.getElementById('pw');
+  pw.onclick = e => {
+    e.preventDefault();
+    if (pw.dataset.shown) { pw.textContent = 'password'; delete pw.dataset.shown; return; }
+    pw.textContent = pw.dataset.pw; pw.dataset.shown = '1';
+    if (navigator.clipboard) navigator.clipboard.writeText(pw.dataset.pw).catch(() => {});
+  };
+
+  // replay button: appears once the beads have fallen, restarts the animation inside the frame
+  const replayRow = document.querySelector('.replay');
+  addEventListener('message', e => {
+    if (e.data && e.data.type === 'beads:rest') { replayRow.style.top = (e.data.floorY + 22) + 'px'; replayRow.classList.add('shown'); }
+    if (e.data === 'beads:start') replayRow.classList.remove('shown');
+  });
+  document.getElementById('replay').onclick = e => {
+    e.preventDefault();
+    const w = document.querySelector('iframe.beads').contentWindow;
+    if (w.build && !w.reducedMotion) w.build();
+  };
+</script>
+</body>
+</html>

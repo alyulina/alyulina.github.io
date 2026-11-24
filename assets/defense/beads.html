@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">   <!-- keeps the page out of search results; delete this line to let search engines list it -->
+<title>Threading Beads</title>
+<style>
+  :root { --bg: #ffffff; }
+  html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 100vh; }
+  html, body, canvas { cursor: url("/img/cursor_black.png"), auto !important; }   /* the site's normal cursor everywhere */
+  #ui { position: fixed; right: 16px; bottom: 16px; display: flex; gap: 8px;
+        font: 13px/1 -apple-system, system-ui, sans-serif; transition: opacity .3s; }
+  #ui button { border: 1px solid #ccc; background: #fff; color: #333; padding: 7px 11px;
+               border-radius: 6px; cursor: pointer; }
+  #ui button:hover { background: #f4f4f4; }
+  #ui.hidden { opacity: 0; pointer-events: none; }
+  #ui.off { display: none; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui" class="off">
+  <span id="seed" style="align-self:center;color:#999;margin-right:4px"></span>
+  <button id="replay">Replay</button>
+  <button id="new">New (N)</button>
+  <button id="rec">Record video</button>
+  <button id="hide" title="Press H to toggle">Hide (H)</button>
+</div>
+<script>
+// ================= tweakables =================
+const CFG = {
+  nBeads: 20,
+  r: 11,                        // bead radius (all the same)
+  border: 1.3, borderColor: '#111',
+
+  // palette: every bead gets a different colour (needs at least nBeads entries)
+  palette: [
+    // yellows (warm, not greenish)
+    '#f2c437', '#f7d871', '#fbe8ad', '#e0a52a',
+    // peach / orange
+    '#f6c391', '#dc8236', '#e5733d',
+    // reds / wine
+    '#cf4b32', '#a8323a', '#e8907f', '#74264a', '#b8687f',
+    // deep blues + lighter
+    '#14215a', '#1d3584', '#2c4ea3', '#7f9cd8', '#b9c9ee',
+    // bluer purples + lighter
+    '#5d63b0', '#8a8fcc', '#b9bce6', '#6c5aa6',
+  ],
+
+  jitterRange: [0.6, 1.8],      // beads with less / more room than usual jiggle down to / up to this times `jitter`
+  jigSpring: 60, jigDamp: 4.5, jigDampThreaded: 9, jigLively: 0.65,   // the jiggle: spring, damping before / after joining the thread, liveliness
+  feelRange: 4.8, repel: 600,   // beads feel neighbours within this many bead radii, and push away this strongly
+  jitter: 4.2,                  // px, max twitch offset
+
+  threadColor: '#cdcdcd', threadWidth: 10,
+  designH: 560,                 // px: a frame shorter than this shows the same animation, scaled down to fit
+  circle: 0.27,                 // circle radius as a fraction of the shorter window side (bigger = beads further apart)
+  // the bead order is optimised for a short thread with gentle turns and few crossings
+  turnCost: 85,                 // px of extra thread one would "pay" to avoid a 1-rad² turn
+  crossCost: 90,                // px penalty per place where the thread crosses itself
+  dropShape: 0.7, dropLength: 1.15,   // curls are drops: 0 = a circle, closer to 1 = a narrower neck and rounder tip; and how long they are
+  pickupLead: 50,               // px before the thread's tip arrives that a bead starts to settle
+  pickup: 140,                  // px of thread over which a bead eases into riding on it
+  soften: [{ at: 'first', from: -120, to: 120, width: 40 }, { at: 'last', from: -40, to: 280, width: 50 }],   // gentler entry/exit bends (px along the thread, smoothing width)
+  evenReach: 22, evenRounds: 6, threadRoomWeight: 1.6,   // evening out the spacing: px each bead may slide, rounds, and how much room from other thread counts
+  shifts: [{ seed: 2, bead: '#2c4ea3', dx: 0, dy: 16, width: 55 },   // seed 2: the last bead sits lower (a wide, gentle bend)
+           { seed: 2, bead: '#f7d871', dx: 6, dy: -6, width: 28 },   // seed 2: the light yellow bead a little up and right
+           { seed: 2, bead: '#b9bce6', dx: 18, dy: 0, width: 80 },   // seed 2: the lavender bead a little right, into the gap…
+           { seed: 2, bead: '#1d3584', dx: 18, dy: -10, width: 80 }, // …and the navy bead below it right and up (wide, so the turn is spread out)
+           { seed: 2, bead: '#14215a', dx: 8, dy: 10, width: 40 }],  // …and down, into a rounder curve
+  rawBend: 55,                  // px along the thread over which it is bent to reach a bead's starting spot
+  nudges: [{ seed: 2, bead: '#f6c391', along: 14 },    // seed 2: the light peach bead sits a little right of where it was, towards the yellow one
+           { seed: 2, bead: '#f7d871', along: 28 },    // seed 2: the light yellow bead sits a little closer to the peach one
+           { seed: 2, bead: '#a8323a', along: -18 },   // seed 2: the deep red bead sits just before its turn, so the thread curves on past it
+           { seed: 2, bead: '#fbe8ad', along: -16 },   // seed 2: the first bead sits a little further back from the crossing next to it
+           { seed: 2, bead: '#e5733d', along: 10 },    // seed 2: the red-orange bead sits midway between the two crossings around it
+           { seed: 2, bead: '#2c4ea3', along: 6 }],    // seed 2: the last bead sits a little on from the loop's crossing, not too far from the others
+  loopSizes: [28, 38, 50],      // px radii of the curls (small, medium, large), shuffled for each arrangement
+  curlClear: 10,                // px of free space a curl needs around it, or it is moved to a nearby bead
+  maxLoops: 3,                  // how many curls (placed where the thread runs smoothly with the most room)
+  minTurn: 28,                  // px: the tightest turn the thread can make (bigger = smoother, stiffer)
+  passWithin: 2.2,              // the thread only has to pass within this many bead radii of a bead to pick it up
+  relaxLag: 50, relaxLen: 420,  // px: the thread relaxes into its smooth shape starting this far behind the tip, over this length
+  maxPickupMove: 6,             // px: the furthest a bead moves when the thread picks it up
+  minBend: 24,                  // px: the tightest bend radius allowed anywhere on the thread
+  edgeOffset: 0.12,             // the first/last bead sit up to this far (fraction of radius) above/below the thread's line
+  lead: 70,                     // px of straight horizontal thread before the first / after the last bead
+  smooth: 10,                   // smoothing passes on the finished thread (higher = rounder bends)
+  beadGap: 2,                   // px: a bead is kept at least this far from any other stretch of thread
+  swaySpread: 8,                // how far (thread points) a calmed spot spreads along the thread (smaller = more sway inside the circle)
+  wiggleGap: 1,                 // px: the smallest gap left between two stretches of thread while they wiggle
+  threadedJitter: 0.3,          // fraction of its twitch a bead keeps once it is on the thread
+  wiggle: 4.5,                  // px, the "alive" undulation of the thread
+  weaveSpeed: 250,              // px of thread per second while weaving
+
+  pullAccel: 150, pullMax: 320, // px/s², px/s: how the thread slides off to the right
+  gravity: 850, bounce: 0.25, bounceRange: [0.2, 0.36], bounceMin: 60, maxBounces: 2, bounceHeights: [6, 22],   // landing: springiness range per bead, and the slowest impact that still bounces (px/s)
+  floorGap: 170,                // px below the circle where the invisible line sits
+  releaseDelay: [0, 0.45],      // s, a bead hangs on briefly after the thread leaves it
+
+  idle: 0.3, settle: 1.0,  // s  (idle: when the thread starts, while the beads are still appearing)
+  popSpan: 4, popDur: 0, popBefore: 0.5,   // s: the beads pop in one by one over popSpan (the thread starts meanwhile), each at least popBefore ahead of the thread; popDur 0 = just appears
+  colorByPosition: 0.6,         // 0 = colours follow the thread order, 1 = colours go left → right across the circle
+  maxToss: 300, maxRoll: 110,   // px/s: the strongest sideways throw as a bead drops, and how fast it can roll into place
+  maxHops: 1,                   // how many times per run a stuck bead may hop over a neighbour (all other stuck pairs swap places)
+  maxSwaps: 99,
+  hopWait: 1.8,                 // s a bead must be stuck before it hops (last resort)
+  hopHeight: 3, hopReach: 99, hopFloat: 0.5, hopPause: 0.8,   // hops over another bead: height (bead radii), max reach, how floaty (lower = slower, gentler), s between hops
+  settleBy: 24,                 // s after the thread starts pulling away: by then any bead still jostling eases into place
+  rollPull: 7, rollDamp: 5,     // how firmly a landed bead rolls towards its place, and how quickly that settles
+  colorSwaps: 3,                // how many small swaps break up the colour order along the thread
+  rowSpread: 0.25,              // the final row spreads out towards its ends: outer beads roll further to the side
+  rowGap: 3,                    // px between beads in the final row (sorted by colour: yellows → … → blues)
+  restHold: 1.5,                // s of resting on the line included at the end of a recorded video
+};
+// ==============================================
+
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+let W, H, DPR, zoom = 1, sc, floorY, beads, pts, Lw, phase, pt, t = 0, shift, speed, paused = false;
+let rec = null, fallAcc = 0, hopRest = 0, swapsLeft = 0, hopsLeft = 0, fadingIn = true, age = 0;
+const gauss = () => Math.sqrt(-2 * Math.log(1 - Math.random())) * Math.cos(6.2832 * Math.random());
+
+const lerp = (a, b, k) => a + (b - a) * k;
+let rng = Math.random;
+const mulberry32 = a => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a);
+  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+const rand = (a, b) => a + rng() * (b - a);
+// URL options:  ?seed=123  fixed arrangement · ?controls  show the buttons · ?bg=transparent  no background
+const params = new URLSearchParams(location.search);
+let seed = parseInt(params.get('seed')) || Math.floor(Math.random() * 1e6);
+const transparentBg = params.get('bg') === 'transparent';
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let visible = false, isStatic = false;
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const wrap = a => Math.atan2(Math.sin(a), Math.cos(a));
+
+function resize() {
+  DPR = window.devicePixelRatio || 1;
+  // a frame shorter than CFG.designH is laid out at full size and drawn scaled down, so small screens
+  // get exactly the same beads and movement, only smaller
+  zoom = Math.min(1, innerHeight / CFG.designH);
+  W = innerWidth / zoom; H = innerHeight / zoom;
+  cv.width = Math.round(innerWidth * DPR); cv.height = Math.round(innerHeight * DPR);
+  ctx.setTransform(DPR * zoom, 0, 0, DPR * zoom, 0, 0);
+  build();
+}
+
+function build(noFade) {
+  rng = mulberry32(seed);
+  document.getElementById('seed').textContent = 'seed ' + seed;
+  sc = Math.min(1, Math.min(W, H) / 650);
+  const R = Math.min(W, H) * CFG.circle, r = CFG.r * sc, cx = W / 2;
+  // keep room above the circle for the biggest outward curl, so it never gets cut off at the top
+  const curlRoom = 2 * Math.max(...CFG.loopSizes) * 1.1 * sc + 12 * sc;
+  const cy = Math.max(R + curlRoom, (H - (R + CFG.floorGap * sc)) / 2);
+
+  // ---- filled disc of beads (best-candidate sampling: evenly spread, round outline) ----
+  const cols = CFG.palette.map(c => [rng(), c]).sort((a, b) => a[0] - b[0]).map(p => p[1]);
+  beads = [];
+  const n = CFG.nBeads, Rin = R - r;
+  for (let i = 0; i < n; i++) {
+    let best = null, bestD = -1;
+    // the first two beads sit on the thread's line at the left and right edge of the circle,
+    // so the thread runs straight into the first one and straight out of the last one
+    if (i < 2) {
+      const dy = rand(-1, 1) * CFG.edgeOffset * Rin;
+      best = { x: cx + (i === 0 ? -1 : 1) * Math.sqrt(Rin * Rin - dy * dy), y: cy + dy };
+    }
+    for (let k = 0; k < 80 && i > 1; k++) {
+      const a = rng() * Math.PI * 2, d = Math.sqrt(rng()) * Rin;
+      const x = cx + Math.cos(a) * d, y = cy + Math.sin(a) * d;
+      const md = Math.min(beads.reduce((m, b) => Math.min(m, Math.hypot(b.x0 - x, b.y0 - y)), Infinity),
+                          2 * (Rin - Math.hypot(x - cx, y - cy)) + 2 * r);   // also keep the rim filled
+      if (md > bestD) { bestD = md; best = { x, y }; }
+    }
+    beads.push({ x0: best.x, y0: best.y, r, col: cols[i % cols.length],
+                 ox: 0, oy: 0, on: 0, falling: false });
+  }
+  // ---- choose the bead order: short thread, gentle turns, few self-crossings ----
+  // the thread comes in and leaves horizontally, level with the middle of the circle
+  const lead = CFG.lead * sc;
+  const E = { x0: cx - R - lead, y0: cy }, X = { x0: cx + R + lead, y0: cy };
+  const E0 = { x0: E.x0 - 100, y0: cy }, X0 = { x0: X.x0 + 100, y0: cy };   // so turns at E and X count
+  const turnAt = (a, b, c) => wrap(Math.atan2(c.y0 - b.y0, c.x0 - b.x0) - Math.atan2(b.y0 - a.y0, b.x0 - a.x0));
+  const crosses = (p, q, r2, s2) => {
+    const o = (a, b, c) => Math.sign((b.x0 - a.x0) * (c.y0 - a.y0) - (b.y0 - a.y0) * (c.x0 - a.x0));
+    return o(p, q, r2) * o(p, q, s2) < 0 && o(r2, s2, p) * o(r2, s2, q) < 0;
+  };
+  const cost = ord => {
+    const q = [E0, E, beads[0], ...ord.map(i => beads[i]), beads[1], X, X0];
+    let c = 0;
+    for (let i = 1; i < q.length; i++) c += Math.hypot(q[i].x0 - q[i - 1].x0, q[i].y0 - q[i - 1].y0);
+    for (let i = 1; i < q.length - 1; i++) c += CFG.turnCost * sc * turnAt(q[i - 1], q[i], q[i + 1]) ** 2;
+    for (let i = 0; i < q.length - 1; i++) for (let j = i + 2; j < q.length - 1; j++)
+      if (crosses(q[i], q[i + 1], q[j], q[j + 1])) c += CFG.crossCost * sc;
+    return c;
+  };
+  let bestOrd = null, bestC = Infinity;
+  for (let start = 0; start < 4; start++) {
+    let ord = [...beads.keys()].slice(2);   // the two edge beads stay first and last
+    if (start === 0) ord.sort((a, b) => beads[a].x0 - beads[b].x0);
+    else ord.sort(() => rng() - 0.5);
+    let c = cost(ord);
+    for (let it = 0; it < 6000; it++) {
+      const i = Math.floor(rng() * ord.length), j = Math.floor(rng() * ord.length);
+      if (i === j) continue;
+      const nw = [...ord];
+      if (rng() < 0.5) {                       // reverse a stretch (2-opt)
+        const [a, b] = i < j ? [i, j] : [j, i];
+        nw.splice(a, b - a + 1, ...ord.slice(a, b + 1).reverse());
+      } else {                                 // move one bead elsewhere
+        const [m] = nw.splice(i, 1); nw.splice(j, 0, m);
+      }
+      const nc = cost(nw);
+      if (nc < c) { ord = nw; c = nc; }
+    }
+    if (c < bestC) { bestC = c; bestOrd = ord; }
+  }
+  beads = [beads[0], ...bestOrd.map(i => beads[i]), beads[1]];
+  // deal the colours out along the thread in (mostly) sorted order, so it picks them up as a loose gradient
+  {
+    // blend of left→right position and thread order: the thread still meets the colours mostly in order,
+    // and each bead's place in the final row ends up roughly below where it falls from
+    const cs = beads.map(b => b.col).sort(colorCmp);
+    for (let k = 0; k < CFG.colorSwaps; k++) {   // a few small swaps so it is only *mostly* in order
+      const i = Math.floor(rng() * (cs.length - 1)), j = Math.min(cs.length - 1, i + 1 + Math.floor(rng() * 2));
+      [cs[i], cs[j]] = [cs[j], cs[i]];
+    }
+    const xRank = new Map([...beads].sort((a, b) => a.x0 - b.x0).map((b, i) => [b, i]));
+    const byKey = beads.map((b, i) => [CFG.colorByPosition * xRank.get(b) + (1 - CFG.colorByPosition) * i, b]).sort((a, b) => a[0] - b[0]);
+    byKey.forEach(([, b], i) => b.col = cs[i]);
+  }
+  beads.forEach(b => { b.ix = b.x0; b.iy = b.y0; });   // where each bead starts
+  // a few round curls, placed at beads where the thread runs smoothly with room on both sides
+  const seq = [E, ...beads, X];
+  beads.forEach((b, i) => {
+    b.turn = turnAt(seq[i], b, seq[i + 2]);
+  });
+  // spread the curls out: one near the start of the thread and one near its end, both on the outer edge
+  // (windows of ~6 beads: the first one at the start of the thread, the last one at its end, others evenly between)
+  const win = Math.min(6, beads.length - 2), m = CFG.maxLoops;
+  for (let part = 0; part < m; part++) {
+    const lo = 1 + (m === 1 ? Math.floor((beads.length - 2 - win) / 2) : Math.round(part * (beads.length - 2 - win) / (m - 1))), hi = lo + win;
+    // only beads on the outer edge of the circle, where the thread runs along the edge (so the curl can point outward)
+    const score = b => {
+      const i = beads.indexOf(b), pv = seq[i], nx = seq[i + 2];
+      let tx = nx.x0 - pv.x0, ty = nx.y0 - pv.y0; const tn = Math.hypot(tx, ty) || 1; tx /= tn; ty /= tn;
+      const rr = Math.hypot(b.x0 - cx, b.y0 - cy) || 1, along = 1 - Math.abs(tx * (b.x0 - cx) / rr + ty * (b.y0 - cy) / rr);
+      return (rr / Rin) * 2 + along;
+    };
+    const cand = beads.slice(lo, hi)
+      .filter(b => Math.hypot(b.x0 - cx, b.y0 - cy) > 0.7 * Rin)
+      .filter(b => beads.every(o => !o.loop || Math.hypot(o.x0 - b.x0, o.y0 - b.y0) > 0.8 * R))   // curls well apart
+      .sort((a, b) => score(b) - score(a));
+    if (cand[0]) cand[0].loop = true;
+  }
+  // if a stretch had no bead on the edge, take the best remaining edge bead anywhere (still kept apart)
+  for (let k = beads.filter(b => b.loop).length; k < CFG.maxLoops; k++) {
+    const seqI = b => beads.indexOf(b);
+    const pick = beads.slice(1, -1)
+      .filter(b => !b.loop && Math.hypot(b.x0 - cx, b.y0 - cy) > 0.7 * Rin)
+      .filter(b => beads.every(o => !o.loop || Math.hypot(o.x0 - b.x0, o.y0 - b.y0) > 0.8 * R))
+      .sort((a, b) => Math.hypot(b.x0 - cx, b.y0 - cy) - Math.hypot(a.x0 - cx, a.y0 - cy))[0];
+    if (!pick) break;
+    pick.loop = true;
+  }
+  // give the curls different sizes
+  {
+    const sizes = CFG.loopSizes.map(v => [rng(), v]).sort((a, b) => a[0] - b[0]).map(p => p[1]);
+    beads.filter(b => b.loop).forEach((b, k) => b.loopSize = sizes[k % sizes.length] * rand(0.9, 1.1));
+  }
+  // ---- the thread: a "pen" that cannot turn tighter than minTurn, so it never kinks ----
+  // It aims at each bead in turn and only has to pass close by; once the tip has gone past,
+  // the bead slides the short distance onto the thread (the thread "relaxing" around it).
+  const ds = 2, kMax = 1 / (CFG.minTurn * sc), hitR = CFG.passWithin * r;
+  let x, y, th;
+  const move = k => { th += k * ds; x += Math.cos(th) * ds; y += Math.sin(th) * ds; pts.push({ x, y }); };
+  const steer = (tx, ty) => move(Math.max(-kMax, Math.min(kMax, wrap(Math.atan2(ty - y, tx - x) - th) * 0.05 / sc)));
+  const seek = (tx, ty) => {
+    let minD = Infinity, minI = pts.length - 1;
+    for (let s = 0; s < 2500; s++) {
+      const d = Math.hypot(tx - x, ty - y);
+      if (d < minD) { minD = d; minI = pts.length - 1; }
+      const behind = Math.cos(th) * (tx - x) + Math.sin(th) * (ty - y) < 0;
+      if (d < 1.5 || (behind && minD < hitR)) break;        // passed through or close by
+      if (behind && minD < 3 * hitR && d > minD + 6) break;  // went past a bit wide: don't circle back for it
+      steer(tx, ty);
+    }
+    return minI;
+  };
+  // a drop-shaped curl: gentle at the neck, rounder at the tip, turning a full turn in all;
+  // the tip is never tighter than minTurn. Returns the curvature for each step.
+  // (gentle where it leaves and rejoins, round at the tip, so the thread crosses itself at the neck: a teardrop)
+  const dropKs = rho => {
+    const a = CFG.dropShape, kMaxTip = 1 / (CFG.minTurn * sc);
+    const L = Math.max(2 * Math.PI * rho * CFG.dropLength, (1 + a) * 2 * Math.PI / kMaxTip);
+    const steps = Math.round(L / ds), kAvg = 2 * Math.PI / (steps * ds);
+    return Array.from({ length: steps }, (_, s) => kAvg * (1 - a * Math.cos(2 * Math.PI * (s + 0.5) / steps)));
+  };
+  const runPen = () => {
+    x = -120; y = cy; th = 0; pts = [{ x, y }];
+    while (x < E.x0) move(0);   // straight, horizontal entry
+    beads.forEach(b => {
+      b.idx = seek(b.x0, b.y0);
+      if (b.loop) {   // a round curl, curling outward, away from the middle of the circle
+        const side = (-Math.sin(th) * (x - cx) + Math.cos(th) * (y - cy)) >= 0 ? 1 : -1, rho = Math.max(CFG.minTurn, b.loopSize) * sc;
+        b.rho = rho;
+        b.loopFrom = pts.length;
+        b.dropKs = dropKs(rho);
+        for (const k of b.dropKs) move(side * k);
+        b.loopTo = pts.length;
+        // centre and size of the drop, for the "does it have room" check
+        const lp = pts.slice(b.loopFrom, b.loopTo), mx = lp.reduce((s, p) => s + p.x, 0) / lp.length, my = lp.reduce((s, p) => s + p.y, 0) / lp.length;
+        b.loopC = { x: mx, y: my }; b.rho = lp.reduce((s, p) => s + Math.hypot(p.x - mx, p.y - my), 0) / lp.length;
+      }
+    });
+    // exit: ease back onto the horizontal line y = cy and run out straight
+    for (let s = 0; s < 4000 && x < W + 120; s++) steer(x + lead, cy);
+  };
+  // how much free space a curl centred at c with radius rho has (from the rest of the thread and the other beads)
+  const clearance = (c, rho, owner, from, to) => {
+    let m = Infinity;
+    for (let i = 0; i < pts.length; i += 2) {
+      if (i >= from - 30 && i <= to + 30) continue;   // its own curl and where it joins the thread
+      m = Math.min(m, Math.hypot(pts[i].x - c.x, pts[i].y - c.y) - rho);
+    }
+    beads.forEach(o => { if (o !== owner) m = Math.min(m, Math.hypot(o.x0 - c.x, o.y0 - c.y) - rho - r); });
+    return m;
+  };
+  // where a curl would go if it were placed at bead b on the current thread
+  const curlAt = (b, rho) => {
+    const P = pts[b.idx], A = pts[Math.max(0, b.idx - 3)], B = pts[Math.min(pts.length - 1, b.idx + 3)];
+    let tx = B.x - A.x, ty = B.y - A.y; const tn = Math.hypot(tx, ty) || 1; tx /= tn; ty /= tn;
+    const side = (-ty * (P.x - cx) + tx * (P.y - cy)) >= 0 ? 1 : -1;
+    return { x: P.x - ty * side * rho, y: P.y + tx * side * rho };
+  };
+  // draw the thread; if a curl overlaps another part of the thread or a bead, keep it in the same spot but
+  // make it from another (outer) pass of the thread that runs by there, and draw again
+  const need = CFG.curlClear * sc;
+  for (let attempt = 0; attempt < 4; attempt++) {
+    runPen();
+    const bad = beads.filter(b => b.loop && clearance(b.loopC, b.rho, b, b.loopFrom, b.loopTo) < need);
+    if (!bad.length || attempt === 3) break;
+    let moved = false;
+    bad.forEach(b => {
+      const rho = b.rho, others = beads.filter(o => o.loop && o !== b);
+      // keep the curl in the same spot, but make it from another pass of the thread that runs by there
+      const cands = beads.slice(1, -1)
+        .filter(c => !c.loop && Math.abs(c.idx - b.idx) > 60)
+        .map(c => { const cc = curlAt(c, rho); return [c, clearance(cc, rho, c, c.idx, c.idx), Math.hypot(c.x0 - b.x0, c.y0 - b.y0), Math.hypot(cc.x - b.loopC.x, cc.y - b.loopC.y)]; })
+        .filter(([, , , dd]) => dd < 4 * rho);   // the new curl stays near the old one; prefer the bead closest to the old bead
+      const best = (cands.filter(([, cl]) => cl >= need).sort((p, q) => p[2] - q[2])[0])
+                || cands.sort((p, q) => q[1] - p[1])[0];
+      if (best && best[1] > clearance(b.loopC, b.rho, b, b.loopFrom, b.loopTo)) {
+        best[0].loop = true; best[0].loopSize = b.loopSize; best[0].turn = b.turn; b.loop = false; moved = true;
+      }
+    });
+    if (!moved) break;
+  }
+
+  // light smoothing, then iron out any spot tighter than minBend (beads follow the thread)
+  for (let it = 0; it < CFG.smooth; it++) {
+    const q = pts.map(p => ({ ...p }));
+    for (let i = 1; i < pts.length - 1; i++) {
+      pts[i].x = (q[i - 1].x + 2 * q[i].x + q[i + 1].x) / 4;
+      pts[i].y = (q[i - 1].y + 2 * q[i].y + q[i + 1].y) / 4;
+    }
+  }
+  const rMin = CFG.minBend * sc;
+  const radiusAt = i => {
+    const a = pts[i - 2], b = pts[i], c = pts[i + 2];
+    const A = Math.hypot(b.x - a.x, b.y - a.y), B = Math.hypot(c.x - b.x, c.y - b.y), Cc = Math.hypot(c.x - a.x, c.y - a.y);
+    const area = Math.abs((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)) / 2;
+    return area < 1e-9 ? Infinity : A * B * Cc / (4 * area);
+  };
+  for (let it = 0; it < 400; it++) {
+    let fixed = 0;
+    for (let i = 2; i < pts.length - 2; i++) {
+      if (radiusAt(i) >= rMin) continue;
+      for (let k = i - 1; k <= i + 1; k++) {
+        pts[k].x = (pts[k - 1].x + 2 * pts[k].x + pts[k + 1].x) / 4;
+        pts[k].y = (pts[k - 1].y + 2 * pts[k].y + pts[k + 1].y) / 4;
+      }
+      fixed++;
+    }
+    if (!fixed) break;
+  }
+  // soften the stretches where the thread enters (around the first bead) and leaves (after the last bead):
+  // a wide, gentle smoothing of just those windows, faded in and out at their ends so nothing else moves
+  {
+    CFG.soften.forEach(w => {
+      const b = w.at === 'first' ? beads[0] : beads[beads.length - 1];
+      const c = b.idx, a0 = Math.max(1, c + Math.round(w.from / 2)), a1 = Math.min(pts.length - 2, c + Math.round(w.to / 2));
+      const sg = w.width / 2, span = Math.ceil(3 * sg), q = pts.map(p => ({ x: p.x, y: p.y })), fade = 20;
+      for (let i = a0; i <= a1; i++) {
+        let sx = 0, sy = 0, sw = 0;
+        for (let k = Math.max(0, i - span); k <= Math.min(q.length - 1, i + span); k++) {
+          const g = Math.exp(-(((k - i) / sg) ** 2) / 2); sx += g * q[k].x; sy += g * q[k].y; sw += g;
+        }
+        const f = Math.min(1, (i - a0) / fade, (a1 - i) / fade);
+        pts[i].x = q[i].x + f * (sx / sw - q[i].x); pts[i].y = q[i].y + f * (sy / sw - q[i].y);
+      }
+    });
+  }
+  let L = 0;
+  pts.forEach((p, i) => {
+    if (i) L += Math.hypot(p.x - pts[i - 1].x, p.y - pts[i - 1].y);
+    p.L = L;
+    const a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)];
+    const tx = b.x - a.x, ty = b.y - a.y, nn = Math.hypot(tx, ty) || 1;
+    p.tx = tx / nn; p.ty = ty / nn;
+  });
+  Lw = L;
+  // how far each bit of thread may sway when it wiggles: never so far that it touches another stretch of itself
+  {
+    const tw = CFG.threadWidth * sc, aMax = CFG.wiggle * sc * 1.9, n = pts.length, gapSkip = Math.round(60 / 2);
+    const raw = new Float32Array(n);
+    for (let i = 0; i < n; i++) {
+      let m = Infinity;
+      for (let j = 0; j < n; j += 2) {
+        if (Math.abs(i - j) < gapSkip) continue;   // its own neighbourhood along the thread
+        const d = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y);
+        if (d < m) m = d;
+      }
+      // both stretches may sway towards each other, so each gets half the free gap
+      raw[i] = Math.max(0, Math.min(1, (m - tw - CFG.wiggleGap * sc) / 2 / aMax));
+    }
+    // spread the calm parts out a little along the thread, then smooth, so the sway fades in and out gently
+    const win = CFG.swaySpread, lo = new Float32Array(n);
+    for (let i = 0; i < n; i++) { let m = 1; for (let k = Math.max(0, i - win); k <= Math.min(n - 1, i + win); k++) m = Math.min(m, raw[k]); lo[i] = m; }
+    for (let i = 0; i < n; i++) { let sum = 0, c = 0; for (let k = Math.max(0, i - win); k <= Math.min(n - 1, i + win); k++) { sum += lo[k]; c++; } pts[i].amp = sum / c; }
+  }
+  // beads sit exactly on the thread (from the very start, so nothing jumps)
+  // is a bead at thread point i covered by some other stretch of the thread (not the bit it sits on)?
+  const coverR = CFG.r * sc + CFG.threadWidth * sc / 2 + CFG.beadGap * sc;
+  const underOther = i => {
+    const p = pts[i];
+    for (let k = 0; k < pts.length; k += 2) {
+      if (Math.abs(k - i) < 40) continue;
+      if (Math.hypot(pts[k].x - p.x, pts[k].y - p.y) < coverR) return true;
+    }
+    return false;
+  };
+  // each bead's spot on the thread: as close as possible to where it was, never on top of another bead,
+  // and never where another stretch of the thread runs over it (then it slides along its own thread to clear it)
+  const clear = 2 * CFG.r * sc + 2;
+  beads.forEach((b, bi) => {
+    let best = b.idx, bestD = Infinity;
+    for (let i = Math.max(1, b.idx - 45); i < Math.min(pts.length - 1, b.idx + 45); i++) {
+      const p = pts[i];
+      if (beads.slice(0, bi).some(o => Math.hypot(o.hx - p.x, o.hy - p.y) < clear)) continue;
+      if (underOther(i)) continue;   // another stretch of thread would run over the bead here
+      const dd = Math.hypot(p.x - b.ix, p.y - b.iy);
+      if (dd < bestD) { bestD = dd; best = i; }
+    }
+    b.idx = best; const p = pts[best]; b.u = p.L; b.hx = p.x; b.hy = p.y;
+  });
+  // hand-placed nudges for a particular arrangement: slide a bead along its own thread by `along` px
+  // (positive = forwards along the thread); if that spot is under another stretch, it keeps going until clear
+  (CFG.nudges || []).filter(nd => nd.seed === seed).forEach(nd => {
+    const b = beads.find(o => o.col === nd.bead); if (!b) return;
+    const target = pts[b.idx].L + nd.along * sc, dir = Math.sign(nd.along) || 1;
+    let i = b.idx; while (i > 1 && i < pts.length - 2 && (pts[i].L - target) * dir < 0) i += dir;
+    for (let k = 0; k < 30 && (underOther(i) || beads.some(o => o !== b && Math.hypot(o.hx - pts[i].x, o.hy - pts[i].y) < clear)); k++) i += dir;
+    b.idx = i; const q = pts[i]; b.u = q.L; b.hx = q.x; b.hy = q.y;
+  });
+
+  // even out the spacing: each bead may slide a short way along its own thread towards the spot that gives it
+  // the most room from the other beads (and from other stretches of thread), a few rounds so they balance out
+  {
+    const reach = Math.round(CFG.evenReach * sc / 2), base = beads.map(b => b.idx);
+    const roomFromThread = i => {
+      let m = Infinity;
+      for (let k = 0; k < pts.length; k += 2) { if (Math.abs(k - i) < 40) continue; const d = Math.hypot(pts[k].x - pts[i].x, pts[k].y - pts[i].y); if (d < m) m = d; }
+      return m;
+    };
+    // aim for the typical spacing: crowded beads spread out, lonely ones come back in a little
+    const nnOf = (q, b) => Math.min(...beads.filter(o => o !== b).map(o => Math.hypot(o.hx - q.x, o.hy - q.y)));
+    const nn0 = beads.map(b => nnOf({ x: b.hx, y: b.hy }, b)).sort((a, b) => a - b), target = nn0[Math.floor(nn0.length / 2)];
+    for (let round = 0; round < CFG.evenRounds; round++) {
+      beads.forEach((b, bi) => {
+        if (bi === 0 || bi === beads.length - 1) return;   // the first and last beads keep their hand-placed spots
+        let best = b.idx, bestS = -Infinity;
+        for (let i = Math.max(1, base[bi] - reach); i <= Math.min(pts.length - 2, base[bi] + reach); i++) {
+          const q = pts[i];
+          const nb = Math.min(...beads.filter(o => o !== b).map(o => Math.hypot(o.hx - q.x, o.hy - q.y)));
+          if (nb < clear || underOther(i)) continue;
+          // stay inside the circle (as if the rim were a neighbour), so the beads fill it evenly
+          const rim = 2 * (R + r - Math.hypot(q.x - cx, q.y - cy));
+          const sc2 = Math.min(nb, target, rim, CFG.threadRoomWeight * roomFromThread(i)) - 0.6 * Math.max(0, nb - target);
+          if (sc2 > bestS + 0.01) { bestS = sc2; best = i; }
+        }
+        b.idx = best; const q = pts[best]; b.u = q.L; b.hx = q.x; b.hy = q.y;
+      });
+    }
+  }
+
+  // hand-placed shifts: gently bend the thread around a bead (a smooth local bump) so the bead moves with it
+  (CFG.shifts || []).filter(sh => sh.seed === seed).forEach(sh => {
+    const b = beads.find(o => o.col === sh.bead); if (!b) return;
+    const L0 = pts[b.idx].L, sig = (sh.width || 25) * sc;
+    pts.forEach(q => { const g = Math.exp(-(((q.L - L0) / sig) ** 2)); q.x += g * sh.dx * sc; q.y += g * sh.dy * sc; });
+    beads.forEach(o => { o.hx = pts[o.idx].x; o.hy = pts[o.idx].y; });
+  });
+
+  // ---- the "raw" shape the thread has right after it is pulled through: the final thread, bent locally so it
+  //      passes through where each bead is sitting. Behind its tip the thread relaxes from this into its final
+  //      shape, carrying its beads along. (Built from the final thread, so the loops are whole the entire time.) ----
+  {
+    const sig = CFG.rawBend * sc;
+    pts.forEach(p => { p.rx = p.x; p.ry = p.y; });
+    const cap = CFG.maxPickupMove * sc;
+    beads.forEach(b => {
+      const dx = b.x0 - b.hx, dy = b.y0 - b.hy, d = Math.hypot(dx, dy);
+      if (d > cap) { b.x0 = b.hx + dx * cap / d; b.y0 = b.hy + dy * cap / d; }
+    });
+    const pulls = beads.map(b => ({ L: pts[b.idx].L, dx: b.x0 - b.hx, dy: b.y0 - b.hy }));
+    pts.forEach(p => {
+      let wsum = 0, ox = 0, oy = 0;
+      for (const q of pulls) { const g = Math.exp(-(((p.L - q.L) / sig) ** 2)); wsum += g; ox += g * q.dx; oy += g * q.dy; }
+      const k = 1 / Math.max(1, wsum);   // overlapping pulls never add up to more than one bead's worth
+      p.rx = p.x + ox * k; p.ry = p.y + oy * k;
+    });
+    beads.forEach(b => { b.ix = pts[b.idx].rx; b.iy = pts[b.idx].ry; });   // exactly on the raw thread
+  }
+
+  floorY = Math.min(H - 20 * sc, cy + R + CFG.floorGap * sc);   // the invisible line
+  // how much each bead may jiggle: more when it has more room around it
+  {
+    const free = beads.map(b => Math.min(...beads.filter(o => o !== b).map(o => Math.hypot(o.ix - b.ix, o.iy - b.iy))) - 2 * b.r);
+    const med = [...free].sort((a, b) => a - b)[Math.floor(free.length / 2)] || 1;
+    beads.forEach((b, i) => {
+      const k = Math.max(CFG.jitterRange[0], Math.min(CFG.jitterRange[1], free[i] / med));
+      b.jit = Math.min(CFG.jitter * sc * k, Math.max(1, free[i] / 2 - 1));
+    });
+  }
+  // each bead's place in the final row, sorted by colour
+  {
+    const order = [...beads].sort((a, b) => colorCmp(a.col, b.col));
+    const gap = CFG.rowGap * sc, total = order.reduce((s, b) => s + 2 * b.r + gap, -gap);
+    let xx = W / 2 - total / 2;
+    order.forEach(b => { b.slotX = xx + b.r; xx += 2 * b.r + gap; });
+    const half = total / 2 || 1, edge = W / 2 - CFG.r * sc - 16 * sc;   // never off the page
+    let stretch = 1 + CFG.rowSpread;
+    if (half * stretch > edge) stretch = Math.max(1, edge / half);
+    order.forEach(b => {
+      const f = (b.slotX - W / 2) / half;   // -1 … 1 along the row
+      b.slotX = W / 2 + (b.slotX - W / 2) * (1 + (stretch - 1) * f * f);   // the further out, the further it rolls
+    });
+  }
+  fallAcc = 0; swapsLeft = CFG.maxSwaps; hopsLeft = CFG.maxHops;
+
+  phase = 'idle'; pt = 0; shift = 0; speed = 0; fadingIn = !noFade; age = 0;
+  // the beads pop in one at a time at a steady pace over popSpan, in a loose left-to-right order (shuffled a little),
+  // and the thread starts weaving while they are still appearing; each shows up at least popBefore ahead of the thread
+  { const due = b => CFG.idle + (b.u - CFG.pickupLead * sc) / CFG.weaveSpeed - CFG.popBefore;
+    const order = beads.map(b => [due(b) * (0.35 + 0.65 * Math.random()), b]).sort((a, c) => a[0] - c[0]);
+    order.forEach(([, b], i) => b.popAt = Math.max(0, Math.min(due(b), i * CFG.popSpan / Math.max(1, beads.length - 1)))); }
+  if (parent !== window) parent.postMessage('beads:start', '*');
+}
+
+// beads settled on the line: they stay there until a click replays it
+// (tells an embedding page, so it can show its replay button)
+// (tells an embedding page where the beads landed, so it can put its replay button just below them)
+function toRest() { phase = 'rest'; pt = 0; if (parent !== window) parent.postMessage({ type: 'beads:rest', floorY: floorY * zoom }, '*'); }
+
+// once settled, the beads hop into a row sorted by colour: yellows → oranges → reds → wines → purples → blues
+const hueKey = hex => {
+  const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn, l = (mx + mn) / 2;
+  let h = 0;
+  if (d) h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  h = (h * 60 + 360) % 360;
+  return [(55 - h + 360) % 360, l];   // start at yellow and go round through red to purple and blue
+};
+// colour order used for the final row: by colour family, then light → dark
+const colorCmp = (a, b) => { const ka = hueKey(a), kb = hueKey(b); return Math.round(ka[0] / 20) - Math.round(kb[0] / 20) || kb[1] - ka[1]; };
+
+// point on the path at arc length u (straight extensions beyond the ends)
+function pathAt(u) {
+  if (u <= 0) { const p = pts[0]; return { x: p.x + u, y: p.y, rx: p.x + u, ry: p.y, tx: 1, ty: 0, amp: p.amp }; }
+  if (u >= Lw) { const p = pts[pts.length - 1]; return { x: p.x + (u - Lw), y: p.y, rx: p.x + (u - Lw), ry: p.y, tx: 1, ty: 0, amp: p.amp }; }
+  let lo = 0, hi = pts.length - 1;
+  while (hi - lo > 1) { const m = (lo + hi) >> 1; pts[m].L < u ? lo = m : hi = m; }
+  const a = pts[lo], b = pts[hi], k = (u - a.L) / (b.L - a.L || 1);
+  return { x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), rx: lerp(a.rx, b.rx, k), ry: lerp(a.ry, b.ry, k),
+           tx: lerp(a.tx, b.tx, k), ty: lerp(a.ty, b.ty, k), amp: lerp(a.amp, b.amp, k) };
+}
+// how far the thread has relaxed at arc length u: 0 = still in the shape it was pulled through (raw),
+// 1 = settled into the smooth shape. It relaxes a little way behind the tip, after picking each bead up.
+let relaxHead = 0;
+function relaxAt(u) {
+  if (phase === 'idle') return 0;
+  if (phase !== 'weave' && phase !== 'settle') return 1;
+  const k = clamp01((relaxHead - u - CFG.relaxLag * sc) / (CFG.relaxLen * sc));
+  return k * k * (3 - 2 * k);
+}
+// slow travelling undulation so the thread looks alive
+const wig = u => CFG.wiggle * sc * (Math.sin(u / 85 - t * 2.0) + 0.6 * Math.sin(u / 41 + t * 2.9 + 1.3)
+                                     + 0.3 * Math.sin(u / 19 - t * 6.5 + 0.7));   // small faster ripple
+function threadAt(u) {
+  const p = pathAt(u), w = wig(u) * p.amp, e = relaxAt(u);
+  return { x: lerp(p.rx, p.x, e) - p.ty * w, y: lerp(p.ry, p.y, e) + p.tx * w, tx: p.tx, ty: p.ty };
+}
+
+function step(dt) {
+  t += dt; pt += dt; age += dt;
+  const dur = { idle: CFG.idle, weave: Lw / CFG.weaveSpeed, settle: CFG.settle };
+  if (dur[phase] !== undefined && pt >= dur[phase]) {
+    phase = { idle: 'weave', weave: 'settle', settle: 'pull' }[phase]; pt = 0;
+  }
+  if (phase === 'pull') {
+    speed = Math.min(CFG.pullMax, speed + CFG.pullAccel * dt);
+    shift += speed * dt;
+  }
+  const head = phase === 'idle' ? 0 : phase === 'weave' ? (pt / dur.weave) * Lw : Lw + shift;
+  const tail = shift;
+  relaxHead = phase === 'settle' ? Lw + pt * CFG.weaveSpeed : head;
+  for (const b of beads) {
+    // smooth, springy jiggle: each bead drifts on a soft spring, nudged by small random pushes,
+    // and gently pushes away from neighbours that come close (they "feel" each other)
+    {
+      // free beads are lively; once the thread has them they calm down (less push, more damping)
+      const calm = b.on || 0, amp = b.jit ?? CFG.jitter * sc, k = CFG.jigSpring;
+      const c = CFG.jigDamp + (CFG.jigDampThreaded - CFG.jigDamp) * calm;
+      const sig = amp * CFG.jigLively * (1 - 0.6 * calm) * Math.sqrt(2 * c * k);
+      let fx = 0, fy = 0;
+      if (!b.falling && b.on < 1 && isFinite(b.x)) for (const o of beads) {
+        if (o === b || o.falling || !isFinite(o.x)) continue;
+        const dx = b.x - o.x, dy = b.y - o.y, d = Math.hypot(dx, dy), R0 = CFG.feelRange * b.r;
+        if (d < R0 && d > 1e-3) { const s2 = CFG.repel * sc * (1 - d / R0) / d; fx += dx * s2; fy += dy * s2; }
+      }
+      const sq = Math.sqrt(Math.max(0, dt));
+      b.jvx = (b.jvx || 0) + (-k * b.ox - c * (b.jvx || 0) + fx) * dt + sig * sq * gauss();
+      b.jvy = (b.jvy || 0) + (-k * b.oy - c * (b.jvy || 0) + fy) * dt + sig * sq * gauss();
+      b.ox += b.jvx * dt; b.oy += b.jvy * dt;
+      const lim = 2 * amp, ol = Math.hypot(b.ox, b.oy); if (ol > lim) { b.ox *= lim / ol; b.oy *= lim / ol; }
+      if (!isFinite(b.ox + b.oy + b.jvx + b.jvy)) { b.ox = b.oy = b.jvx = b.jvy = 0; }   // never let a bad number spread
+    }
+    b.on = clamp01((head - b.u + CFG.pickupLead * sc) / (CFG.pickup * sc));   // starts settling just before the thread reaches it
+    if (!b.falling && phase === 'pull' && tail >= b.u) {
+      if (b.release === undefined) b.release = t + rand(...CFG.releaseDelay);
+      if (t >= b.release) {
+        b.falling = true;
+        b.bounce = rand(...CFG.bounceRange); b.bounceMax = rand(...CFG.bounceHeights);   // each bead its own springiness: a couple of small bounces, different heights
+        b.vy = rand(-60, 0) * sc;
+        // one gentle sideways nudge, worked out so it lands on its spot (a natural arc, not a magnetic pull)
+        const g = CFG.gravity, dy = (floorY - b.r) - b.y;
+        const tFall = (b.vy + Math.sqrt(b.vy * b.vy + 2 * g * Math.max(0, dy))) / g;
+        b.vx = Math.max(-CFG.maxToss * sc, Math.min(CFG.maxToss * sc, (b.slotX - b.x) / Math.max(0.2, tFall)));
+      }
+    }
+    if (b.falling) {
+      continue;   // integrated below
+    } else {
+      const p = pathAt(b.u), w = wig(b.u) * b.on * p.amp, j = 1 - (1 - CFG.threadedJitter) * b.on;   // keeps a little twitch once threaded
+      const e = relaxAt(b.u);   // carried along as the thread relaxes
+      // once on the thread, the jiggle that would push a bead off its centre line fades fast; it may still shimmy along it
+      const along = b.ox * p.tx + b.oy * p.ty, across = -b.ox * p.ty + b.oy * p.tx, off = Math.pow(1 - b.on, 2);
+      b.x = lerp(b.ix, b.hx, e) - p.ty * w + p.tx * along * j - p.ty * across * off;
+      b.y = lerp(b.iy, b.hy, e) + p.tx * w + p.ty * along * j + p.tx * across * off;
+    }
+  }
+  // ---- fallen beads: real 2-D physics on the line. They fall with a gentle toss, then roll towards their
+  //      colour-sorted place; they never overlap: they bump, push and climb over each other (flat, no depth) ----
+  const fallen = beads.filter(b => b.falling), H = 1 / 120;
+  const easeIn = phase === 'pull' && pt > CFG.settleBy;
+  let hopper = fallen.find(b => b.hopping) || null;
+  if (!hopper) hopRest = Math.max(0, hopRest - dt);   // safety net: if anything is still jostling, ease it into place
+  if (phase === 'pull' || phase === 'rest') {
+    fallAcc += dt;
+    while (fallAcc >= H) {
+      fallAcc -= H;
+      for (const b of fallen) {
+        const ground = floorY - b.r, onFloor = b.y >= ground - 0.5;
+        const supported = onFloor || b.touching;
+        b.hopCool = (b.hopCool || 0) - H;
+        if (supported) {   // roll towards its place: a soft spring with damping, and a speed limit
+          b.vx += (CFG.rollPull * (b.slotX - b.x) - CFG.rollDamp * b.vx) * H;
+          b.vx = Math.max(-CFG.maxRoll * sc, Math.min(CFG.maxRoll * sc, b.vx));
+          // stuck on top of others, or another bead is in the way: hop over, straight onto its own place.
+          // Only one bead hops at a time, so they take turns instead of blocking each other.
+          const dir = Math.sign(b.slotX - b.x), ground = floorY - b.r, raised = b.y < ground - 2;
+          const blocked = dir && fallen.some(o => o !== b && Math.abs(o.y - b.y) < b.r && (o.x - b.x) * dir > 0 && Math.abs(o.x - b.x) < 2 * b.r + 2);
+          // it has to have been stuck for a while first: no hopping straight after landing
+          b.stuck = (raised || blocked) && Math.abs(b.vx) < 25 * sc && Math.abs(b.vy) < 30 * sc ? (b.stuck || 0) + H : 0;
+          // on the line and blocked by a neighbour that needs to get past it the other way: they swap places in the row
+          // instead of hopping (only neighbours swap, so the row stays almost exactly in colour order)
+          // one stuck bead per run may hop over its neighbour; any other stuck pair just swaps places in the row
+          // (so the colours may end up slightly out of order)
+          if (!raised && blocked && b.stuck > CFG.hopWait * 0.5 && (hopsLeft <= 0 || hopper || hopRest > 0)) {
+            const o = fallen.find(o2 => o2 !== b && Math.abs(o2.y - b.y) < b.r && (o2.x - b.x) * dir > 0 && Math.abs(o2.x - b.x) < 2 * b.r + 2);
+            if (o && (o.slotX - o.x) * dir < 0) { const t2 = o.slotX; o.slotX = b.slotX; b.slotX = t2; b.stuck = 0; o.stuck = 0; swapsLeft--; }
+          }
+          // stuck on top of others once the hop is used up: roll off sideways towards its place instead
+          if (raised && hopsLeft <= 0 && b.stuck > CFG.hopWait) { b.vx = dir * 0.8 * CFG.maxRoll * sc; b.stuck = 0; }
+          // once the swaps are used up, a bead still stuck on the line hops over instead (one gentle hop)
+          if (hopsLeft > 0 && Math.abs(b.slotX - b.x) > 2 && b.stuck > CFG.hopWait && b.hopCool <= 0 && !hopper && hopRest <= 0) {
+            // a small hop: just high enough to clear the bead in the way, and not too far at once
+            const g = CFG.gravity * CFG.hopFloat, up = Math.sqrt(2 * g * CFG.hopHeight * b.r), drop = ground - b.y;
+            const tFly = (up + Math.sqrt(up * up + 2 * g * Math.max(0, drop))) / g;
+            const dx = Math.max(-CFG.hopReach * b.r, Math.min(CFG.hopReach * b.r, b.slotX - b.x));
+            b.vy = -up; b.vx = dx / tFly; b.hopCool = 0.6; b.hopping = true; b.hopped = true; hopper = b; hopRest = CFG.hopPause; hopsLeft--;
+          }
+        }
+        b.vy += CFG.gravity * (b.hopping ? CFG.hopFloat : 1) * H;   // hops are floatier
+        b.x += b.vx * H; b.y += b.vy * H;
+        if (b.hopping && b.vy > 0 && (b.y >= floorY - b.r - 0.5 || b.touching)) { b.hopping = false; if (hopper === b) hopper = null; }
+        if (easeIn) b.x += (b.slotX - b.x) * Math.min(1, H * 3);
+        b.touching = false;
+      }
+      for (let it = 0; it < 4; it++) {
+        if (!easeIn) for (let i = 0; i < fallen.length; i++) for (let k = i + 1; k < fallen.length; k++) {
+          const a = fallen[i], c = fallen[k], dx = c.x - a.x, dy = c.y - a.y, d = Math.hypot(dx, dy), m = a.r + c.r;
+          if (d >= m || d < 1e-6) continue;
+          const nx = dx / d, ny = dy / d, o = (m - d) / 2;
+          a.x -= nx * o; a.y -= ny * o; c.x += nx * o; c.y += ny * o;
+          const vn = (c.vx - a.vx) * nx + (c.vy - a.vy) * ny;
+          if (vn < 0) { const jv = -(1 + 0.1) * vn / 2; a.vx -= jv * nx; a.vy -= jv * ny; c.vx += jv * nx; c.vy += jv * ny; }
+          if (ny > 0.3) a.touching = true; if (ny < -0.3) c.touching = true;   // resting on a bead below
+        }
+        for (const b of fallen) {
+          const ground = floorY - b.r;
+          if (b.y > ground) {   // all land on the same line; only the first landing bounces (a couple of small bounces)
+            b.y = ground;
+            if (b.vy > CFG.bounceMin * sc && (b.nBounce || 0) < CFG.maxBounces && !b.hopped) { b.vy = -Math.min(b.vy * (b.bounce ?? CFG.bounce), Math.sqrt(2 * CFG.gravity * (b.bounceMax ?? 20) * sc)); b.nBounce = (b.nBounce || 0) + 1; }
+            else { b.vy = 0; if (b.nBounce) b.nBounce = CFG.maxBounces; }
+          }
+          const lo = b.r + 8 * sc, hi = W - b.r - 8 * sc;   // never off the page
+          if (b.x < lo) { b.x = lo; b.vx = Math.abs(b.vx) * 0.3; }
+          if (b.x > hi) { b.x = hi; b.vx = -Math.abs(b.vx) * 0.3; }
+        }
+      }
+    }
+  }
+  if (phase === 'pull' && tail > Lw + 20 && fallen.length === beads.length &&
+      fallen.every(b => b.y >= floorY - b.r - 0.5 && Math.abs(b.x - b.slotX) < 0.6 && Math.abs(b.vx) < 3 && Math.abs(b.vy) < 3)) {
+    fallen.forEach(b => { b.x = b.slotX; b.y = floorY - b.r; b.vx = b.vy = 0; });
+    toRest();
+  }
+  if (phase === 'rest' && rec && rec.state === 'recording' && pt > CFG.restHold) rec.stop();
+  return { head, tail };
+}
+
+function draw(s) {
+  if (!s) return;
+  if (transparentBg) ctx.clearRect(0, 0, W, H); else { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H); }
+  ctx.globalAlpha = 1;
+  const tw = CFG.threadWidth * sc;
+
+  // thread
+  if (s.head > s.tail) {
+    ctx.strokeStyle = CFG.threadColor; ctx.lineWidth = tw;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath();
+    let p = threadAt(s.tail); ctx.moveTo(p.x, p.y);
+    for (let u = s.tail + 3; u < s.head; u += 3) { p = threadAt(u); ctx.lineTo(p.x, p.y); }
+    p = threadAt(s.head); ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+  }
+
+  // beads
+  for (const b of beads) {
+    // at the start the beads appear one after another, in random order (full size, no growing)
+    let k = 1;
+    if (fadingIn && age < CFG.popSpan + 0.1) k = CFG.popDur > 0 ? clamp01((age - (b.popAt || 0)) / CFG.popDur) : (age >= (b.popAt || 0) ? 1 : 0);
+    if (k <= 0) continue;
+    ctx.globalAlpha = k * k * (3 - 2 * k);
+    ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+    ctx.fillStyle = b.col; ctx.fill();
+    ctx.lineWidth = CFG.border; ctx.strokeStyle = CFG.borderColor; ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+}
+
+let last = performance.now();
+function frame(now) {
+  const dt = Math.max(0, Math.min(0.05, (now - last) / 1000)); last = now;
+  if (!paused && visible && !isStatic) draw(step(dt));
+  requestAnimationFrame(frame);
+}
+
+// ---------- controls ----------
+const ui = document.getElementById('ui');
+if (params.has('controls')) ui.classList.remove('off');
+if (transparentBg) document.documentElement.style.setProperty('--bg', 'transparent');
+document.getElementById('replay').onclick = e => { e.stopPropagation(); build(); };
+document.getElementById('hide').onclick = e => { e.stopPropagation(); ui.classList.add('hidden'); };
+// replays only from the page's replay button (or R / the Replay control when opened on its own)
+const newSeed = () => { seed = Math.floor(Math.random() * 1e6); history.replaceState(null, '', '?seed=' + seed); build(); };
+document.getElementById('new').onclick = e => { e.stopPropagation(); newSeed(); };
+addEventListener('keydown', e => {
+  if (e.key === ' ') { paused = !paused; e.preventDefault(); }
+  if (e.key === 'h' || e.key === 'H') ui.classList.toggle('hidden');
+  if (e.key === 'r' || e.key === 'R') build();
+  if (e.key === 'n' || e.key === 'N') newSeed();
+});
+// record one full run as a video
+const recBtn = document.getElementById('rec');
+function startRecording() {
+  rec = new MediaRecorder(cv.captureStream(60), { mimeType: 'video/webm', videoBitsPerSecond: 8e6 });
+  const chunks = []; rec.ondataavailable = ev => chunks.push(ev.data);
+  rec.onstop = () => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(chunks, { type: 'video/webm' }));
+    a.download = 'threading-beads-seed' + seed + '.webm'; a.click();
+    recBtn.textContent = 'Record video'; rec = null;
+  };
+  rec.start(); recBtn.textContent = 'Recording…';
+}
+recBtn.onclick = e => {
+  e.stopPropagation();
+  if (!cv.captureStream || !window.MediaRecorder) { alert('Recording not supported in this browser.'); return; }
+  if (rec) return;
+  build(); startRecording();   // one full run, from the fade-in until the beads rest on the line
+};
+
+// reduced motion: show a single still of the woven circle instead of animating
+function showStill() {
+  build(true);
+  while (phase !== 'pull') step(1 / 60);
+  draw(step(0)); isStatic = true;
+}
+addEventListener('resize', () => { resize(); if (reducedMotion) showStill(); });
+resize();
+if (reducedMotion) { visible = true; showStill(); }
+// start only once it scrolls into view, and pause while it is off-screen
+let ioVisible = false;
+const setVisible = v => { if (v && !visible) last = performance.now(); visible = v; };
+new IntersectionObserver(es => { ioVisible = es[0].isIntersecting; setVisible(ioVisible || inParentView()); },
+                         { threshold: 0.35 }).observe(cv);
+// backup check (the observer above can miss updates): when embedded on the same site, look at where the frame
+// sits in the page; when opened on its own, it is always in view
+function inParentView() {
+  try {
+    const fe = window.frameElement;
+    if (!fe) return parent === window;
+    const r = fe.getBoundingClientRect(), vh = parent.innerHeight;
+    return r.bottom - r.height * 0.35 > 0 && r.top + r.height * 0.35 < vh;
+  } catch (e) { return false; }
+}
+setInterval(() => setVisible(ioVisible || inParentView()), 300);
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
