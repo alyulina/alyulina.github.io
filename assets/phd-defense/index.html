@@ -48,7 +48,7 @@
   .beads-wrap { position: relative; width: 100vw; left: 50%; margin-left: -50vw; overflow: hidden; height: 0; }
   .beads { position: absolute; left: 0; bottom: 0; width: 100%; border: 0; display: block;
            pointer-events: none; }   /* the animation ignores the mouse, so the page's own cursor shows over it */
-  .replay { margin: 8px 0 28px; text-align: center; opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s .6s; }
+  .replay { margin: 8px 0 44px; text-align: center; opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s .6s; }
   .replay.shown { opacity: 1; visibility: visible; transition: opacity .6s ease; }
   .replay #replay, .replay.resting #skip { display: none; }   /* "skip" while it plays, "replay" once the beads have landed */
   .replay.resting #replay { display: inline; }
@@ -136,9 +136,9 @@
     </ul>
     </div>
 
-    <!-- threading beads (?seed=2 fixes the arrangement); the frame is sized and loaded by the script below -->
+    <!-- threading beads (?seed=2 fixes the arrangement; bump v= whenever beads.html changes, so browsers fetch the new one); the frame is sized and loaded by the script below -->
     <div class="beads-wrap">
-      <iframe class="beads" data-src="beads.html?seed=2&amp;bg=transparent" title="Animation: a thread weaves through colorful beads, which then fall into a row"></iframe>
+      <iframe class="beads" data-src="beads.html?seed=2&amp;bg=transparent&amp;v=3" title="Animation: a thread weaves through colorful beads, which then fall into a row"></iframe>
     </div>
     <p class="replay"><a href="#" role="button" class="note-link" id="skip">skip</a><a href="#" role="button" class="note-link" id="replay">replay</a></p>
 
@@ -154,7 +154,7 @@
     'DTEND;TZID=America/Los_Angeles:20270301T120000',
     'SUMMARY:PhD Defense: Anastasia Lyulina',
     'LOCATION:Room 122\\, Biology Department\\, Stanford University',
-    'DESCRIPTION:Join in person or online\\, and celebrate afterwards at an outdoor reception. https://alyulina.github.io/assets/defense/',
+    'DESCRIPTION:Join in person or online\\, and celebrate afterwards at an outdoor reception. https://alyulina.github.io/assets/phd-defense/',
     'END:VEVENT', 'END:VCALENDAR'
   ].join('\r\n');
   document.getElementById('ics').href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
@@ -203,8 +203,9 @@
   addEventListener('message', e => {
     if (e.data && e.data.type === 'beads:rest') {
       // close the box up to just the row of beads (a little headroom above them, the frame's own margin below)
-      const under = Math.max(0, Math.round(frameH - e.data.floorY - 4));   // the frame's empty band under the line, left out of view
-      const strip = Math.round(2 * e.data.r + 14 + 4);
+      const r = e.data.r || 10, floor = isFinite(e.data.floorY) ? e.data.floorY : frameH - 20;
+      const under = Math.max(0, Math.round(frameH - floor - 4));   // the frame's empty band under the line, left out of view
+      const strip = Math.round(2 * r + 14 + 4);
       const anim = revealed || !e.data.still;
       wrap.style.transition = anim ? `height ${EASE}, margin-top ${EASE}` : '';
       frame.style.transition = anim ? `bottom ${EASE}` : '';
