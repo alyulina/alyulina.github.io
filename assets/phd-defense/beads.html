@@ -96,21 +96,22 @@ const CFG = {
   wiggle: 4.5,                  // px, the "alive" undulation of the thread
   weaveSpeed: 250,              // px of thread per second while weaving
 
-  pullAccel: 150, pullMax: 320, // px/s², px/s: how the thread slides off to the right
+  pullAfterLast: 80,            // px past the last bead the tip gets before the thread starts sliding out (Infinity = only once it is off-screen, then a pause)
+  pullAccel: 260, pullMax: 460, // px/s², px/s: how the thread slides off to the right
   gravity: 850, bounce: 0.25, bounceRange: [0.2, 0.36], bounceMin: 60, maxBounces: 2, bounceHeights: [6, 22],   // landing: springiness range per bead, and the slowest impact that still bounces (px/s)
   floorGap: 170,                // px below the circle where the invisible line sits
-  releaseDelay: [0, 0.45],      // s, a bead hangs on briefly after the thread leaves it
+  releaseDelay: [0, 0.3],      // s, a bead hangs on briefly after the thread leaves it
 
   idle: 0.3, settle: 1.0,  // s  (idle: when the thread starts, while the beads are still appearing)
   popSpan: 4, popDur: 0, popBefore: 0.5,   // s: the beads pop in one by one over popSpan (the thread starts meanwhile), each at least popBefore ahead of the thread; popDur 0 = just appears
   colorByPosition: 0.6,         // 0 = colours follow the thread order, 1 = colours go left → right across the circle
-  maxToss: 300, maxRoll: 110,   // px/s: the strongest sideways throw as a bead drops, and how fast it can roll into place
+  maxToss: 300, maxRoll: 150,   // px/s: the strongest sideways throw as a bead drops, and how fast it can roll into place
   maxHops: 1,                   // how many times per run a stuck bead may hop over a neighbour (all other stuck pairs swap places)
   maxSwaps: 99,
   hopWait: 1.8,                 // s a bead must be stuck before it hops (last resort)
   hopHeight: 3, hopReach: 99, hopFloat: 0.5, hopPause: 0.8,   // hops over another bead: height (bead radii), max reach, how floaty (lower = slower, gentler), s between hops
   settleBy: 24,                 // s after the thread starts pulling away: by then any bead still jostling eases into place
-  rollPull: 7, rollDamp: 5,     // how firmly a landed bead rolls towards its place, and how quickly that settles
+  rollPull: 9, rollDamp: 5,     // how firmly a landed bead rolls towards its place, and how quickly that settles
   colorSwaps: 3,                // how many small swaps break up the colour order along the thread
   rowSpread: 0.25,              // the final row spreads out towards its ends: outer beads roll further to the side
   rowGap: 3,                    // px between beads in the final row (sorted by colour: yellows → … → blues)
@@ -119,7 +120,7 @@ const CFG = {
 // ==============================================
 
 const cv = document.getElementById('c'), ctx = cv.getContext('2d');
-let W, H, DPR, zoom = 1, sc, floorY, beads, pts, Lw, phase, pt, t = 0, shift, speed, paused = false;
+let W, H, DPR, zoom = 1, pullFrom = Infinity, sc, floorY, beads, pts, Lw, phase, pt, t = 0, shift, speed, paused = false;
 let rec = null, fallAcc = 0, hopRest = 0, swapsLeft = 0, hopsLeft = 0, fadingIn = true, age = 0;
 const gauss = () => Math.sqrt(-2 * Math.log(1 - Math.random())) * Math.cos(6.2832 * Math.random());
 
@@ -558,6 +559,7 @@ function build(noFade) {
   }
   fallAcc = 0; swapsLeft = CFG.maxSwaps; hopsLeft = CFG.maxHops;
 
+  pullFrom = Math.max(...beads.map(b => b.u)) + CFG.pullAfterLast * sc;   // where the tip is when the pull begins
   phase = 'idle'; pt = 0; shift = 0; speed = 0; fadingIn = !noFade; age = 0;
   // the beads pop in one at a time at a steady pace over popSpan, in a loose left-to-right order (shuffled a little),
   // and the thread starts weaving while they are still appearing; each shows up at least popBefore ahead of the thread
@@ -615,13 +617,16 @@ function step(dt) {
   t += dt; pt += dt; age += dt;
   const dur = { idle: CFG.idle, weave: Lw / CFG.weaveSpeed, settle: CFG.settle };
   if (dur[phase] !== undefined && pt >= dur[phase]) {
-    phase = { idle: 'weave', weave: 'settle', settle: 'pull' }[phase]; pt = 0;
+    // (if the pull has already begun while the tip was still heading off-screen, there is no pause before it)
+    phase = { idle: 'weave', weave: shift > 0 ? 'pull' : 'settle', settle: 'pull' }[phase]; pt = 0;
   }
-  if (phase === 'pull') {
+  const tip = phase === 'weave' ? (pt / dur.weave) * Lw : Lw;   // how far along its path the thread's tip has got
+  // the thread starts sliding out soon after it has gone through the last bead, while its tip is still on its way out
+  if (phase === 'pull' || (phase === 'weave' && tip >= pullFrom)) {
     speed = Math.min(CFG.pullMax, speed + CFG.pullAccel * dt);
     shift += speed * dt;
   }
-  const head = phase === 'idle' ? 0 : phase === 'weave' ? (pt / dur.weave) * Lw : Lw + shift;
+  const head = phase === 'idle' ? 0 : tip + shift;
   const tail = shift;
   relaxHead = phase === 'settle' ? Lw + pt * CFG.weaveSpeed : head;
   for (const b of beads) {
@@ -646,7 +651,7 @@ function step(dt) {
       if (!isFinite(b.ox + b.oy + b.jvx + b.jvy)) { b.ox = b.oy = b.jvx = b.jvy = 0; }   // never let a bad number spread
     }
     b.on = clamp01((head - b.u + CFG.pickupLead * sc) / (CFG.pickup * sc));   // starts settling just before the thread reaches it
-    if (!b.falling && phase === 'pull' && tail >= b.u) {
+    if (!b.falling && shift > 0 && tail >= b.u) {
       if (b.release === undefined) b.release = t + rand(...CFG.releaseDelay);
       if (t >= b.release) {
         b.falling = true;
