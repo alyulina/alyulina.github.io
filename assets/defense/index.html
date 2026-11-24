@@ -8,6 +8,7 @@
 <meta name="description" content="Anastasia Lyulina's PhD defense in Biology at Stanford University — join in person or online.">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="icon" href="/img/bacteria.ico">
+<script>document.documentElement.classList.add('js');</script>
 <style>
   /* draft highlight on all text that may still change — delete these two rules to remove every highlight at once */
   .ph { background: #fef2f1; border-radius: 4px; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
@@ -19,7 +20,7 @@
   .thesis { margin-bottom: 44px; }
   .thesis h2 { font-size: 24px; line-height: 1.25em; margin: 0 0 12px; }
   /* <button> pills look exactly like the site's link pills */
-  .tabs .note-link, #pw, #replay { border: 0; margin: 0; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.9em;
+  .tabs .note-link, #pw, #replay, #skip { border: 0; margin: 0; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.9em;
                      line-height: inherit; cursor: url("/img/cursor_pink.png"), auto !important; }
   .tabs, .replay { font-size: 16px; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; }
   .tabs { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 0.5em; }   /* room between the rows when the buttons wrap on small screens */
@@ -39,16 +40,18 @@
   .rows .note-link { margin-left: 0.5em; margin-right: 0; }
   #pw { font-size: 0.9em; margin-left: 0.5em; }   /* same gap as the other pills */
 
-  /* replay button sits just below the row of beads (placed from where they land), hidden until they have settled */
-  .beads-wrap { position: relative; margin-top: 8px; padding-bottom: 72px; }   /* room for the replay button under the row */
-  .replay { position: absolute; left: 0; right: 0; margin: 0; text-align: center; opacity: 0; visibility: hidden;
-            transition: opacity .6s ease, visibility 0s .6s; }
-  .replay.shown { opacity: 1; visibility: visible; transition: opacity .6s ease; }
-  /* the animation runs the full width of the window, so the thread enters and leaves at the page edges */
-  html { overflow-x: hidden; overflow-x: clip; }
-  .beads { display: block; width: 100vw; position: relative; left: 50%; margin-left: -50vw; border: 0;
-           height: min(560px, 90vw, 85vh); margin-top: max(-40px, -6.43vw);   /* on narrow or short screens the frame (and the animation in it) shrinks in proportion, so it all fits */
+  /* the page opens with the animation, sized to fit the window under the menu; once the beads have landed the
+     text fades in above them and the animation's box closes up to a strip around the row, with replay below it */
+  html { overflow-x: hidden; overflow-x: clip; }   /* the animation runs the full width of the window */
+  .content { padding-bottom: 30px; }                /* room between the text and the row of beads under it */
+  .js .content { display: none; }                   /* (without JavaScript the text simply shows, and there is no animation) */
+  .beads-wrap { position: relative; width: 100vw; left: 50%; margin-left: -50vw; overflow: hidden; height: 0; }
+  .beads { position: absolute; left: 0; bottom: 0; width: 100%; border: 0; display: block;
            pointer-events: none; }   /* the animation ignores the mouse, so the page's own cursor shows over it */
+  .replay { margin: 8px 0 28px; text-align: center; opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s .6s; }
+  .replay.shown { opacity: 1; visibility: visible; transition: opacity .6s ease; }
+  .replay #replay, .replay.resting #skip { display: none; }   /* "skip" while it plays, "replay" once the beads have landed */
+  .replay.resting #replay { display: inline; }
 
   @media only screen and (max-width: 1024px) {
     .thesis h2 { font-size: 22px; }
@@ -63,7 +66,7 @@
   }
 </style>
 <!-- without JavaScript: leave out the animation's empty space, and every button that only works with it (abstract and chapters, calendar, password) -->
-<noscript><style>.beads-wrap, .needs-js { display: none; }</style></noscript>
+<noscript><style>.beads-wrap, .replay, .needs-js { display: none; }</style></noscript>
 </head>
 <body>
   <div class="container">
@@ -83,6 +86,7 @@
       </ul>
     </nav>
 
+    <div class="content">
     <div class="lead">
       <p><span class="ph">A few warm sentences inviting people to the defense, in person or online, and thanking everyone who has been part of the journey.</span></p>
     </div>
@@ -130,13 +134,14 @@
       <li><span class="note-date two-line">Committee <br>members</span>
           <span><a href="https://rosenberglab.stanford.edu/" target="_blank">Noah Rosenberg</a>, <a href="https://schumerlab.com/" target="_blank">Molly Schumer</a>, <a href="https://med.stanford.edu/winslowlab.html" target="_blank">Monte Winslow</a>, and <span class="ph">Name Surname</span> (chair)</span></li>
     </ul>
-
-    <!-- threading beads: starts when scrolled into view; the replay button below restarts it. ?seed=2 fixes the arrangement. -->
-    <div class="beads-wrap">
-      <iframe class="beads" src="beads.html?seed=2&amp;bg=transparent" title="Animation: a thread weaves through colorful beads, which then fall into a row" loading="lazy"></iframe>
-      <p class="replay"><a href="#" role="button" class="note-link" id="replay">replay</a></p>
     </div>
-    <br><br>
+
+    <!-- threading beads (?seed=2 fixes the arrangement); the frame is sized and loaded by the script below -->
+    <div class="beads-wrap">
+      <iframe class="beads" data-src="beads.html?seed=2&amp;bg=transparent" title="Animation: a thread weaves through colorful beads, which then fall into a row"></iframe>
+    </div>
+    <p class="replay"><a href="#" role="button" class="note-link" id="skip">skip</a><a href="#" role="button" class="note-link" id="replay">replay</a></p>
+
   </div>
 
 <script>
@@ -172,16 +177,66 @@
     if (navigator.clipboard) navigator.clipboard.writeText(pw.dataset.pw).catch(() => {});
   };
 
-  // replay button: appears once the beads have fallen, restarts the animation inside the frame
-  const replayRow = document.querySelector('.replay');
+  // the animation: sized to fit the window under the menu (never taller than 560px or wider than the screen allows),
+  // then, once the beads have landed, the text fades in above it while its box closes up to a strip around the row
+  const wrap = document.querySelector('.beads-wrap'), frame = wrap.querySelector('iframe'), content = document.querySelector('.content');
+  const replayRow = document.querySelector('.replay'), EASE = '.9s ease';
+  const trim = Math.min(40, innerWidth * 0.0643);   // the empty band at the top of the frame, left out of view
+  const room = wrap.getBoundingClientRect().top + scrollY + replayRow.offsetHeight + 64;   // menu above; skip/replay, and room under it, below
+  const frameH = Math.round(Math.max(260, Math.min(560, innerWidth * 0.9, innerHeight - room + trim)));
+  frame.style.height = frameH + 'px';
+  wrap.style.height = (frameH - trim) + 'px';
+  // where the screen is taller than the animation needs (phones), centre it in the space under the menu
+  const spare = innerHeight - replayRow.getBoundingClientRect().bottom - 48;   // (measured with everything in place; keeps room under skip)
+  if (spare > 0) wrap.style.marginTop = Math.round(spare / 2) + 'px';
+  frame.src = frame.dataset.src;
+  let revealed = false;
+  const reveal = () => {   // the text grows in from nothing above the beads
+    revealed = true;
+    content.style.display = 'block';
+    const h = content.scrollHeight;
+    Object.assign(content.style, { height: '0px', opacity: '0', overflow: 'hidden' });
+    content.offsetHeight;   // start the transition from here
+    Object.assign(content.style, { transition: `height ${EASE}, opacity ${EASE}`, height: h + 'px', opacity: '1' });
+    content.addEventListener('transitionend', e => { if (e.propertyName === 'height') Object.assign(content.style, { height: '', overflow: '', transition: '' }); }, { once: false });
+  };
   addEventListener('message', e => {
-    if (e.data && e.data.type === 'beads:rest') { replayRow.style.top = (e.data.floorY + 22) + 'px'; replayRow.classList.add('shown'); }
-    if (e.data === 'beads:start') replayRow.classList.remove('shown');
+    if (e.data && e.data.type === 'beads:rest') {
+      // close the box up to just the row of beads (a little headroom above them, the frame's own margin below)
+      const under = Math.max(0, Math.round(frameH - e.data.floorY - 4));   // the frame's empty band under the line, left out of view
+      const strip = Math.round(2 * e.data.r + 14 + 4);
+      const anim = revealed || !e.data.still;
+      wrap.style.transition = anim ? `height ${EASE}, margin-top ${EASE}` : '';
+      frame.style.transition = anim ? `bottom ${EASE}` : '';
+      frame.style.bottom = -under + 'px';
+      wrap.style.marginTop = '0px';   // the text takes that space now
+      wrap.style.height = strip + 'px';
+      if (!revealed) reveal();
+      replayRow.classList.add('resting');
+      if (!e.data.still) replayRow.classList.add('shown'); else replayRow.classList.remove('shown');
+    }
+    if (e.data === 'beads:start') {   // "skip" only the first time, while the text is still hidden; nothing during a replay
+      replayRow.classList.remove('resting');
+      replayRow.classList.toggle('shown', !revealed);
+    }
   });
+  document.getElementById('skip').onclick = e => {   // straight to the beads resting in their row, and the text
+    e.preventDefault();
+    const w = frame.contentWindow;
+    if (w.settleNow) w.settleNow();
+  };
   document.getElementById('replay').onclick = e => {
     e.preventDefault();
-    const w = document.querySelector('iframe.beads').contentWindow;
-    if (w.build && !w.reducedMotion) w.build();
+    const w = frame.contentWindow;
+    if (!w.build || w.reducedMotion) return;
+    wrap.style.transition = `height ${EASE}`;
+    wrap.style.height = (frameH - trim) + 'px';   // open the box again under the text, and play
+    frame.style.transition = `bottom ${EASE}`; frame.style.bottom = '0px';
+    w.build();
+    setTimeout(() => {   // once it has opened, bring all of it (and the replay button) into view
+      const below = replayRow.getBoundingClientRect().bottom + 16 - innerHeight;
+      if (below > 0) scrollTo({ top: scrollY + Math.min(below, wrap.getBoundingClientRect().top), behavior: 'smooth' });
+    }, 950);
   };
 </script>
 </body>

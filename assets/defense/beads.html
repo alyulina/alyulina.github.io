@@ -565,7 +565,7 @@ function build(noFade) {
 // beads settled on the line: they stay there until a click replays it
 // (tells an embedding page, so it can show its replay button)
 // (tells an embedding page where the beads landed, so it can put its replay button just below them)
-function toRest() { phase = 'rest'; pt = 0; if (parent !== window) parent.postMessage({ type: 'beads:rest', floorY: floorY * zoom }, '*'); }
+function toRest() { phase = 'rest'; pt = 0; if (parent !== window) parent.postMessage({ type: 'beads:rest', floorY: floorY * zoom, r: CFG.r * sc * zoom, still: isStatic }, '*'); }
 
 // once settled, the beads hop into a row sorted by colour: yellows → oranges → reds → wines → purples → blues
 const hueKey = hex => {
@@ -818,13 +818,16 @@ recBtn.onclick = e => {
   build(); startRecording();   // one full run, from the fade-in until the beads rest on the line
 };
 
-// reduced motion: show a single still of the woven circle instead of animating
-function showStill() {
-  build(true);
-  while (phase !== 'pull') step(1 / 60);
-  draw(step(0)); isStatic = true;
-}
-addEventListener('resize', () => { resize(); if (reducedMotion) showStill(); });
+// reduced motion: no animation, just the beads already resting in their row
+function showStill() { isStatic = true; settleNow(); }
+// a resize restarts the animation, unless the beads have already landed: then they are just redrawn in their row
+// (the page beside it can change width when its text appears and a scrollbar comes in)
+function settleNow() { build(true); for (let n = 0; phase !== 'rest' && n < 20000; n++) step(1 / 60); if (phase !== 'rest') toRest(); draw(step(0)); }
+addEventListener('resize', () => {
+  const wasResting = phase === 'rest';
+  resize();
+  if (reducedMotion) showStill(); else if (wasResting) settleNow();
+});
 resize();
 if (reducedMotion) { visible = true; showStill(); }
 // start only once most of it has scrolled into view (so the whole fall can be seen), then pause while it is
