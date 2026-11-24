@@ -142,7 +142,7 @@
 
     <!-- threading beads (?seed=2 fixes the arrangement; bump v= whenever beads.html changes, so browsers fetch the new one); the frame is sized and loaded by the script below -->
     <div class="beads-wrap">
-      <iframe class="beads" scrolling="no" data-src="beads.html?seed=2&amp;bg=transparent&amp;v=9" title="Animation: a thread weaves through colorful beads, which then fall into a row"></iframe>
+      <iframe class="beads" scrolling="no" data-src="beads.html?seed=2&amp;bg=transparent&amp;v=11" title="Animation: a thread weaves through colorful beads, which then fall into a row"></iframe>
     </div>
     <p class="replay"><a href="#" role="button" class="note-link" id="skip">skip</a><a href="#" role="button" class="note-link" id="replay">replay</a></p>
 
@@ -191,19 +191,23 @@
     Object.assign(content.style, { transition: `height ${EASE}, padding-bottom ${EASE}, opacity ${EASE}`, height: h + 'px', paddingBottom: pad, opacity: '1' });
     content.addEventListener('transitionend', e => { if (e.propertyName === 'height') Object.assign(content.style, { height: '', paddingBottom: '', overflow: '', transition: '' }); });
   };
+  const closeUp = (d, anim) => {
+    const r = d.r || 10, floor = isFinite(d.floorY) ? d.floorY : frameH - 20;
+    const under = Math.max(0, Math.round(frameH - floor - 4));   // the frame's empty band under the line, left out of view
+    const strip = Math.round(2 * r + 3.2 * r + 10);              // the row, plus room for a hop over a neighbour
+    wrap.style.transition = anim ? `height ${EASE}, margin-top ${EASE}` : '';
+    frame.style.transition = anim ? `bottom ${EASE}` : '';
+    frame.style.bottom = -under + 'px';
+    wrap.style.marginTop = '0px';   // the text takes that space now
+    wrap.style.height = strip + 'px';
+    if (!revealed) reveal();
+  };
   addEventListener('message', e => {
-    if (e.data && e.data.type === 'beads:rest') {
-      // close the box up to just the row of beads (a little headroom above them, the frame's own margin below)
-      const r = e.data.r || 10, floor = isFinite(e.data.floorY) ? e.data.floorY : frameH - 20;
-      const under = Math.max(0, Math.round(frameH - floor - 4));   // the frame's empty band under the line, left out of view
-      const strip = Math.round(2 * r + 14 + 4);
-      const anim = revealed || !e.data.still;
-      wrap.style.transition = anim ? `height ${EASE}, margin-top ${EASE}` : '';
-      frame.style.transition = anim ? `bottom ${EASE}` : '';
-      frame.style.bottom = -under + 'px';
-      wrap.style.marginTop = '0px';   // the text takes that space now
-      wrap.style.height = strip + 'px';
-      if (!revealed) reveal();
+    // once every bead is down: bring the text in and close the box up around the row, with room above it for
+    // the last bounces and hops, while they finish rolling into place
+    if (e.data && e.data.type === 'beads:landed') closeUp(e.data, true);
+    if (e.data && e.data.type === 'beads:rest') {   // all still: the replay (or, with reduced motion, play) button
+      closeUp(e.data, revealed || !e.data.still);
       replayRow.classList.add('resting', 'shown');
       document.getElementById('replay').textContent = e.data.still ? 'play' : 'replay';   // "play" when motion is reduced and it has not played yet
     }
@@ -221,14 +225,20 @@
     e.preventDefault();
     const w = frame.contentWindow;
     if (!w.build && !w.playOnce) return;
-    wrap.style.transition = `height ${EASE}`;
-    wrap.style.height = (frameH - trim) + 'px';   // open the box again under the text, and play
+    // open the box again under the text, and play; the space it will take is held from the start (as a margin that
+    // shrinks while the box grows), so the page can scroll straight to it
+    const open = frameH - trim, now = wrap.getBoundingClientRect().height;
+    wrap.style.transition = 'none';
+    wrap.style.marginBottom = Math.max(0, open - now) + 'px';
+    wrap.offsetHeight;
+    wrap.style.transition = `height ${EASE}, margin-bottom ${EASE}`;
+    wrap.style.height = open + 'px';
+    wrap.style.marginBottom = '0px';
     frame.style.transition = `bottom ${EASE}`; frame.style.bottom = '0px';
     if (w.playOnce) w.playOnce(); else w.build();   // (playOnce also wakes it up if it was showing a still for reduced motion)
-    setTimeout(() => {   // once it has opened, bring all of it (and the replay button) into view
-      const below = replayRow.getBoundingClientRect().bottom + 16 - innerHeight;
-      if (below > 0) scrollTo({ top: scrollY + Math.min(below, wrap.getBoundingClientRect().top), behavior: 'smooth' });
-    }, 950);
+    // bring the whole opened box into view right away (worked out from the size it is opening to)
+    const below = wrap.getBoundingClientRect().top + (frameH - trim) + 16 - innerHeight;
+    if (below > 0) scrollTo({ top: scrollY + Math.min(below, wrap.getBoundingClientRect().top), behavior: 'smooth' });
   };
 </script>
 </body>
