@@ -1,3 +1,12 @@
+PhD defense page (`assets/phd-defense/`), before sending invitations:
+
+- [ ] Fill in the placeholders: intro, thesis title, abstract and chapters, date, room, and the chair's name.
+- [ ] Remove the pink draft highlights: delete the two `.ph` rules at the top of `assets/phd-defense/index.html`.
+- [ ] Zoom: put the link and password in the invitation email, not on the page; ask whoever hosts to turn on the waiting room.
+- [ ] Calendar: if the time or place changes (now March 1, 2027, 9 am to 12 pm, Room 122), edit `assets/phd-defense/lyulina-phd-defense.ics`.
+- [ ] Move the folder to `/phd-defense/` at the top level before the invitations go out, so the emailed link never changes (and update the link in the `.ics` file).
+- [ ] If the page should show up in search: delete the `noindex` line in `index.html` and `beads.html`.
+
 Code improvement and other ideas for when I have nothing else to do:
 
 - [x] Extract `<nav>` into `_includes/nav.html` and use Liquid `page.url` for active link highlighting, replacing the per-page `id`-based approach.
