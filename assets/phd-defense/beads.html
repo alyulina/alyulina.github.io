@@ -141,9 +141,14 @@ function resize() {
   DPR = window.devicePixelRatio || 1;
   // a frame shorter than CFG.designH is laid out at full size and drawn scaled down, so small screens
   // get exactly the same beads and movement, only smaller
-  zoom = Math.min(1, innerHeight / CFG.designH);
-  W = innerWidth / zoom; H = innerHeight / zoom;
-  cv.width = Math.round(innerWidth * DPR); cv.height = Math.round(innerHeight * DPR);
+  // take the size from the frame the page gave it when embedded (iPhone Safari can report a stretched window size
+  // inside frames), otherwise from the window; the canvas is set to exactly that size
+  const fe = (() => { try { return window.frameElement; } catch (e) { return null; } })();
+  const vw = fe && fe.clientWidth ? fe.clientWidth : innerWidth, vh = fe && fe.clientHeight ? fe.clientHeight : innerHeight;
+  cv.style.width = vw + 'px'; cv.style.height = vh + 'px';
+  zoom = Math.min(1, vh / CFG.designH);
+  W = vw / zoom; H = vh / zoom;
+  cv.width = Math.round(vw * DPR); cv.height = Math.round(vh * DPR);
   ctx.setTransform(DPR * zoom, 0, 0, DPR * zoom, 0, 0);
   build();
 }

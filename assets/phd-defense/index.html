@@ -138,7 +138,7 @@
 
     <!-- threading beads (?seed=2 fixes the arrangement; bump v= whenever beads.html changes, so browsers fetch the new one); the frame is sized and loaded by the script below -->
     <div class="beads-wrap">
-      <iframe class="beads" data-src="beads.html?seed=2&amp;bg=transparent&amp;v=3" title="Animation: a thread weaves through colorful beads, which then fall into a row"></iframe>
+      <iframe class="beads" scrolling="no" data-src="beads.html?seed=2&amp;bg=transparent&amp;v=4" title="Animation: a thread weaves through colorful beads, which then fall into a row"></iframe>
     </div>
     <p class="replay"><a href="#" role="button" class="note-link" id="skip">skip</a><a href="#" role="button" class="note-link" id="replay">replay</a></p>
 
@@ -184,7 +184,7 @@
   const trim = Math.min(40, innerWidth * 0.0643);   // the empty band at the top of the frame, left out of view
   const room = wrap.getBoundingClientRect().top + scrollY + replayRow.offsetHeight + 64;   // menu above; skip/replay, and room under it, below
   const frameH = Math.round(Math.max(260, Math.min(560, innerWidth * 0.9, innerHeight - room + trim)));
-  frame.style.height = frameH + 'px';
+  frame.style.height = frame.style.maxHeight = frameH + 'px';   // (max-height too: iPhone Safari may otherwise stretch the frame)
   wrap.style.height = (frameH - trim) + 'px';
   // where the screen is taller than the animation needs (phones), centre it in the space under the menu
   const spare = innerHeight - replayRow.getBoundingClientRect().bottom - 48;   // (measured with everything in place; keeps room under skip)
