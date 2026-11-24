@@ -141,7 +141,7 @@
 
     <!-- threading beads (?seed=2 fixes the arrangement; bump v= whenever beads.html changes, so browsers fetch the new one); the frame is sized and loaded by the script below -->
     <div class="beads-wrap">
-      <iframe class="beads" scrolling="no" data-src="beads.html?seed=2&amp;bg=transparent&amp;v=4" title="Animation: a thread weaves through colorful beads, which then fall into a row"></iframe>
+      <iframe class="beads" scrolling="no" data-src="beads.html?seed=2&amp;bg=transparent&amp;v=5" title="Animation: a thread weaves through colorful beads, which then fall into a row"></iframe>
     </div>
     <p class="replay"><a href="#" role="button" class="note-link" id="skip">skip</a><a href="#" role="button" class="note-link" id="replay">replay</a></p>
 
@@ -203,8 +203,8 @@
       wrap.style.marginTop = '0px';   // the text takes that space now
       wrap.style.height = strip + 'px';
       if (!revealed) reveal();
-      replayRow.classList.add('resting');
-      if (!e.data.still) replayRow.classList.add('shown'); else replayRow.classList.remove('shown');
+      replayRow.classList.add('resting', 'shown');
+      document.getElementById('replay').textContent = e.data.still ? 'play' : 'replay';   // "play" when motion is reduced and it has not played yet
     }
     if (e.data === 'beads:start') {   // "skip" only the first time, while the text is still hidden; nothing during a replay
       replayRow.classList.remove('resting');
@@ -219,11 +219,11 @@
   document.getElementById('replay').onclick = e => {
     e.preventDefault();
     const w = frame.contentWindow;
-    if (!w.build || w.reducedMotion) return;
+    if (!w.build) return;
     wrap.style.transition = `height ${EASE}`;
     wrap.style.height = (frameH - trim) + 'px';   // open the box again under the text, and play
     frame.style.transition = `bottom ${EASE}`; frame.style.bottom = '0px';
-    w.build();
+    if (w.reducedMotion && w.playOnce) w.playOnce(); else w.build();
     setTimeout(() => {   // once it has opened, bring all of it (and the replay button) into view
       const below = replayRow.getBoundingClientRect().bottom + 16 - innerHeight;
       if (below > 0) scrollTo({ top: scrollY + Math.min(below, wrap.getBoundingClientRect().top), behavior: 'smooth' });
