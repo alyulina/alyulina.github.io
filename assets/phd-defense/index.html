@@ -51,8 +51,9 @@
   .beads-wrap { position: relative; width: 100vw; left: 50%; margin-left: -50vw; overflow: hidden; height: 0; }
   .beads { position: absolute; left: 0; bottom: 0; width: 100%; border: 0; display: block;
            pointer-events: none; }   /* the animation ignores the mouse, so the page's own cursor shows over it */
-  .replay { margin: 8px 0 44px; text-align: center; opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s .6s; }
+  .replay { margin: 8px 0 0; padding-bottom: 44px; text-align: center; opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s .6s; }
   .replay.shown { opacity: 1; visibility: visible; transition: opacity .6s ease; }
+  @media (hover: none) { .replay { padding-bottom: 96px; } }   /* phones: clear room under the button, above Safari's toolbar */
   .replay #replay, .replay.resting #skip { display: none; }   /* "skip" while it plays, "replay" once the beads have landed */
   .replay.resting #replay { display: inline; }
 
@@ -141,7 +142,7 @@
 
     <!-- threading beads (?seed=2 fixes the arrangement; bump v= whenever beads.html changes, so browsers fetch the new one); the frame is sized and loaded by the script below -->
     <div class="beads-wrap">
-      <iframe class="beads" scrolling="no" data-src="beads.html?seed=2&amp;bg=transparent&amp;v=5" title="Animation: a thread weaves through colorful beads, which then fall into a row"></iframe>
+      <iframe class="beads" scrolling="no" data-src="beads.html?seed=2&amp;bg=transparent&amp;v=6" title="Animation: a thread weaves through colorful beads, which then fall into a row"></iframe>
     </div>
     <p class="replay"><a href="#" role="button" class="note-link" id="skip">skip</a><a href="#" role="button" class="note-link" id="replay">replay</a></p>
 
@@ -219,11 +220,11 @@
   document.getElementById('replay').onclick = e => {
     e.preventDefault();
     const w = frame.contentWindow;
-    if (!w.build) return;
+    if (!w.build && !w.playOnce) return;
     wrap.style.transition = `height ${EASE}`;
     wrap.style.height = (frameH - trim) + 'px';   // open the box again under the text, and play
     frame.style.transition = `bottom ${EASE}`; frame.style.bottom = '0px';
-    if (w.reducedMotion && w.playOnce) w.playOnce(); else w.build();
+    if (w.playOnce) w.playOnce(); else w.build();   // (playOnce also wakes it up if it was showing a still for reduced motion)
     setTimeout(() => {   // once it has opened, bring all of it (and the replay button) into view
       const below = replayRow.getBoundingClientRect().bottom + 16 - innerHeight;
       if (below > 0) scrollTo({ top: scrollY + Math.min(below, wrap.getBoundingClientRect().top), behavior: 'smooth' });

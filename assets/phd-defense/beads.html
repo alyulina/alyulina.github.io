@@ -826,7 +826,7 @@ recBtn.onclick = e => {
 // reduced motion: no animation, just the beads already resting in their row
 function showStill() { isStatic = true; settleNow(); }
 // …unless the viewer asks to see it (the page's play button)
-function playOnce() { isStatic = false; build(); }
+function playOnce() { isStatic = false; started = true; build(); }   // (started: play right away, it was asked for)
 // a resize restarts the animation, unless the beads have already landed: then they are just redrawn in their row
 // (the page beside it can change width when its text appears and a scrollbar comes in)
 function settleNow() { build(true); for (let n = 0; phase !== 'rest' && n < 20000; n++) step(1 / 60); if (phase !== 'rest') toRest(); draw(step(0)); }
