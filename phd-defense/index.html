@@ -323,7 +323,7 @@
       replayStill = !!e.data.still; setReplayLabel();   // "play" (посмотреть) when motion is reduced and it has not played yet, else "replay" (ещё раз)
     }
     if (e.data === 'beads:start') {   // "skip" only the first time, while the text is still hidden; nothing during a replay
-      replayRow.classList.remove('resting');
+      if (!revealed) replayRow.classList.remove('resting');   // (on a replay the row keeps its button while it fades out, so "skip" never flashes)
       replayRow.classList.toggle('shown', !revealed);
     }
   });
