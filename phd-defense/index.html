@@ -243,8 +243,44 @@
   });
   if (icsEn) setCalendar('.content .lang-en .ics', icsEn);
   if (icsRu) setCalendar('.content .lang-ru .ics', icsRu);
+
+  // the middle dot before the times gets its own span, so placeDots can hide it where a line wraps next to it
+  document.querySelectorAll('.content .aside').forEach(a => {
+    const t = a.firstChild;
+    if (!t || t.nodeType !== 3 || t.data[0] !== '\u00b7') return;
+    const dot = document.createElement('span'); dot.className = 'dot'; dot.textContent = '\u00b7';
+    t.data = t.data.slice(1); a.insertBefore(dot, t);
+  });
   setLang(lang);
   }
+
+  // on narrow screens a row may wrap right after the middle dot (or right before it): there the dot is left out
+  function placeDots() { try { placeDotsNow(); } catch {} }   // (only cosmetic: never let it stop the text from showing)
+  function placeDotsNow() {
+    const charTop = (root, from, back) => {   // the top of the nearest letter after (or before) the dot
+      const walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      const nodes = []; while (walk.nextNode()) nodes.push(walk.currentNode);
+      const list = back ? nodes.filter(n => from.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_PRECEDING).reverse()
+                        : nodes.filter(n => from.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_FOLLOWING && !from.contains(n));
+      for (const n of list) {
+        const idx = []; for (let i = 0; i < n.data.length; i++) if (/\S/.test(n.data[i])) idx.push(i);
+        if (!idx.length) continue;
+        const i = back ? idx[idx.length - 1] : idx[0], r = document.createRange();
+        r.setStart(n, i); r.setEnd(n, i + 1);
+        const rect = r.getBoundingClientRect(); if (rect.height) return rect.top;
+      }
+      return null;
+    };
+    document.querySelectorAll('.content .dot').forEach(d => { d.style.display = ''; d.style.visibility = ''; });
+    document.querySelectorAll('.content .dot').forEach(d => {
+      const top = d.getBoundingClientRect().top, row = d.closest('.aside').parentNode;
+      if (!d.getClientRects().length) return;   // (in the hidden language)
+      const next = charTop(row, d, false), prev = charTop(row, d, true);
+      if (next !== null && next > top + 2) d.style.visibility = 'hidden';       // the dot ends a line: keep its place, just not the dot
+      else if (prev !== null && top > prev + 2) d.style.display = 'none';      // the dot starts a line: the text moves up to the edge
+    });
+  }
+  addEventListener('resize', placeDots);
 
   // по-русски (pink while chosen; click again for English): swaps the text (both languages are in the locked block) and the two public lines; not remembered, so the page always opens in English
   let lang = 'en', replayStill = false;
@@ -269,6 +305,7 @@
     document.querySelectorAll('.content .lang-ru').forEach(el => el.hidden = l !== 'ru');
     setReplayLabel();
     if (!form.hidden) fit();
+    placeDots();
   }
   document.getElementById('lang').onclick = () => setLang(lang === 'ru' ? 'en' : 'ru');
   setLang(lang);
@@ -290,6 +327,7 @@
   const showText = () => {   // the text grows in from nothing above the beads
     langSwitch.classList.add('shown');
     content.style.display = 'block';
+    placeDots();
     const h = content.scrollHeight;
     const pad = getComputedStyle(content).paddingBottom;
     Object.assign(content.style, { height: '0px', paddingBottom: '0px', opacity: '0', overflow: 'hidden' });
