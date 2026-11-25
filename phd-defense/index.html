@@ -20,7 +20,7 @@
   .thesis { margin-bottom: 44px; }
   .thesis h2 { font-size: 24px; line-height: 1.25em; margin: 0 0 12px; }
   /* <button> pills look exactly like the site's link pills */
-  .tabs .note-link, #pw, #replay, #skip { border: 0; margin: 0; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.9em;
+  .tabs .note-link, .pw, #replay, #skip, #lang { border: 0; margin: 0; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.9em;
                      line-height: inherit; cursor: url("/img/cursor_pink.png"), auto !important; }
   .tabs, .replay { font-size: 16px; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; }
   .tabs { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 0.5em; }   /* room between the rows when the buttons wrap on small screens */
@@ -39,7 +39,7 @@
   .rows .note-date { flex: 0 0 8em; font-size: 1em; }   /* a little wider than the longest label, "Join in person"; always the same size as the text beside it */
   .rows .note-date.two-line { line-height: 1.1em; }   /* keeps the two-line label from opening a big gap below it */
   .rows .note-link { margin-left: 0.5em; margin-right: 0; }
-  #pw { font-size: 0.9em; margin-left: 0.5em; }   /* same gap as the other pills */
+  .rows .pw { font-size: 0.9em; margin-left: 0.5em; }   /* same gap as the other pills */
   @media (hover: none) { .note-link:hover { background-color: #f4f4f4; color: #404040; } }   /* on touch screens a tapped button does not stay pink */
 
   /* the page opens with the animation, sized to fit the window under the menu; once the beads have landed the
@@ -59,6 +59,11 @@
   /* the lock: once the beads land, two lines show instead of the text; the right page password brings the text in */
   .gate { display: none; font-size: 16px; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; padding-bottom: 30px; }
   .gate.shown { display: block; animation: gate-in .6s ease; }
+  /* the language switch: one pill above the text (or the two lines), shown once the beads land */
+  .lang-switch { display: none; font-size: 16px; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; margin: 0 0 24px; }
+  .lang-switch.shown { display: block; animation: gate-in .6s ease; }
+  .lang-switch .note-link { margin-right: 0; }
+  #lang[aria-pressed="true"] { background-color: #fef2f1; color: #fa8072; }   /* stays pink while the page is in Russian, like an open abstract pill */
   @keyframes gate-in { from { opacity: 0; } }
   .gate > div + div { margin-top: 0.5em; }   /* a little room between the two lines */
   .gate .note-link, .no-js .note-link { margin-right: 0; }
@@ -82,7 +87,7 @@
   @media only screen and (max-width: 1024px) {
     .thesis h2 { font-size: 22px; }
     .rows li { font-size: 18px; line-height: 1.65em; }   /* more room between wrapped lines (and the buttons in them) */
-    .tabs, .replay, .gate, .no-js { font-size: 18px; }
+    .tabs, .replay, .gate, .no-js, .lang-switch { font-size: 18px; }
   }
   @media only screen and (max-width: 560px) {
     .rows li { flex-direction: column; gap: 0.3em; margin-bottom: 1em; line-height: 1.5em; }   /* a little room under each label, wrapped lines a bit tighter */
@@ -97,26 +102,28 @@
 <body>
   <div class="container">
     <div class="blurb">
-      <h1>Anastasia Lyulina</h1>
+      <h1 data-ru="Анастасия Люлина">Anastasia Lyulina</h1>
     </div>
   </div>
   <div class="container">
     <nav>
       <ul>
-        <li><a href="/">ABOUT</a></li>
-        <li><a href="/research">RESEARCH</a></li>
-        <li><a href="/publications">PUBLICATIONS</a></li>
-        <li><a href="/notes">NOTES</a></li>
-        <li><a href="/assets/cv.pdf" target="_blank">CV</a></li>
-        <li><a href="/contact">CONTACT</a></li>
+        <li><a href="/" data-ru="ОБО МНЕ">ABOUT</a></li>
+        <li><a href="/research" data-ru="НАУКА">RESEARCH</a></li>
+        <li><a href="/publications" data-ru="ПУБЛИКАЦИИ">PUBLICATIONS</a></li>
+        <li><a href="/notes" data-ru="ЗАМЕТКИ">NOTES</a></li>
+        <li><a href="/assets/cv.pdf" target="_blank" data-ru="РЕЗЮМЕ">CV</a></li>
+        <li><a href="/contact" data-ru="КОНТАКТЫ">CONTACT</a></li>
       </ul>
     </nav>
+
+    <p class="lang-switch needs-js"><button class="note-link" id="lang" lang="ru" aria-pressed="false">по-русски</button></p>
 
     <div class="content"></div>   <!-- the text is in LOCKED, scrambled; edit it in _drafts/phd-defense/content.html and run _scripts/lock_defense.py -->
 
     <div class="gate needs-js">
-      <div><button class="note-link" id="unlock">unlock page</button><form id="unlock-form" hidden><input type="password" placeholder="page password" aria-label="Page password" autocomplete="current-password"></form><span class="gate-label">if you were invited</span></div>
-      <div><a class="note-link" href="mailto:alyulina@stanford.edu?subject=PhD%20defense">email</a><span class="gate-label">to receive an invitation</span></div>
+      <div><button class="note-link" id="unlock" data-ru="открыть страницу">unlock page</button><form id="unlock-form" hidden><input type="password" placeholder="page password" data-ru-placeholder="пароль" aria-label="Page password" data-ru-label="Пароль" autocomplete="current-password"></form><span class="gate-label" data-ru="если у вас есть приглашение">if you were invited</span></div>
+      <div><a class="note-link" href="mailto:alyulina@stanford.edu?subject=PhD%20defense" data-ru="написать">email</a><span class="gate-label" data-ru="чтобы пригласиться">to receive an invitation</span></div>
     </div>
 
     <noscript>
@@ -127,16 +134,16 @@
 
     <!-- threading beads (?seed=2 fixes the arrangement; bump v= whenever beads.html changes, so browsers fetch the new one); the frame is sized and loaded by the script below -->
     <div class="beads-wrap">
-      <iframe class="beads" scrolling="no" data-src="beads.html?seed=2&amp;bg=transparent&amp;v=16" title="Animation: a thread weaves through colorful beads, which then fall into a row"></iframe>
+      <iframe class="beads" scrolling="no" data-src="beads.html?seed=2&amp;bg=transparent&amp;v=16" title="Animation: a thread weaves through colorful beads, which then fall into a row" data-ru-title="Анимация: нить проходит сквозь разноцветные бусины, и они падают в ряд"></iframe>
     </div>
-    <p class="replay"><a href="#" role="button" class="note-link" id="skip">skip</a><a href="#" role="button" class="note-link" id="replay">replay</a></p>
+    <p class="replay"><a href="#" role="button" class="note-link" id="skip" data-ru="пропустить">skip</a><a href="#" role="button" class="note-link" id="replay">replay</a></p>
 
   </div>
 
 <script>
   // the locked text: only this scrambled block is in the page; the page password unscrambles it in the browser
   // (PBKDF2-SHA256 → AES-256-CTR, sealed with HMAC-SHA256; written by _scripts/lock_defense.py, which must use the same settings)
-  const LOCKED = 'L97MOARiAVUrLZFejlxgbQ==.5pkKbne45rwAAAAAAAAAAA==.TrTxREiSxk21UV21z0pZfXjoKWFY/WY9sKFPX2y2CFlHK/Zf0G2J7lhlehbbnrLSobIVlyOuTeiPiotgVICJaX/YQY/ERXQtaLa29QV9qJlMtSOG6P91xBzpaw9vmx0qZbKda8nMwWor1ksddEkPxGLcuDJACjuFxDUQ2/CYqos/DX8mWoApTxlju8P1rbh+zJaXDoWNzGsNIWZTy4aqHu8KdcNk+ZXKa29R9mNoGXcVAtDwo0PIPqzjJc9SSDS69NJyKn/Y+HRiVv5034uq4iE7blR/Nfv8Ha4tLUt53WfXxG+vbdfSXjY8x/tv+yBuQvXT9hdKSXJQUKiZtdDW00l1h8SzxkNFwLmOol8ywqo2J9AhrU5zuwC8PpfDn39QOiYbczYnr882p9+HIbT8EcfL9SoH9X1qPptGBVRquhNqM9kZk1dGv8+dQH3bSunZ6DfFsqTzg6kYRdD8K0KOKsYLkpc+TCuNIvDyhK9CesM+0NZWp97mDWMYyX7xuRyWSr7Sqimz2XLlzW/eg8crNwuORZfWH0SF+j3iv5GN/EFnNmcILQAokpIxsuQgoPADUZzB1ePOVJWNdPXRz5h7B5kyI4BL9TUfWRFOQPefk9umDq6zgoM+UVIRBcFZo2CcBDS9fP35qVlCZ4I4Lcty+5Bv++YZuwszhX2gZCFnqrVRXM+8E+uzU4UhREkXRGNe9GzmruA9jvhX8KCOcuUMVpxnxOGI/eF5vGIrPzeQSnA46GOXIz+g8eqexv1IJOmWXmPmvNcYkmuBYbJqaK1xfDiq9nzm2HuypTovX9HQP96gNDn/vA4UM/AGJ+9eFByVcG49t9l8whl5pDqZOOjwfXnuHt031m4utDoF9u31sFBHOd6QVdrSOddi0dYJQ9n91WiXho7TLR4/t2pivww7csmw7pkjuiQiTGhdK+lnq5wubb6Kxa8f6pp7b0gO6NexOdyCogDCn9lBxb70xVKSRBJGQnRahm3pL+H1H7QwTQ4eMHBncrJa5Es13sfIfCMcRtSrHgVynpA+gGVoJ3c374fw4O8Hfu2Vd77QiYFU83vrRnENXqUCH1mSaVcoAuUoNlt+zZzmjSIXtsHc0o7SkwQfh4dC0Dso9vETvcQevytwFc+PfVPAIdEfB8hFfPLTD8+hWU6JuNYd77e7Cb6DD4bgrf4dNGopRXSfM9CQMdx+OgKic1WjBJKfTMRX9YXuVYX/UNQYkknNB3E9Hc4QLcaDJZp9steqpUodiMPzdJUBDUr2raZCPl7I0Qy/JjjxdWSBGWD8ooKgkV4fQ9ugBiOkDKN8qp0QmIG4KaFM13D87+tr7Af7r3svZ6yfdDgC5+BNIvevTcyI6sj2aclzKzjaqTHTk9bTCoCrkPpQHkly8RhJPox/pFyJUQmSA2RCvAxV9/lIIkZ4rhyXaOk5GplIbCy0yCLM0Jz5xgtz1rPvOzdeQG3b88tD47W+866Z8oImKITC3eQRJ5SbBVG8dvP1NIjdnyzsszOMYfErNzo4xhiUD9ELszjNOUYlZpMIiZ6GBAd1vmys65DTrWabnag8OYiUCobPOgYNEWOi3VerpsIyKvK3GRn1v7I5LUkqbnthcfLWe2Vj5w13LCXeoXjgaNLgz0AtAzC0+ZV+zQ6AlAtUuzKh4BnX99gkRKB/aBUL4z0surzinnjNsJITeXaTSSGeFGkTh0j6EhRmdqrBUT5oVb8R5MYQco4nUZfC1ZAKxNESPYCsnSHMaSbSw4ikWUDJEdF0wo1HjbNa9FAqTFfs05hEd0SArA2shoVYyrkclGT7erKkHK4/32bjauYLiKzbGtV6tY6RlMhPNPXIr/P44V6zuJiH1fwvkDNDe5GmYrEPnhe/bYro+GzNu4GJE4+WKWN3vzrE7ZwnL6C0VC/JMMT1WnJHx13OcA0IR0U1asW7KZo0pkbcEXzjgEKZx31XO2BG0ftS3w/QynhLY8UTVPVIWIqaraz9V9ySzN8/p7DppdZYwZ3KQrf35m2ykjpDyOzFKeJtu9UXB3PoKUkk2ppbO2EhPzgatRpP7iOgnJvGfVF+efjMh47n43urFjG2UtZ/F86ybx98qKlcweuQuOVqCM4NEq8ATjROkUcEYmcyC8L68FhHhBKu79tAdX2+EtUJMpkiP9RIPO7ANBP3eWHdLfk9wS8TkgZOumby1vtPXYlfGXGyd39NTzov9Yq13LgCf3N5H1Yo7AcI7lYJoMNZyw==.neH8apUT3BxKeTCGiFmQtkGFcZaXNgg8TTADAi/HAAY=';
+  const LOCKED = '2z4yuHTcsR759NzwIX1muQ==.yJzXM31oZRAAAAAAAAAAAA==.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.2gXAguMDbYe1HLbv/DpCSy+3381mPd6aNd3Iy/DltnA=';
   let unlocked = false;
   const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
   async function openLocked(password) {
@@ -158,7 +165,8 @@
     try { localStorage.setItem('defense-pw', p); } catch {}   // returning guests go straight in
     return true;
   };
-  const showGate = () => gate.classList.add('shown');
+  const langSwitch = document.querySelector('.lang-switch');
+  const showGate = () => { gate.classList.add('shown'); langSwitch.classList.add('shown'); };
   // the field grows with what is typed (and fits its placeholder when empty), measured with a hidden copy in the same font
   const sizer = document.createElement('span');
   Object.assign(sizer.style, { position: 'absolute', visibility: 'hidden', whiteSpace: 'pre', fontFamily: getComputedStyle(input).fontFamily, fontSize: '0.9em' });
@@ -176,28 +184,63 @@
 
   // the buttons inside the text, wired up once it is there
   function wire() {
-  // abstract / chapter pills: each opens its panel; only one open at a time, click again to close
-  const tabs = [...document.querySelectorAll('.tabs .note-link')];
-  tabs.forEach(t => t.onclick = e => {
-    e.preventDefault();
-    const open = t.getAttribute('aria-expanded') !== 'true';
-    tabs.forEach(o => { o.setAttribute('aria-expanded', 'false'); document.getElementById(o.getAttribute('aria-controls')).hidden = true; });
-    if (open) { t.setAttribute('aria-expanded', 'true'); document.getElementById(t.getAttribute('aria-controls')).hidden = false; }
+  // abstract / chapter pills: each opens its panel; only one open at a time (in each language), click again to close
+  document.querySelectorAll('.content .tabs').forEach(group => {
+    const tabs = [...group.querySelectorAll('.note-link[aria-controls]')];
+    tabs.forEach(t => t.onclick = e => {
+      e.preventDefault();
+      const open = t.getAttribute('aria-expanded') !== 'true';
+      tabs.forEach(o => { o.setAttribute('aria-expanded', 'false'); document.getElementById(o.getAttribute('aria-controls')).hidden = true; });
+      if (open) { t.setAttribute('aria-expanded', 'true'); document.getElementById(t.getAttribute('aria-controls')).hidden = false; }
+    });
   });
 
-  // password pill: click to show the password (and copy it); click again to hide it
-  const pw = document.getElementById('pw');
-  pw.onclick = e => {
-    e.preventDefault();
-    if (pw.dataset.shown) { pw.textContent = 'password'; delete pw.dataset.shown; return; }
-    pw.textContent = pw.dataset.pw; pw.dataset.shown = '1';
-    if (navigator.clipboard) navigator.clipboard.writeText(pw.dataset.pw).catch(() => {});
-  };
+  // password pills: click to show the password (and copy it); click again to hide it
+  document.querySelectorAll('.content .pw').forEach(pw => {
+    const label = pw.textContent;
+    pw.onclick = e => {
+      e.preventDefault();
+      if (pw.dataset.shown) { pw.textContent = label; delete pw.dataset.shown; return; }
+      pw.textContent = pw.dataset.pw; pw.dataset.shown = '1';
+      if (navigator.clipboard) navigator.clipboard.writeText(pw.dataset.pw).catch(() => {});
+    };
+  });
 
   // "add to calendar": the calendar file is made here from the block at the end of the text
-  const icsData = document.getElementById('ics-data'), ics = document.getElementById('ics');
-  if (icsData && ics) ics.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsData.textContent.trim().replace(/\r?\n/g, '\r\n') + '\r\n');
+  const icsFile = el => 'data:text/calendar;charset=utf-8,' + encodeURIComponent(el.textContent.trim().replace(/\r?\n/g, '\r\n') + '\r\n');
+  const icsEn = document.getElementById('ics-data'), icsRu = document.getElementById('ics-data-ru') || icsEn;
+  if (icsEn) document.querySelectorAll('.content .lang-en .ics').forEach(a => a.href = icsFile(icsEn));
+  if (icsRu) document.querySelectorAll('.content .lang-ru .ics').forEach(a => a.href = icsFile(icsRu));
+  setLang(lang);
   }
+
+  // по-русски (pink while chosen; click again for English): swaps the text (both languages are in the locked block) and the two public lines; remembered
+  let lang = 'en', replayStill = false;
+  const setReplayLabel = () => { document.getElementById('replay').textContent = lang === 'ru' ? (replayStill ? 'показать' : 'ещё раз') : (replayStill ? 'play' : 'replay'); };
+  try { if (localStorage.getItem('defense-lang') === 'ru') lang = 'ru'; } catch {}
+  function setLang(l) {
+    lang = l;
+    document.documentElement.lang = l;
+    document.title = l === 'ru' ? 'Анастасия Люлина | Защита диссертации' : 'Anastasia Lyulina | PhD Defense';
+    const btn = document.getElementById('lang');
+    btn.setAttribute('aria-pressed', l === 'ru');   // always "по-русски": pink while chosen, click again for English
+    document.querySelectorAll('[data-ru]').forEach(el => { if (!el.dataset.en) el.dataset.en = el.textContent; el.textContent = l === 'ru' ? el.dataset.ru : el.dataset.en; });
+    document.querySelectorAll('[data-ru-placeholder]').forEach(el => { if (!el.dataset.enPlaceholder) el.dataset.enPlaceholder = el.placeholder; el.placeholder = l === 'ru' ? el.dataset.ruPlaceholder : el.dataset.enPlaceholder; });
+    // what screen readers say (field label, animation description) follows the language too
+    [['ruLabel', 'aria-label'], ['ruTitle', 'title']].forEach(([key, attr]) => document.querySelectorAll(`[data-${key === 'ruLabel' ? 'ru-label' : 'ru-title'}]`).forEach(el => {
+      const enKey = key + 'En'; if (!el.dataset[enKey]) el.dataset[enKey] = el.getAttribute(attr);
+      el.setAttribute(attr, l === 'ru' ? el.dataset[key] : el.dataset[enKey]);
+    }));
+    // the email subject
+    document.querySelectorAll('.gate a[href^="mailto:"]').forEach(a => a.href = 'mailto:alyulina@stanford.edu?subject=' + encodeURIComponent(l === 'ru' ? 'Защита диссертации' : 'PhD defense'));
+    document.querySelectorAll('.content .lang-en').forEach(el => el.hidden = l === 'ru');
+    document.querySelectorAll('.content .lang-ru').forEach(el => el.hidden = l !== 'ru');
+    setReplayLabel();
+    if (!form.hidden) fit();
+    try { localStorage.setItem('defense-lang', l); } catch {}
+  }
+  document.getElementById('lang').onclick = () => setLang(lang === 'ru' ? 'en' : 'ru');
+  setLang(lang);
 
   // the animation: sized to fit the window under the menu (never taller than 560px or wider than the screen allows),
   // then, once the beads have landed, the text fades in above it while its box closes up to a strip around the row
@@ -214,6 +257,7 @@
   frame.src = frame.dataset.src;
   let revealed = false;
   const showText = () => {   // the text grows in from nothing above the beads
+    langSwitch.classList.add('shown');
     content.style.display = 'block';
     const h = content.scrollHeight;
     const pad = getComputedStyle(content).paddingBottom;
@@ -240,12 +284,12 @@
     if (e.data && e.data.type === 'beads:landed') {   // and "replay" right away, without waiting for them to settle
       closeUp(e.data, true);
       replayRow.classList.add('resting', 'shown');
-      document.getElementById('replay').textContent = 'replay';
+      replayStill = false; setReplayLabel();
     }
     if (e.data && e.data.type === 'beads:rest') {   // all still (or a still for reduced motion: then "play")
       closeUp(e.data, revealed || !e.data.still);
       replayRow.classList.add('resting', 'shown');
-      document.getElementById('replay').textContent = e.data.still ? 'play' : 'replay';   // "play" when motion is reduced and it has not played yet
+      replayStill = !!e.data.still; setReplayLabel();   // "play" (показать) when motion is reduced and it has not played yet, else "replay" (ещё раз)
     }
     if (e.data === 'beads:start') {   // "skip" only the first time, while the text is still hidden; nothing during a replay
       replayRow.classList.remove('resting');
