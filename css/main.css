@@ -12,9 +12,9 @@ nav ul li { display: inline-block; margin-right: 25px; margin-bottom: 15px}
 /* the cursor switch: only where there is a mouse or trackpad */
 nav ul li.cursor-switch { display: none; }
 @media (hover: hover) and (pointer: fine) { nav ul li.cursor-switch { display: inline-block; } }
-.cursor-switch button { border: 0; background: none; padding: 0; margin: -0.1em 0; font-size: inherit; color: #c1c1c1; line-height: 0; vertical-align: -0.36em; cursor: var(--cursor-link) !important; }
+.cursor-switch button { border: 0; background: none; padding: 0; margin: -0.1em 0; font-size: inherit; color: #c1c1c1; line-height: 0; vertical-align: -0.31em; cursor: var(--cursor-link) !important; }
 .cursor-switch button:hover, .cursor-switch button[aria-pressed="true"] { color: #e8ad9a; }   /* light grey like the commit link on the contact page; a light clay while hovered or on, so it stays quiet */
-.cursor-switch .icon { display: block; width: 1.45em; height: 1.45em; background-color: currentColor;   /* the bacterium, filled with the button's colour */
+.cursor-switch .icon { display: block; width: 1.3em; height: 1.3em; background-color: currentColor;   /* the bacterium, filled with the button's colour */
                        -webkit-mask: url("/img/cursor_switch.png") center / contain no-repeat; mask: url("/img/cursor_switch.png") center / contain no-repeat; }
 
 a { font-size: inherit; line-height: inherit; font-family: inherit; text-decoration: none; color: #888; }
