@@ -8,7 +8,7 @@ This repository contains the source code for my personal academic website. It is
 
 **Notes**. Notes are standalone files in the `notes/` folder, named `YYYY-MM-DD-note.html`. They must also be manually linked from `notes/index.html`. Drafts go in `_drafts/`, which is never committed. See [`notes/README.md`](notes/README.md) for detailed instructions.
 
-**CV**. Replace `assets/cv.pdf` with an updated file.
+**CV**. Replace `assets/lyulina_cv.pdf` with an updated file.
 
 **Other content**. Each page (`index.html`, `research/index.html`, `contact/index.html`, etc.) is a standalone file; edit them directly. To add a new page, create a new folder with an `index.html` inside (e.g. `teaching/index.html`) following the structure of existing pages, and add it to `_includes/nav.html` to include it in the navigation bar. For better search engine results, add a `description` field to the front matter of any page you want indexed.
 
@@ -39,7 +39,7 @@ You are welcome to use this as a template for your own site as per [`LICENSE.md`
   - `research/index.html` — replace my research description and the `description` at the top of the file.
   - `_data/publications.json` — replace with your publications.
   - `notes/` — please do not include my notes without proper acknowledgments. This also applies to the files they use, such as figures and notebooks.
-  - `assets/cv.pdf` — replace with your own.
+  - `assets/lyulina_cv.pdf` — replace with your own.
   - `contact/index.html` — replace the contact details and the link to this repository at the bottom.
 
 - Update **third-party account verification**:
