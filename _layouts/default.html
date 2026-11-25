@@ -4,8 +4,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		{% assign tab = page.tab_title | default: page.title %}<title>{{ site.title }}{% if tab %} | {{ tab }}{% endif %}</title>
-		<link rel="stylesheet" type="text/css" href="/css/main.css?v=4">
+		<link rel="stylesheet" type="text/css" href="/css/main.css?v=5">
 		<link rel="icon" href="/img/bacteria.ico">
+		<script>try { if (localStorage.getItem('cursor') === 'bacteria') document.documentElement.classList.add('bacteria-cursor'); } catch (e) {}</script>
 		<script>
   // Before MathJax runs, move punctuation that directly follows an equation ("$x$," or "$x$.")
   // inside it, so the comma or period can never wrap onto the next line on its own.

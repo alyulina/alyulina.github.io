@@ -1,4 +1,7 @@
-html { cursor: url("/img/cursor_black.png"), auto !important; height: 101%; }
+/* the bacteria cursor is off unless a visitor switches it on (the bacterium at the end of the menu); the choice is kept in their browser */
+:root { --cursor: auto; --cursor-link: pointer; }
+html.bacteria-cursor { --cursor: url("/img/cursor_black.png"), auto; --cursor-link: url("/img/cursor_clay.png"), pointer; }
+html { cursor: var(--cursor) !important; height: 101%; }
 body { font-size: 16px; }   /* a fixed base, so sizes given relative to it (captions, dates, buttons) follow the site's text and not the browser's own font-size setting */
 
 @media only screen and (min-width: 1025px) { body { margin: 60px auto; width: 800px; overflow: visible !important; } }
@@ -6,10 +9,17 @@ body { font-size: 16px; }   /* a fixed base, so sizes given relative to it (capt
 
 nav ul { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; padding: 0px; list-style: none; margin-top: 0px; margin-bottom: 35px; margin-right: 0px;}
 nav ul li { display: inline-block; margin-right: 25px; margin-bottom: 15px}
+/* the cursor switch: only where there is a mouse or trackpad */
+nav ul li.cursor-switch { display: none; }
+@media (hover: hover) and (pointer: fine) { nav ul li.cursor-switch { display: inline-block; } }
+.cursor-switch button { border: 0; background: none; padding: 0; margin: -0.1em 0; font-size: inherit; color: #c1c1c1; line-height: 0; vertical-align: -0.36em; cursor: var(--cursor-link) !important; }
+.cursor-switch button:hover, .cursor-switch button[aria-pressed="true"] { color: #e8ad9a; }   /* light grey like the commit link on the contact page; a light clay while hovered or on, so it stays quiet */
+.cursor-switch .icon { display: block; width: 1.45em; height: 1.45em; background-color: currentColor;   /* the bacterium, filled with the button's colour */
+                       -webkit-mask: url("/img/cursor_switch.png") center / contain no-repeat; mask: url("/img/cursor_switch.png") center / contain no-repeat; }
 
 a { font-size: inherit; line-height: inherit; font-family: inherit; text-decoration: none; color: #888; }
 a:hover, a.active { text-decoration: none; color: #d97757; }
-a { cursor: url("/img/cursor_clay.png"), auto !important; }
+a { cursor: var(--cursor-link) !important; }
 
 h1 { font-size: 52px; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; margin-bottom: 18px; overflow: visible !important; }
 h2 { font-size: 20px; line-height: 1em; font-weight: bold; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
@@ -42,7 +52,7 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 .github-link p { color: #c1c1c1; font-size: 0.95em; }
 .github-link a { color: #c1c1c1; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
 .github-link a:hover { color: #d97757; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
-.github-link span { cursor: url("/img/cursor_clay.png"), auto !important; }
+.github-link span { cursor: var(--cursor-link) !important; }
 
 .figure-container { display: flex; flex-direction: column; align-items: center; gap: 1em; margin-bottom: 1.4em; text-align: left; }
 .figure-container img { width: 100%; max-width: 480px; height: auto; }

@@ -6,5 +6,20 @@
 		<li><a href="/notes" {% if page.url contains 'notes' %}class="active"{% endif %}>NOTES</a></li>
 		<li><a href="/assets/cv.pdf" target="_blank">CV</a></li>
 		<li><a href="/contact" {% if page.url contains 'contact' %}class="active"{% endif %}>CONTACT</a></li>
+		{% include cursor-switch.html %}
 	</ul>
 </nav>
+<script>
+  // the bacterium at the end of the menu switches the bacteria cursor on and off, and the browser remembers it
+  (function () {
+    var b = document.querySelector('.cursor-switch button'), html = document.documentElement;
+    if (!b) return;
+    b.setAttribute('aria-pressed', html.classList.contains('bacteria-cursor'));
+    b.onclick = function () {
+      var on = !html.classList.contains('bacteria-cursor');
+      html.classList.toggle('bacteria-cursor', on); b.setAttribute('aria-pressed', on);
+      try { if (on) localStorage.setItem('cursor', 'bacteria'); else localStorage.removeItem('cursor'); } catch (e) {}
+    };
+  })();
+</script>
+

@@ -6,9 +6,10 @@
 <meta name="robots" content="noindex, nofollow">   <!-- keeps the page out of search results; delete this line to let search engines list it -->
 <title>Anastasia Lyulina | PhD Defense</title>
 <meta name="description" content="Anastasia Lyulina's PhD defense in Biology at Stanford University — join in person or online.">
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=6">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=7">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
 <link rel="icon" href="/img/bacteria.ico">
 <script>document.documentElement.classList.add('js');</script>
+<script>try { if (localStorage.getItem('cursor') === 'bacteria') document.documentElement.classList.add('bacteria-cursor'); } catch (e) {}</script>
 <style>
   /* draft highlight on all text that may still change — delete these two rules to remove every highlight at once */
   .ph { background: #fbefea; border-radius: 4px; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
@@ -21,7 +22,7 @@
   .thesis h2 { font-size: 24px; line-height: 1.25em; margin: 0 0 12px; }
   /* <button> pills look exactly like the site's link pills */
   .tabs .note-link, .pw, #replay, #skip, #lang { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.95em;
-                     line-height: inherit; cursor: url("/img/cursor_clay.png"), auto !important; }
+                     line-height: inherit; cursor: var(--cursor-link) !important; }
   .tabs, .replay { font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; }
   .tabs { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 0.5em; }   /* room between the rows when the buttons wrap on small screens */
   .tabs .note-link { margin-right: 0.6em; }
@@ -68,7 +69,7 @@
   .gate > div + div { margin-top: 0.5em; }   /* a little room between the two lines */
   .gate .note-link, .no-js .note-link { margin-right: 0; }
   .gate-label { color: #333; margin-left: 0.5em; }
-  #unlock { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.95em; line-height: inherit; cursor: url("/img/cursor_clay.png"), auto !important; }
+  #unlock { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.95em; line-height: inherit; cursor: var(--cursor-link) !important; }
   #unlock[hidden], #unlock-form[hidden] { display: none; }
   #unlock-form { display: inline; }
   /* the password field is drawn like the site's pills (.note-link in main.css), and grows with what is typed */
@@ -114,8 +115,22 @@
         <li><a href="/notes" data-ru="ЗАМЕТКИ">NOTES</a></li>
         <li><a href="/assets/cv.pdf" target="_blank" data-ru="РЕЗЮМЕ">CV</a></li>
         <li><a href="/contact" data-ru="КОНТАКТЫ">CONTACT</a></li>
+        <li class="cursor-switch"><button type="button" aria-pressed="false" aria-label="Bacteria cursor"><span class="icon" aria-hidden="true"></span></button></li>
       </ul>
     </nav>
+<script>
+  // the bacterium at the end of the menu switches the bacteria cursor on and off, and the browser remembers it
+  (function () {
+    var b = document.querySelector('.cursor-switch button'), html = document.documentElement;
+    if (!b) return;
+    b.setAttribute('aria-pressed', html.classList.contains('bacteria-cursor'));
+    b.onclick = function () {
+      var on = !html.classList.contains('bacteria-cursor');
+      html.classList.toggle('bacteria-cursor', on); b.setAttribute('aria-pressed', on);
+      try { if (on) localStorage.setItem('cursor', 'bacteria'); else localStorage.removeItem('cursor'); } catch (e) {}
+    };
+  })();
+</script>
 
     <p class="lang-switch needs-js"><button class="note-link" id="lang" lang="ru" aria-pressed="false">по-русски</button></p>
 

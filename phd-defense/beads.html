@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>try { if (localStorage.getItem('cursor') === 'bacteria') document.documentElement.classList.add('bacteria-cursor'); } catch (e) {}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">   <!-- keeps the page out of search results; delete this line to let search engines list it -->
@@ -9,7 +10,7 @@
   :root { --bg: #ffffff; }
   html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; }
   canvas { display: block; width: 100vw; height: 100vh; }
-  html, body, canvas { cursor: url("/img/cursor_black.png"), auto !important; }   /* the site's normal cursor everywhere */
+  html.bacteria-cursor, html.bacteria-cursor body, html.bacteria-cursor canvas { cursor: url("/img/cursor_black.png"), auto !important; }   /* the site's bacteria cursor, when a visitor has switched it on */
   #ui { position: fixed; right: 16px; bottom: 16px; display: flex; gap: 8px;
         font: 13px/1 -apple-system, system-ui, sans-serif; transition: opacity .3s; }
   #ui button { border: 1px solid #ccc; background: #fff; color: #333; padding: 7px 11px;
