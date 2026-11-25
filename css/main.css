@@ -1,7 +1,7 @@
 /* the bacteria cursor is off unless a visitor switches it on (the bacterium at the end of the menu); the choice is kept in their browser */
 :root { --cursor: auto; --cursor-link: pointer; }
 html.bacteria-cursor { --cursor: url("/img/cursor_black.png"), auto; --cursor-link: url("/img/cursor_clay.png"), pointer; }
-html { cursor: var(--cursor) !important; height: 101%; background: #fff; }   /* white page, set explicitly so the pinned header always matches it *
+html { cursor: var(--cursor) !important; background: #fff; scrollbar-gutter: stable; }   /* white page (so the pinned header always matches it); room for a scrollbar is always kept, so pages never shift sideways, and short pages don't scroll */
 body { font-size: 16px; }   /* a fixed base, so sizes given relative to it (captions, dates, buttons) follow the site's text and not the browser's own font-size setting */
 
 @media only screen and (min-width: 1025px) { body { margin: 60px auto; width: 800px; overflow: visible !important; } }
@@ -71,16 +71,20 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 @media only screen and (min-width: 1025px) { .epigraph { margin-right: 50%; } }
 
 /* the name and the menu stay at the top while the page scrolls (not on phones: there is not enough room).
-   It starts exactly where it always was, and pins once the space above it has scrolled away. */
+   It starts exactly where it always was and stays there. */
 @media only screen and (min-width: 700px) and (min-height: 600px) {
-  .site-header { position: sticky; top: 0; z-index: 10; padding-top: 20px; background: #fff;
-                 box-shadow: 0 0 0 100vmax #fff; clip-path: inset(0 -100vmax -14px); }   /* white across the whole window, so nothing shows beside it */
+  /* the space under the menu moves inside the header, so while pinned there is as much white under the menu as at the top of the page;
+     its lower part fades out gradually, so text scrolling under it disappears softly instead of being cut off */
+  .site-header { position: sticky; top: 40px; z-index: 10; padding: 20px 0 35px;   /* pinned right where it starts: it never moves */
+                 --fade: 34px;   /* how tall the fade is */
+                 background: linear-gradient(#fff calc(100% - var(--fade)), rgba(255,255,255,.85) calc(100% - var(--fade) * .6),
+                                             rgba(255,255,255,.45) calc(100% - var(--fade) * .3), rgba(255,255,255,0));
+                 box-shadow: 0 0 0 100vmax #fff; clip-path: inset(-40px -100vmax 0); }   /* white across the whole window and above it, so nothing shows beside or above it */
+  .site-header nav ul { margin-bottom: 0; }
   .site-header h1 { margin-top: 0; }
   /* the 20px above the name come out of the page's top margin, so the name starts exactly where it always did */
   body { margin-top: 40px !important; }
-  @media only screen and (max-width: 1024px) { body { margin-top: 20px !important; } }
-  .site-header::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 14px; pointer-events: none;
-                        background: linear-gradient(#fff, rgba(255,255,255,0)); }       /* text scrolling under it fades out instead of being cut off */
+  @media only screen and (max-width: 1024px) { body { margin-top: 20px !important; } .site-header { padding-bottom: 27px; top: 20px; clip-path: inset(-20px -100vmax 0); --fade: 20px; } }
 }
 
 @media only screen and (max-width: 1024px) { h1 { font-size: 38px; } nav ul { font-size: 16px; margin-top: -13px; margin-bottom: 27px; } nav ul li { margin-right: 22px; margin-bottom: -7px; } nav ul li a { display: inline-block; padding: 8px 10px; margin: 0 -10px; } p, ol, ol p { font-size: 18px; } .footnote { font-size: 16px; } }

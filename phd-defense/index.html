@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">   <!-- keeps the page out of search results; delete this line to let search engines list it -->
 <title>Anastasia Lyulina | PhD Defense</title>
 <meta name="description" content="Anastasia Lyulina's PhD defense in Biology at Stanford University — join in person or online.">
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=10">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=11">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
 <link rel="icon" href="/img/bacteria.ico">
 <script>document.documentElement.classList.add('js');</script>
 <script>try { if (localStorage.getItem('cursor') === 'bacteria') document.documentElement.classList.add('bacteria-cursor'); } catch (e) {}</script>
@@ -345,7 +345,9 @@
   wrap.style.height = (frameH - trim) + 'px';
   // where the screen is taller than the animation needs (phones), centre it in the space under the menu
   const spare = innerHeight - replayRow.getBoundingClientRect().bottom - 48;   // (measured with everything in place; keeps room under skip)
-  if (spare > 0) wrap.style.marginTop = Math.round(spare / 2) + 'px';
+  // (while the header is pinned, the space under the menu is part of the header, so it counts towards this margin rather than adding to it)
+  const underMenu = parseFloat(getComputedStyle(document.querySelector('.site-header')).paddingBottom) || 0;
+  if (spare > 0) wrap.style.marginTop = Math.max(0, Math.round(spare / 2) - underMenu) + 'px';
   frame.src = frame.dataset.src;
   let revealed = false;
   const showText = () => {   // the text grows in from nothing above the beads
