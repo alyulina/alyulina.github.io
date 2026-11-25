@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">   <!-- keeps the page out of search results; delete this line to let search engines list it -->
 <title>Anastasia Lyulina | PhD Defense</title>
 <meta name="description" content="Anastasia Lyulina's PhD defense in Biology at Stanford University — join in person or online.">
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=2">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=3">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
 <link rel="icon" href="/img/bacteria.ico">
 <script>document.documentElement.classList.add('js');</script>
 <style>
@@ -20,13 +20,13 @@
   .thesis { margin-bottom: 44px; }
   .thesis h2 { font-size: 24px; line-height: 1.25em; margin: 0 0 12px; }
   /* <button> pills look exactly like the site's link pills */
-  .tabs .note-link, .pw, #replay, #skip, #lang { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.9em;
+  .tabs .note-link, .pw, #replay, #skip, #lang { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.95em;
                      line-height: inherit; cursor: url("/img/cursor_pink.png"), auto !important; }
   .tabs, .replay { font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; }
   .tabs { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 0.5em; }   /* room between the rows when the buttons wrap on small screens */
   .tabs .note-link { margin-right: 0.6em; }
   .tabs .note-link[aria-expanded="true"] { background-color: #fef2f1; color: #fa8072; }   /* the open one stays pink, like the current page in the menu */
-  .tabs .full-text { font-size: 0.9em; margin-left: 0.2em; white-space: nowrap; }   /* same size as the pills */
+  .tabs .full-text { font-size: 0.95em; margin-left: 0.2em; white-space: nowrap; }   /* same size as the pills */
   .panel { margin-top: 18px; animation: fade .35s ease; }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
@@ -39,7 +39,7 @@
   .rows .note-date { flex: 0 0 8em; font-size: 1em; }   /* a little wider than the longest label, "Join in person"; always the same size as the text beside it */
   .rows .note-date.two-line { line-height: 1.1em; }   /* keeps the two-line label from opening a big gap below it */
   .rows .note-link { margin-left: 0.5em; margin-right: 0; }
-  .rows .pw { font-size: 0.9em; margin-left: 0.5em; }   /* same gap as the other pills */
+  .rows .pw { font-size: 0.95em; margin-left: 0.5em; }   /* same gap as the other pills */
   @media (hover: none) { .note-link:hover { background-color: #f4f4f4; color: #404040; } }   /* on touch screens a tapped button does not stay pink */
 
   /* the page opens with the animation, sized to fit the window under the menu; once the beads have landed the
@@ -68,11 +68,11 @@
   .gate > div + div { margin-top: 0.5em; }   /* a little room between the two lines */
   .gate .note-link, .no-js .note-link { margin-right: 0; }
   .gate-label { color: #333; margin-left: 0.5em; }
-  #unlock { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.9em; line-height: inherit; cursor: url("/img/cursor_pink.png"), auto !important; }
+  #unlock { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.95em; line-height: inherit; cursor: url("/img/cursor_pink.png"), auto !important; }
   #unlock[hidden], #unlock-form[hidden] { display: none; }
   #unlock-form { display: inline; }
   /* the password field is drawn like the site's pills (.note-link in main.css), and grows with what is typed */
-  #unlock-form input { font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.9em; line-height: inherit; vertical-align: 0.05em;
+  #unlock-form input { font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.95em; line-height: inherit; vertical-align: 0.05em;
                        width: 7em; padding: 1px 4px; box-sizing: content-box; margin: 0; border: 0; border-radius: 4px; background: #f4f4f4; color: #404040; outline: none;
                        -webkit-appearance: none; appearance: none; text-overflow: clip; }   /* no phone-specific field styling or extra inner padding */
   #unlock-form input::placeholder { color: #404040; opacity: 1; }
@@ -169,9 +169,9 @@
   const showGate = () => { gate.classList.add('shown'); langSwitch.classList.add('shown'); };
   // the field grows with what is typed (and fits its placeholder when empty), measured with a hidden copy in the same font
   const sizer = document.createElement('span');
-  Object.assign(sizer.style, { position: 'absolute', visibility: 'hidden', whiteSpace: 'pre', fontFamily: getComputedStyle(input).fontFamily, fontSize: '0.9em' });
+  Object.assign(sizer.style, { position: 'absolute', visibility: 'hidden', whiteSpace: 'pre', fontFamily: getComputedStyle(input).fontFamily });
   form.appendChild(sizer);
-  const fit = () => { sizer.textContent = input.value ? '\u2022'.repeat(input.value.length) : input.placeholder; input.style.width = (sizer.offsetWidth + (input.value ? 6 : 1)) + 'px'; };   // (a little room for the cursor once typing)
+  const fit = () => { sizer.style.fontSize = getComputedStyle(input).fontSize; sizer.textContent = input.value ? '\u2022'.repeat(input.value.length) : input.placeholder; input.style.width = (sizer.offsetWidth + (input.value ? 6 : 1)) + 'px'; };   // (a little room for the cursor once typing)
   input.addEventListener('input', fit);
   unlockBtn.onclick = () => { unlockBtn.hidden = true; form.hidden = false; fit(); input.focus(); };
   form.onsubmit = async e => {
