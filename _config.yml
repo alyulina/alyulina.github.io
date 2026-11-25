@@ -35,4 +35,4 @@ defaults:
   - scope:
       path: ""
     values:
-      image: /img/nastia_small.jpg
+      image: /img/nastia_800px.jpg
