@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- Temporary test page: the real site in a frame, with its pink and greys swapped for the chosen draft colours.
+     Nothing on the site itself changes; delete this page and the palette-test/ folder when done. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Colour test</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #fff; }
+  body { display: flex; flex-direction: column; font-family: 'Avenir', 'Avenir Next', Helvetica, Arial, sans-serif; color: #333; }
+  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 10px 16px; border-bottom: 1px solid #eee; font-size: 14px; }
+  .group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .group b { font-weight: 600; margin-right: 2px; }
+  button { font: inherit; font-size: 13px; border: 1px solid #e3e3e3; background: #fff; color: #333; border-radius: 14px; padding: 3px 10px 3px 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  button i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  button[aria-pressed="true"] { border-color: #333; background: #f6f6f6; }
+  select { font: inherit; font-size: 13px; padding: 2px 4px; }
+  iframe { flex: 1; width: 100%; border: 0; }
+  @media (max-width: 600px) { .bar { padding: 8px 10px; gap: 6px 12px; } button { padding: 2px 8px 2px 6px; font-size: 12px; } .group b { font-size: 12px; } .bar { gap: 5px 10px; } }
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="group" id="accents"><b>Accent</b></div>
+  <div class="group" id="greys"><b>Greys</b></div>
+  <div class="group"><b>Page</b>
+    <select id="page">
+      <option value="/">About</option><option value="/research/">Research</option><option value="/publications/">Publications</option>
+      <option value="/notes/">Notes</option><option value="/notes/2025-02-05-heterozygosity">Heterozygosity note</option>
+      <option value="/notes/2026-11-14-h-transform">Conditioning note</option><option value="/notes/2026-11-13-genome">Genome note</option>
+      <option value="/contact/">Contact</option><option value="/phd-defense/">PhD defense</option>
+    </select>
+  </div>
+</div>
+<iframe id="site" title="The site with the chosen colours"></iframe>
+<script>
+  const ACCENTS = [
+    ['pink', 'Pink (now)', '#fa8072', '#fef2f1', null],
+    ['clay', 'Claude clay', '#d97757', '#fbefea', 'cursor_b.png'],
+    ['clay2', 'Clay, darker', '#c6613f', '#f9ede8', 'cursor_c2.png'],
+    ['amber', 'Amber', '#e08a3c', '#fdf3e9', 'cursor_d.png'],
+    ['rust', 'Rust', '#b5532d', '#f6ebe6', 'cursor_e.png'],
+  ];
+  // the site's neutral greys, and Claude's warm greys of the same lightness (measured from anthropic.com)
+  const WARM = [['#333333', '#30302e'], ['#888888', '#87867f'], ['#c1c1c1', '#c2c0b6'], ['#f4f4f4', '#f5f4ed'], ['#404040', '#3d3d3a']];
+  const rgb = h => `rgb(${parseInt(h.slice(1, 3), 16)}, ${parseInt(h.slice(3, 5), 16)}, ${parseInt(h.slice(5, 7), 16)})`;
+  const state = Object.assign({ accent: 'clay2', greys: 'warm' }, Object.fromEntries(new URLSearchParams(location.hash.slice(1))));
+  const frame = document.getElementById('site'), pageSel = document.getElementById('page');
+
+  const mkButtons = (box, items, key) => items.forEach(([id, label, color]) => {
+    const b = document.createElement('button'); b.dataset.id = id;
+    b.innerHTML = (color ? `<i style="background:${color}"></i>` : '') + label;
+    b.onclick = () => { state[key] = id; save(); frame.contentWindow.location.reload(); };
+    box.appendChild(b);
+  });
+  mkButtons(document.getElementById('accents'), ACCENTS, 'accent');
+  mkButtons(document.getElementById('greys'), [['yours', 'Yours (now)'], ['warm', 'Warm (Claude)']], 'greys');
+  const save = () => {
+    document.querySelectorAll('#accents button').forEach(b => b.setAttribute('aria-pressed', b.dataset.id === state.accent));
+    document.querySelectorAll('#greys button').forEach(b => b.setAttribute('aria-pressed', b.dataset.id === state.greys));
+    history.replaceState(null, '', '#' + new URLSearchParams(state));
+  };
+
+  // every colour the site's styles use is swapped in place: style sheets, <style> blocks, and style="" attributes
+  function swaps() {
+    const a = ACCENTS.find(x => x[0] === state.accent) || ACCENTS[0], out = [];
+    out.push([rgb('#fa8072'), rgb(a[2])], [rgb('#fef2f1'), rgb(a[3])], ['#fa8072', a[2]], ['#fef2f1', a[3]]);
+    if (a[4]) out.push(['/img/cursor_pink.png', location.origin + '/palette-test/' + a[4]]);
+    if (state.greys === 'warm') WARM.forEach(([f, t]) => out.push([rgb(f), rgb(t)]));
+    return out;
+  }
+  const fix = (style, list) => {
+    for (let i = 0; i < style.length; i++) {
+      const p = style[i], v = style.getPropertyValue(p); let n = v;
+      list.forEach(([f, t]) => { n = n.split(f).join(t); });
+      if (n !== v) style.setProperty(p, n, style.getPropertyPriority(p));
+    }
+  };
+  const walk = (rules, list) => { for (const r of rules) { if (r.style) fix(r.style, list); if (r.cssRules) walk(r.cssRules, list); } };
+  function recolor(doc) {
+    const list = swaps();
+    for (const sh of doc.styleSheets) { try { walk(sh.cssRules, list); } catch (e) {} }
+    doc.querySelectorAll('[style]').forEach(el => fix(el.style, list));
+  }
+  frame.addEventListener('load', () => {
+    const doc = frame.contentDocument; if (!doc) return;
+    recolor(doc);
+    // text that arrives later (the unlocked defense page, the genome chart) gets the same treatment
+    let t; new MutationObserver(() => { clearTimeout(t); t = setTimeout(() => recolor(doc), 30); }).observe(doc, { subtree: true, childList: true, attributes: true, attributeFilter: ['style'] });
+    const path = frame.contentWindow.location.pathname;
+    const match = [...pageSel.options].find(o => o.value === path || o.value === path + '/');
+    if (match) pageSel.value = match.value;
+    state.page = path; save();
+  });
+  pageSel.onchange = () => { frame.src = pageSel.value; };
+  save();
+  frame.src = state.page || '/';
+</script>
+</body>
+</html>
