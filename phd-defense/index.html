@@ -219,7 +219,8 @@
     out.push(cur);
     return out.join('\r\n ');
   };
-  const icsFile = el => 'data:text/calendar;charset=utf-8,' + encodeURIComponent(el.textContent.trim().split(/\r?\n/).map(fold).join('\r\n') + '\r\n');
+  // handed over as a blob: link with a file name; iPhone Safari ignores a data: link here (tested on a phone: blob works, data does not)
+  const icsFile = el => URL.createObjectURL(new Blob([el.textContent.trim().split(/\r?\n/).map(fold).join('\r\n') + '\r\n'], { type: 'text/calendar;charset=utf-8' }));
   const icsEn = document.getElementById('ics-data'), icsRu = document.getElementById('ics-data-ru') || icsEn;
   if (icsEn) document.querySelectorAll('.content .lang-en .ics').forEach(a => a.href = icsFile(icsEn));
   if (icsRu) document.querySelectorAll('.content .lang-ru .ics').forEach(a => a.href = icsFile(icsRu));
@@ -228,7 +229,7 @@
 
   // по-русски (pink while chosen; click again for English): swaps the text (both languages are in the locked block) and the two public lines; remembered
   let lang = 'en', replayStill = false;
-  const setReplayLabel = () => { document.getElementById('replay').textContent = lang === 'ru' ? (replayStill ? 'показать' : 'ещё раз') : (replayStill ? 'play' : 'replay'); };
+  const setReplayLabel = () => { document.getElementById('replay').textContent = lang === 'ru' ? (replayStill ? 'посмотреть' : 'ещё раз') : (replayStill ? 'play' : 'replay'); };
   try { if (localStorage.getItem('defense-lang') === 'ru') lang = 'ru'; } catch {}
   function setLang(l) {
     lang = l;
@@ -301,7 +302,7 @@
     if (e.data && e.data.type === 'beads:rest') {   // all still (or a still for reduced motion: then "play")
       closeUp(e.data, revealed || !e.data.still);
       replayRow.classList.add('resting', 'shown');
-      replayStill = !!e.data.still; setReplayLabel();   // "play" (показать) when motion is reduced and it has not played yet, else "replay" (ещё раз)
+      replayStill = !!e.data.still; setReplayLabel();   // "play" (посмотреть) when motion is reduced and it has not played yet, else "replay" (ещё раз)
     }
     if (e.data === 'beads:start') {   // "skip" only the first time, while the text is still hidden; nothing during a replay
       replayRow.classList.remove('resting');
