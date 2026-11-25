@@ -9,7 +9,7 @@ The page is in English and Russian (the по-русски button): the draft has
 - [ ] Russian part: update the St Petersburg times by hand once the date is set (in «Когда» and «Удалённо»). St Petersburg is 11 hours ahead of Stanford in winter, 10 in summer (US clocks change in March and November).
 - [ ] Remove the pink draft highlights: delete the two `.ph` rules at the top of `phd-defense/index.html`.
 - [ ] Zoom: put the meeting link and passcode in the "Join online" row and the «Удалённо» row of `_drafts/phd-defense/content.html` (link in `href`, passcode in `data-pw`), then relock. Ask whoever hosts to turn on the waiting room, or make a friend a co-host to let guests in.
-- [ ] Calendar: put the real date, time and place in both calendar blocks at the end of `_drafts/phd-defense/content.html` (English and Russian; placeholder values for now), then relock. Check "add to calendar" on a phone.
+- [ ] Calendar: put the real date, time and place in both calendar blocks at the end of `_drafts/phd-defense/content.html` (English and Russian; placeholder values for now), then relock. Check "add to calendar" / «в календарь» on an iPhone (adds the calendar file) and on an Android phone (opens Google Calendar with the event filled in).
 - [ ] Pick the final page password before the invitations go out (changing it later locks out guests who have the old one).
 - [x] Move the folder to `/phd-defense/` at the top level, so the emailed link never changes.
 - [ ] If the page should show up in search: delete the `noindex` line in `index.html` and `beads.html`.

@@ -222,8 +222,26 @@
   // handed over as a blob: link with a file name; iPhone Safari ignores a data: link here (tested on a phone: blob works, data does not)
   const icsFile = el => URL.createObjectURL(new Blob([el.textContent.trim().split(/\r?\n/).map(fold).join('\r\n') + '\r\n'], { type: 'text/calendar;charset=utf-8' }));
   const icsEn = document.getElementById('ics-data'), icsRu = document.getElementById('ics-data-ru') || icsEn;
-  if (icsEn) document.querySelectorAll('.content .lang-en .ics').forEach(a => a.href = icsFile(icsEn));
-  if (icsRu) document.querySelectorAll('.content .lang-ru .ics').forEach(a => a.href = icsFile(icsRu));
+  // on Android the same pill opens Google Calendar with the event filled in instead (the Google Calendar app cannot open
+  // calendar files); built from the same calendar block, with the times in its own time zone
+  const googleLink = el => {
+    const event = el.textContent.replace(/\r?\n[ \t]/g, '').split(/BEGIN:VEVENT/)[1].split(/END:VEVENT/)[0];   // the event itself, not the time zone rules
+    const f = {}; event.split(/\r?\n/).forEach(line => {
+      const m = line.match(/^([A-Z-]+)((?:;[^:]*)?):(.*)$/); if (m && !(m[1] in f)) f[m[1]] = { params: m[2], value: m[3] };
+    });
+    const text = s => (s || '').replace(/\\n/gi, '\n').replace(/\\([,;\\])/g, '$1');
+    const tz = ((f.DTSTART && f.DTSTART.params) || '').match(/TZID=([^;:]+)/);
+    const q = new URLSearchParams({ action: 'TEMPLATE', text: text(f.SUMMARY && f.SUMMARY.value), dates: f.DTSTART.value + '/' + f.DTEND.value,
+      location: text(f.LOCATION && f.LOCATION.value), details: text(f.DESCRIPTION && f.DESCRIPTION.value) });
+    if (tz) q.set('ctz', tz[1]);
+    return 'https://calendar.google.com/calendar/render?' + q;
+  };
+  const android = /Android/i.test(navigator.userAgent);
+  const setCalendar = (sel, el) => document.querySelectorAll(sel).forEach(a => {
+    if (android) { a.href = googleLink(el); a.removeAttribute('download'); a.target = '_blank'; } else a.href = icsFile(el);
+  });
+  if (icsEn) setCalendar('.content .lang-en .ics', icsEn);
+  if (icsRu) setCalendar('.content .lang-ru .ics', icsRu);
   setLang(lang);
   }
 
