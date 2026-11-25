@@ -1,4 +1,5 @@
 html { cursor: url("/img/cursor_black.png"), auto !important; height: 101%; }
+body { font-size: 16px; }   /* a fixed base, so sizes given relative to it (captions, dates, buttons) follow the site's text and not the browser's own font-size setting */
 
 @media only screen and (min-width: 1025px) { body { margin: 60px auto; width: 800px; overflow: visible !important; } }
 @media only screen and (max-width: 1024px) { body { margin: 40px auto; padding: 0 20px; max-width: 800px; -webkit-text-size-adjust: 100%; overflow: visible !important; } }
