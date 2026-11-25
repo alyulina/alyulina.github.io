@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">   <!-- keeps the page out of search results; delete this line to let search engines list it -->
 <title>Anastasia Lyulina | PhD Defense</title>
 <meta name="description" content="Anastasia Lyulina's PhD defense in Biology at Stanford University — join in person or online.">
-<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=2">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
 <link rel="icon" href="/img/bacteria.ico">
 <script>document.documentElement.classList.add('js');</script>
 <style>
@@ -62,7 +62,7 @@
   /* the language switch: one pill above the text (or the two lines), shown once the beads land */
   .lang-switch { display: none; font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; margin: 0 0 24px; }
   .lang-switch.shown { display: block; animation: gate-in .6s ease; }
-  .lang-switch .note-link { margin-right: 0; }
+  .lang-switch #lang { margin-right: 0; line-height: normal; }   /* same height as the other pills (it would otherwise take the paragraph's taller line spacing) */
   #lang[aria-pressed="true"] { background-color: #fef2f1; color: #fa8072; }   /* stays pink while the page is in Russian, like an open abstract pill */
   @keyframes gate-in { from { opacity: 0; } }
   .gate > div + div { margin-top: 0.5em; }   /* a little room between the two lines */
@@ -207,7 +207,19 @@
   });
 
   // "add to calendar": the calendar file is made here from the block at the end of the text
-  const icsFile = el => 'data:text/calendar;charset=utf-8,' + encodeURIComponent(el.textContent.trim().replace(/\r?\n/g, '\r\n') + '\r\n');
+  // calendar lines may be at most 75 bytes; longer ones continue on the next line after a space (Russian letters are 2 bytes each,
+  // and iPhone Safari silently refuses a file that breaks this)
+  const fold = line => {
+    const out = []; let cur = '', bytes = 0;
+    for (const ch of line) {
+      const b = new TextEncoder().encode(ch).length;
+      if (bytes + b > (out.length ? 74 : 75)) { out.push(cur); cur = ''; bytes = 0; }
+      cur += ch; bytes += b;
+    }
+    out.push(cur);
+    return out.join('\r\n ');
+  };
+  const icsFile = el => 'data:text/calendar;charset=utf-8,' + encodeURIComponent(el.textContent.trim().split(/\r?\n/).map(fold).join('\r\n') + '\r\n');
   const icsEn = document.getElementById('ics-data'), icsRu = document.getElementById('ics-data-ru') || icsEn;
   if (icsEn) document.querySelectorAll('.content .lang-en .ics').forEach(a => a.href = icsFile(icsEn));
   if (icsRu) document.querySelectorAll('.content .lang-ru .ics').forEach(a => a.href = icsFile(icsRu));
