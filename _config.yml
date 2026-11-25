@@ -2,6 +2,9 @@ name: Anastasia Lyulina
 markdown: kramdown
 permalink: /notes/:year/:month/:day/:title
 include: [".well-known"]
+# notes about the repo stay in the repo but are not published as pages (Gemfile and Gemfile.lock are Jekyll's own defaults,
+# listed again because an exclude list replaces them)
+exclude: [README.md, TODO.md, LICENSE.md, notes/README.md, publications/README.md, Gemfile, Gemfile.lock]
 
 plugins:
   - jekyll-seo-tag
