@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">   <!-- keeps the page out of search results; delete this line to let search engines list it -->
 <title>Anastasia Lyulina | PhD Defense</title>
 <meta name="description" content="Anastasia Lyulina's PhD defense in Biology at Stanford University — join in person or online.">
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=9">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=10">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
 <link rel="icon" href="/img/bacteria.ico">
 <script>document.documentElement.classList.add('js');</script>
 <script>try { if (localStorage.getItem('cursor') === 'bacteria') document.documentElement.classList.add('bacteria-cursor'); } catch (e) {}</script>
@@ -101,12 +101,10 @@
 <noscript><style>.beads-wrap, .replay, .needs-js { display: none; }</style></noscript>
 </head>
 <body>
-  <div class="container">
+  <header class="site-header">   <!-- the name and the menu: pinned to the top while scrolling, except on phones -->
     <div class="blurb">
       <h1 data-ru="Анастасия Люлина">Anastasia Lyulina</h1>
     </div>
-  </div>
-  <div class="container">
     <nav>
       <ul>
         <li><a href="/" data-ru="ОБО МНЕ">ABOUT</a></li>
@@ -131,6 +129,17 @@
     };
   })();
 </script>
+  </header>
+  <script>
+    // while the header is pinned, links to a footnote or a section stop just below it instead of underneath it
+    (function () {
+      var h = document.querySelector('.site-header');
+      if (!h) return;
+      var set = function () { document.documentElement.style.scrollPaddingTop = getComputedStyle(h).position === 'sticky' ? (h.offsetHeight + 8) + 'px' : ''; };
+      set(); addEventListener('resize', set); addEventListener('load', set);
+    })();
+  </script>
+  <div class="container">
 
     <p class="lang-switch needs-js"><button class="note-link" id="lang" lang="ru" aria-pressed="false">по-русски</button></p>
 

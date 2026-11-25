@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		{% assign tab = page.tab_title | default: page.title %}<title>{{ site.title }}{% if tab %} | {{ tab }}{% endif %}</title>
-		<link rel="stylesheet" type="text/css" href="/css/main.css?v=7">
+		<link rel="stylesheet" type="text/css" href="/css/main.css?v=8">
 		<link rel="icon" href="/img/bacteria.ico">
 		<script>try { if (localStorage.getItem('cursor') === 'bacteria') document.documentElement.classList.add('bacteria-cursor'); } catch (e) {}</script>
 		<script>
@@ -91,11 +91,21 @@
 {% seo title=false %}
 	</head>
 		<body>
-			<div class="container">
+			<header class="site-header">   <!-- the name and the menu: pinned to the top while scrolling, except on phones -->
 				<div class="blurb">
 					<h1>{{ site.name }}</h1>
 				</div>
-			</div>
+				{% include nav.html %}
+			</header>
+<script>
+  // while the header is pinned, links to a footnote or a section stop just below it instead of underneath it
+  (function () {
+    var h = document.querySelector('.site-header');
+    if (!h) return;
+    var set = function () { document.documentElement.style.scrollPaddingTop = getComputedStyle(h).position === 'sticky' ? (h.offsetHeight + 8) + 'px' : ''; };
+    set(); addEventListener('resize', set); addEventListener('load', set);
+  })();
+</script>
 			<div class="container">
 				{{ content }}
 				<br>
