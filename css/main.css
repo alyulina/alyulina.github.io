@@ -7,15 +7,15 @@ nav ul { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Avenir Next
 nav ul li { display: inline-block; margin-right: 25px; margin-bottom: 15px}
 
 a { font-size: inherit; line-height: inherit; font-family: inherit; text-decoration: none; color: #888; }
-a:hover, a.active { text-decoration: none; color: #fa8072; }
-a { cursor: url("/img/cursor_pink.png"), auto !important; }
+a:hover, a.active { text-decoration: none; color: #d97757; }
+a { cursor: url("/img/cursor_clay.png"), auto !important; }
 
 h1 { font-size: 52px; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; margin-bottom: 18px; overflow: visible !important; }
 h2 { font-size: 20px; line-height: 1em; font-weight: bold; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 p { font-size: 16px; line-height: 1.4em; font-family:'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 1em; margin-top: 0px; overflow: visible !important; }
 sup { vertical-align: top; position: relative; top: -0.25em; }
 .notes sup a { color: #888; }
-.notes sup a:hover { color: #fa8072; }
+.notes sup a:hover { color: #d97757; }
 .notes [id^="fn"] { scroll-margin-top: 1em; }
 
 ol { font-size: 16px; font-family:'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
@@ -26,23 +26,23 @@ code { font-family: 'Courier New', Courier, monospace; font-style: normal; backg
 code-link { font-style: normal; background-color: #f4f4f4; color: #404040; padding: 1px 4px; border-radius: 4px; font-size: 0.95em; vertical-align: 0.05em; }
 /*.pub-note { font-size: 1em; font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-style: italic; padding-left:2em; }*/
 .note-link { background-color: #f4f4f4; color: #404040; padding: 1px 4px; border-radius: 4px; font-size: 0.95em; vertical-align: 0.05em; text-decoration: none; margin-right: 0.9em; white-space: nowrap; }
-.note-link:hover { text-decoration: none; background-color: #fef2f1; color: #fa8072; }
+.note-link:hover { text-decoration: none; background-color: #fbefea; color: #d97757; }
 .notes-group { white-space: nowrap; display: inline-block; }
 /* Extra space before a row of buttons; it stays at the end of the text line, so buttons that wrap start flush left. */
 .nl-gap { padding-right: 0.4em; }
 .note-title { color: #000; }
-.note-title:hover { color: #fa8072; }
+.note-title:hover { color: #d97757; }
 .note-date { font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 16px; color: #c1c1c1; }
 
-.authors-toggle:hover { color: #fa8072; }
+.authors-toggle:hover { color: #d97757; }
 
 hr { border: none; height: 1px; color: #333; background-color: #333; }
 .footnote { font-size: 14.4px; margin-bottom: 1.2em; }
 
 .github-link p { color: #c1c1c1; font-size: 0.95em; }
 .github-link a { color: #c1c1c1; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
-.github-link a:hover { color: #fa8072; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
-.github-link span { cursor: url("/img/cursor_pink.png"), auto !important; }
+.github-link a:hover { color: #d97757; font-size: 0.95em; font-family: 'Courier New', Courier, monospace; }
+.github-link span { cursor: url("/img/cursor_clay.png"), auto !important; }
 
 .figure-container { display: flex; flex-direction: column; align-items: center; gap: 1em; margin-bottom: 1.4em; text-align: left; }
 .figure-container img { width: 100%; max-width: 480px; height: auto; }

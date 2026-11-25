@@ -6,12 +6,12 @@
 <meta name="robots" content="noindex, nofollow">   <!-- keeps the page out of search results; delete this line to let search engines list it -->
 <title>Anastasia Lyulina | PhD Defense</title>
 <meta name="description" content="Anastasia Lyulina's PhD defense in Biology at Stanford University — join in person or online.">
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=3">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=4">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
 <link rel="icon" href="/img/bacteria.ico">
 <script>document.documentElement.classList.add('js');</script>
 <style>
   /* draft highlight on all text that may still change — delete these two rules to remove every highlight at once */
-  .ph { background: #fef2f1; border-radius: 4px; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .ph { background: #fbefea; border-radius: 4px; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   .ph .ph { background: none; padding: 0; }   /* no double highlight where one sits inside another */
 
   .lead { margin-bottom: 44px; }
@@ -21,11 +21,11 @@
   .thesis h2 { font-size: 24px; line-height: 1.25em; margin: 0 0 12px; }
   /* <button> pills look exactly like the site's link pills */
   .tabs .note-link, .pw, #replay, #skip, #lang { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.95em;
-                     line-height: inherit; cursor: url("/img/cursor_pink.png"), auto !important; }
+                     line-height: inherit; cursor: url("/img/cursor_clay.png"), auto !important; }
   .tabs, .replay { font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; }
   .tabs { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 0.5em; }   /* room between the rows when the buttons wrap on small screens */
   .tabs .note-link { margin-right: 0.6em; }
-  .tabs .note-link[aria-expanded="true"] { background-color: #fef2f1; color: #fa8072; }   /* the open one stays pink, like the current page in the menu */
+  .tabs .note-link[aria-expanded="true"] { background-color: #fbefea; color: #d97757; }   /* the open one stays highlighted, like the current page in the menu */
   .tabs .full-text { font-size: 0.95em; margin-left: 0.2em; white-space: nowrap; }   /* same size as the pills */
   .panel { margin-top: 18px; animation: fade .35s ease; }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
@@ -40,7 +40,7 @@
   .rows .note-date.two-line { line-height: 1.1em; }   /* keeps the two-line label from opening a big gap below it */
   .rows .note-link { margin-left: 0.5em; margin-right: 0; }
   .rows .pw { font-size: 0.95em; margin-left: 0.5em; }   /* same gap as the other pills */
-  @media (hover: none) { .note-link:hover { background-color: #f4f4f4; color: #404040; } }   /* on touch screens a tapped button does not stay pink */
+  @media (hover: none) { .note-link:hover { background-color: #f4f4f4; color: #404040; } }   /* on touch screens a tapped button does not stay highlighted */
 
   /* the page opens with the animation, sized to fit the window under the menu; once the beads have landed the
      text fades in above them and the animation's box closes up to a strip around the row, with replay below it */
@@ -63,12 +63,12 @@
   .lang-switch { display: none; font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; margin: 0 0 24px; }
   .lang-switch.shown { display: block; animation: gate-in .6s ease; }
   .lang-switch #lang { margin-right: 0; line-height: normal; }   /* same height as the other pills (it would otherwise take the paragraph's taller line spacing) */
-  #lang[aria-pressed="true"] { background-color: #fef2f1; color: #fa8072; }   /* stays pink while the page is in Russian, like an open abstract pill */
+  #lang[aria-pressed="true"] { background-color: #fbefea; color: #d97757; }   /* stays highlighted while the page is in Russian, like an open abstract pill */
   @keyframes gate-in { from { opacity: 0; } }
   .gate > div + div { margin-top: 0.5em; }   /* a little room between the two lines */
   .gate .note-link, .no-js .note-link { margin-right: 0; }
   .gate-label { color: #333; margin-left: 0.5em; }
-  #unlock { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.95em; line-height: inherit; cursor: url("/img/cursor_pink.png"), auto !important; }
+  #unlock { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.95em; line-height: inherit; cursor: url("/img/cursor_clay.png"), auto !important; }
   #unlock[hidden], #unlock-form[hidden] { display: none; }
   #unlock-form { display: inline; }
   /* the password field is drawn like the site's pills (.note-link in main.css), and grows with what is typed */
@@ -76,8 +76,8 @@
                        width: 7em; padding: 1px 4px; box-sizing: content-box; margin: 0; border: 0; border-radius: 4px; background: #f4f4f4; color: #404040; outline: none;
                        -webkit-appearance: none; appearance: none; text-overflow: clip; }   /* no phone-specific field styling or extra inner padding */
   #unlock-form input::placeholder { color: #404040; opacity: 1; }
-  #unlock-form input:hover, #unlock-form input:focus { background: #fef2f1; color: #fa8072; }
-  #unlock-form input:hover::placeholder, #unlock-form input:focus::placeholder { color: #fa8072; }
+  #unlock-form input:hover, #unlock-form input:focus { background: #fbefea; color: #d97757; }
+  #unlock-form input:hover::placeholder, #unlock-form input:focus::placeholder { color: #d97757; }
   #unlock-form.wrong input { animation: shake .3s; }
   @keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
   /* without JavaScript: a way to ask for the details, and the row of beads as a still picture */
@@ -282,7 +282,7 @@
   }
   addEventListener('resize', placeDots);
 
-  // по-русски (pink while chosen; click again for English): swaps the text (both languages are in the locked block) and the two public lines; not remembered, so the page always opens in English
+  // по-русски (highlighted while chosen; click again for English): swaps the text (both languages are in the locked block) and the two public lines; not remembered, so the page always opens in English
   let lang = 'en', replayStill = false;
   const setReplayLabel = () => { document.getElementById('replay').textContent = lang === 'ru' ? (replayStill ? 'посмотреть' : 'ещё раз') : (replayStill ? 'play' : 'replay'); };
   try { localStorage.removeItem('defense-lang'); } catch {}   // the page always opens in English (and forgets any choice an older version saved)
@@ -291,7 +291,7 @@
     document.documentElement.lang = l;
     document.title = l === 'ru' ? 'Анастасия Люлина | Защита диссертации' : 'Anastasia Lyulina | PhD Defense';
     const btn = document.getElementById('lang');
-    btn.setAttribute('aria-pressed', l === 'ru');   // always "по-русски": pink while chosen, click again for English
+    btn.setAttribute('aria-pressed', l === 'ru');   // always "по-русски": highlighted while chosen, click again for English
     document.querySelectorAll('[data-ru]').forEach(el => { if (!el.dataset.en) el.dataset.en = el.textContent; el.textContent = l === 'ru' ? el.dataset.ru : el.dataset.en; });
     document.querySelectorAll('[data-ru-placeholder]').forEach(el => { if (!el.dataset.enPlaceholder) el.dataset.enPlaceholder = el.placeholder; el.placeholder = l === 'ru' ? el.dataset.ruPlaceholder : el.dataset.enPlaceholder; });
     // what screen readers say (field label, animation description) follows the language too
