@@ -1,11 +1,20 @@
-PhD defense page (`assets/phd-defense/`), before sending invitations:
+PhD defense page (`phd-defense/`), before sending invitations:
 
-- [ ] Fill in the placeholders: intro, thesis title, abstract and chapters, date, room, and the chair's name.
-- [ ] Remove the pink draft highlights: delete the two `.ph` rules at the top of `assets/phd-defense/index.html`.
-- [ ] Zoom: decide whether the link and password go on the page or in the invitation email only; ask whoever hosts to turn on the waiting room.
-- [ ] Calendar: put the real date, time and place in `assets/phd-defense/lyulina-phd-defense.ics` (it has placeholder values for now).
-- [ ] Move the folder to `/phd-defense/` at the top level before the invitations go out, so the emailed link never changes (and update the link in the `.ics` file).
+The page is locked: its text lives in `_drafts/phd-defense/content.html`, which is never committed (`_drafts/` is in `.gitignore`). After every edit there, run `python3 _scripts/lock_defense.py` (it asks for the page password) and commit `phd-defense/index.html`.
+
+- [ ] Fill in the placeholders in `_drafts/phd-defense/content.html`: intro, thesis title, abstract and chapters, date, room, and the chair's name.
+- [ ] Remove the pink draft highlights: delete the two `.ph` rules at the top of `phd-defense/index.html`.
+- [ ] Zoom: put the meeting link and passcode in the "Join online" row of `_drafts/phd-defense/content.html` (link in `href`, passcode in `data-pw`), then relock. Ask whoever hosts to turn on the waiting room, or make a friend a co-host to let guests in.
+- [ ] Calendar: put the real date, time and place in the calendar block at the end of `_drafts/phd-defense/content.html` (it has placeholder values for now), then relock. Check "add to calendar" on a phone.
+- [ ] Pick the final page password before the invitations go out (changing it later locks out guests who have the old one).
+- [x] Move the folder to `/phd-defense/` at the top level, so the emailed link never changes.
 - [ ] If the page should show up in search: delete the `noindex` line in `index.html` and `beads.html`.
+
+After the defense:
+
+- [ ] Make the page public again: paste the contents of `_drafts/phd-defense/content.html` back into the empty `<div class="content">` in `phd-defense/index.html` (without the note at the top), then remove the lock: the two "unlock page" / "email" lines, the `LOCKED` block and the unlock code in the script, and the email line in the `<noscript>` part (keep the still row of beads). Turn the calendar block back into a separate `lyulina-phd-defense.ics` file next to the page. Take the Zoom row out, since the meeting is over. `_scripts/lock_defense.py` can then be deleted.
+- [ ] When the thesis is published: replace "full text to follow" with a link to it (in `_drafts/phd-defense/content.html` and relock, if the page is still locked then).
+- [ ] Maybe also add a PDF of the introduction next to the page (for example `phd-defense/introduction.pdf`), linked from the same row.
 
 Code improvement and other ideas for when I have nothing else to do:
 

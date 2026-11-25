@@ -46,7 +46,7 @@
      text fades in above them and the animation's box closes up to a strip around the row, with replay below it */
   html { overflow-x: hidden; overflow-x: clip; scrollbar-gutter: stable; }   /* the animation runs the full width of the window; room for a scrollbar is kept from the start, so nothing shifts when the text makes the page scroll */
   .content { padding-bottom: 30px; box-sizing: border-box; }   /* room between the text and the row of beads under it */
-  .js .content { display: none; }                   /* (without JavaScript the text simply shows, and there is no animation) */
+  .js .content { display: none; }                   /* (the text is locked: it arrives, unscrambled, once the right page password is in) */
   .beads-wrap { position: relative; width: 100vw; left: 50%; margin-left: -50vw; overflow: hidden; height: 0; }
   .beads { position: absolute; left: 0; bottom: 0; width: 100%; border: 0; display: block;
            pointer-events: none; }   /* the animation ignores the mouse, so the page's own cursor shows over it */
@@ -56,10 +56,32 @@
   .replay #replay, .replay.resting #skip { display: none; }   /* "skip" while it plays, "replay" once the beads have landed */
   .replay.resting #replay { display: inline; }
 
+  /* the lock: once the beads land, two lines show instead of the text; the right page password brings the text in */
+  .gate { display: none; font-size: 16px; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; padding-bottom: 30px; }
+  .gate.shown { display: block; animation: gate-in .6s ease; }
+  @keyframes gate-in { from { opacity: 0; } }
+  .gate > div + div { margin-top: 0.5em; }   /* a little room between the two lines */
+  .gate .note-link, .no-js .note-link { margin-right: 0; }
+  .gate-label { color: #333; margin-left: 0.5em; }
+  #unlock { border: 0; margin: 0; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.9em; line-height: inherit; cursor: url("/img/cursor_pink.png"), auto !important; }
+  #unlock[hidden], #unlock-form[hidden] { display: none; }
+  #unlock-form { display: inline; }
+  /* the password field is drawn like the site's pills (.note-link in main.css), and grows with what is typed */
+  #unlock-form input { font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.9em; line-height: inherit; vertical-align: 0.05em;
+                       width: 7em; padding: 1px 4px; box-sizing: content-box; margin: 0; border: 0; border-radius: 4px; background: #f4f4f4; color: #404040; outline: none; }
+  #unlock-form input::placeholder { color: #404040; opacity: 1; }
+  #unlock-form input:hover, #unlock-form input:focus { background: #fef2f1; color: #fa8072; }
+  #unlock-form input:hover::placeholder, #unlock-form input:focus::placeholder { color: #fa8072; }
+  #unlock-form.wrong input { animation: shake .3s; }
+  @keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  /* without JavaScript: a way to ask for the details, and the row of beads as a still picture */
+  .no-js { font-size: 16px; font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; }
+  .beads-still { display: block; margin: 30px auto 44px; max-width: 100%; height: auto; }
+
   @media only screen and (max-width: 1024px) {
     .thesis h2 { font-size: 22px; }
     .rows li { font-size: 18px; line-height: 1.65em; }   /* more room between wrapped lines (and the buttons in them) */
-    .tabs, .replay { font-size: 18px; }
+    .tabs, .replay, .gate, .no-js { font-size: 18px; }
   }
   @media only screen and (max-width: 560px) {
     .rows li { flex-direction: column; gap: 0.3em; margin-bottom: 1em; line-height: 1.5em; }   /* a little room under each label, wrapped lines a bit tighter */
@@ -68,7 +90,7 @@
     .rows .note-date.two-line br { display: none; }
   }
 </style>
-<!-- without JavaScript: leave out the animation's empty space, and every button that only works with it (abstract and chapters, password) -->
+<!-- without JavaScript: leave out the animation's empty space and the unlock buttons (the text cannot be unscrambled); a still picture and an email link show instead, below -->
 <noscript><style>.beads-wrap, .replay, .needs-js { display: none; }</style></noscript>
 </head>
 <body>
@@ -89,55 +111,18 @@
       </ul>
     </nav>
 
-    <div class="content">
-    <div class="lead">
-      <p><span class="ph">A few warm sentences inviting people to the defense, in person or online, and thanking everyone who has been part of the journey.</span></p>
+    <div class="content"></div>   <!-- the text is in LOCKED, scrambled; edit it in _drafts/phd-defense/content.html and run _scripts/lock_defense.py -->
+
+    <div class="gate needs-js">
+      <div><button class="note-link" id="unlock">unlock page</button><form id="unlock-form" hidden><input type="password" placeholder="page password" aria-label="Page password" autocomplete="current-password"></form><span class="gate-label">if you were invited</span></div>
+      <div><a class="note-link" href="mailto:alyulina@stanford.edu?subject=PhD%20defense">email</a><span class="gate-label">to receive an invitation</span></div>
     </div>
 
-    <div class="thesis">
-      <h2><span class="ph">Title of the dissertation</span></h2>
-      <div class="tabs">
-        <a href="#" role="button" class="note-link needs-js" aria-expanded="false" aria-controls="p-abstract">abstract</a>
-        <a href="#" role="button" class="note-link needs-js" aria-expanded="false" aria-controls="p-ch1">chapter i</a>
-        <a href="#" role="button" class="note-link needs-js" aria-expanded="false" aria-controls="p-ch2">chapter ii</a>
-        <a href="#" role="button" class="note-link needs-js" aria-expanded="false" aria-controls="p-ch3">chapter iii</a>
-        <span class="note-date full-text">full text to follow</span>   <!-- replace with a link to the dissertation once it is published -->
-      </div>
-      <div class="panel" id="p-abstract" hidden>
-        <p><span class="ph">Abstract, first paragraph: the question and why it matters.</span></p>
-        <p><span class="ph">Second paragraph: the approach and the main findings.</span></p>
-        <p><span class="ph">Closing sentence: what this opens up next.</span></p>
-      </div>
-      <div class="panel" id="p-ch1" hidden>
-        <p><span class="ph">Chapter I: title, and a few sentences on what it does and finds.</span></p>
-      </div>
-      <div class="panel" id="p-ch2" hidden>
-        <p><span class="ph">Chapter II: title, and a few sentences on what it does and finds.</span></p>
-      </div>
-      <div class="panel" id="p-ch3" hidden>
-        <p><span class="ph">Chapter III: title, and a few sentences on what it does and finds.</span></p>
-      </div>
-    </div>
-
-    <ul class="rows">
-      <li><span class="note-date">When</span>
-          <span>at 9&nbsp;am on <span class="ph">date</span> <span class="aside">&middot; with a private exam from 10&nbsp;am to 11&nbsp;am</span><a class="note-link" id="ics" href="lyulina-phd-defense.ics">add to calendar</a><!-- the event is in lyulina-phd-defense.ics next to this page: edit it if the time or place changes --></span></li>
-      <li><span class="note-date">Join in person</span>
-          <span>in <span class="ph">room</span> of the Biology Department <span class="aside">&middot; 9&nbsp;am to 10&nbsp;am</span><a class="note-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bass+Biology+Building%2C+327+Campus+Drive%2C+Stanford%2C+CA+94305" target="_blank">map</a></span></li>
-      <li><span class="note-date">Join online</span>
-          <span>at the <a href="#" target="_blank">link</a> <span class="aside">&middot; 9&nbsp;am to 10&nbsp;am</span><a href="#" role="button" class="note-link needs-js" id="pw" data-pw="your password here">password</a><!-- TODO: meeting URL in href, password in data-pw --></span></li>
-      <li><span class="note-date two-line">Celebrate <br>afterwards</span>
-          <span>at an outdoor reception <span class="aside">&middot; 11&nbsp;am to 12&nbsp;pm</span><a class="note-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bass+Biology+Building%2C+327+Campus+Drive%2C+Stanford%2C+CA+94305" target="_blank">map</a></span></li>
-    </ul>
-
-    <ul class="rows">
-      <li><span class="note-date">Advisors</span>
-          <span><a href="https://bgoodlab.github.io/" target="_blank">Benjamin Good</a> and
-                <a href="https://petrovlab-stanford.squarespace.com/" target="_blank">Dmitri Petrov</a></span></li>
-      <li><span class="note-date two-line">Committee <br>members</span>
-          <span><a href="https://rosenberglab.stanford.edu/" target="_blank">Noah Rosenberg</a>, <a href="https://schumerlab.com/" target="_blank">Molly Schumer</a>, <a href="https://med.stanford.edu/winslowlab.html" target="_blank">Monte Winslow</a>, and <span class="ph">Name Surname</span> (chair)</span></li>
-    </ul>
-    </div>
+    <noscript>
+      <p class="no-js"><a class="note-link" href="mailto:alyulina@stanford.edu?subject=PhD%20defense">email</a><span class="gate-label">to receive the details</span></p>
+      <!-- the beads where the animation leaves them (seed 2); redraw this if the colours, the seed or the arrangement in beads.html change -->
+      <svg class="beads-still" viewBox="0 0 524.6 22.0" width="524.6" height="22.0" role="img" aria-label="A row of colorful beads"><g stroke="#111" stroke-width="1.3"><circle cx="11.0" cy="11.0" r="9.48" fill="#fbe8ad"/><circle cx="45.8" cy="11.0" r="9.48" fill="#f2c437"/><circle cx="77.8" cy="11.0" r="9.48" fill="#f7d871"/><circle cx="107.3" cy="11.0" r="9.48" fill="#f6c391"/><circle cx="134.8" cy="11.0" r="9.48" fill="#dc8236"/><circle cx="160.4" cy="11.0" r="9.48" fill="#e0a52a"/><circle cx="184.6" cy="11.0" r="9.48" fill="#e8907f"/><circle cx="207.6" cy="11.0" r="9.48" fill="#e5733d"/><circle cx="229.8" cy="11.0" r="9.48" fill="#cf4b32"/><circle cx="251.5" cy="11.0" r="9.48" fill="#74264a"/><circle cx="273.1" cy="11.0" r="9.48" fill="#a8323a"/><circle cx="294.8" cy="11.0" r="9.48" fill="#b8687f"/><circle cx="317.0" cy="11.0" r="9.48" fill="#6c5aa6"/><circle cx="340.0" cy="11.0" r="9.48" fill="#b9bce6"/><circle cx="364.2" cy="11.0" r="9.48" fill="#5d63b0"/><circle cx="389.8" cy="11.0" r="9.48" fill="#1d3584"/><circle cx="417.3" cy="11.0" r="9.48" fill="#14215a"/><circle cx="446.8" cy="11.0" r="9.48" fill="#7f9cd8"/><circle cx="478.8" cy="11.0" r="9.48" fill="#b9c9ee"/><circle cx="513.6" cy="11.0" r="9.48" fill="#2c4ea3"/></g></svg>
+    </noscript>
 
     <!-- threading beads (?seed=2 fixes the arrangement; bump v= whenever beads.html changes, so browsers fetch the new one); the frame is sized and loaded by the script below -->
     <div class="beads-wrap">
@@ -148,6 +133,48 @@
   </div>
 
 <script>
+  // the locked text: only this scrambled block is in the page; the page password unscrambles it in the browser
+  // (PBKDF2-SHA256 → AES-256-CTR, sealed with HMAC-SHA256; written by _scripts/lock_defense.py, which must use the same settings)
+  const LOCKED = 'L97MOARiAVUrLZFejlxgbQ==.5pkKbne45rwAAAAAAAAAAA==.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.neH8apUT3BxKeTCGiFmQtkGFcZaXNgg8TTADAi/HAAY=';
+  let unlocked = false;
+  const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  async function openLocked(password) {
+    const [salt, iv, data, tag] = LOCKED.split('.').map(b64);
+    const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+    const keys = new Uint8Array(await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: 600000, hash: 'SHA-256' }, base, 512));
+    const macKey = await crypto.subtle.importKey('raw', keys.slice(32), { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
+    const sealed = new Uint8Array(iv.length + data.length); sealed.set(iv); sealed.set(data, iv.length);
+    if (!(await crypto.subtle.verify('HMAC', macKey, tag, sealed))) throw new Error('wrong password');
+    const encKey = await crypto.subtle.importKey('raw', keys.slice(0, 32), 'AES-CTR', false, ['decrypt']);
+    const packed = await crypto.subtle.decrypt({ name: 'AES-CTR', counter: iv, length: 64 }, encKey, data);
+    return new Response(new Blob([packed]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text();
+  }
+  const gate = document.querySelector('.gate'), unlockBtn = document.getElementById('unlock'),
+        form = document.getElementById('unlock-form'), input = form.querySelector('input');
+  const tryPassword = async p => {
+    try { document.querySelector('.content').innerHTML = await openLocked(p); } catch { return false; }
+    wire(); unlocked = true;
+    try { localStorage.setItem('defense-pw', p); } catch {}   // returning guests go straight in
+    return true;
+  };
+  const showGate = () => gate.classList.add('shown');
+  // the field grows with what is typed (and fits its placeholder when empty), measured with a hidden copy in the same font
+  const sizer = document.createElement('span');
+  Object.assign(sizer.style, { position: 'absolute', visibility: 'hidden', whiteSpace: 'pre', fontFamily: getComputedStyle(input).fontFamily, fontSize: '0.9em' });
+  form.appendChild(sizer);
+  const fit = () => { sizer.textContent = input.value ? '\u2022'.repeat(input.value.length) : input.placeholder; input.style.width = (sizer.offsetWidth + 14) + 'px'; };
+  input.addEventListener('input', fit);
+  unlockBtn.onclick = () => { unlockBtn.hidden = true; form.hidden = false; fit(); input.focus(); };
+  form.onsubmit = async e => {
+    e.preventDefault(); form.classList.remove('wrong');
+    if (await tryPassword(input.value)) { gate.classList.remove('shown'); showText(); }
+    else { form.offsetWidth; form.classList.add('wrong'); input.select(); }
+  };
+  input.onblur = () => { if (!input.value) { form.hidden = true; unlockBtn.hidden = false; } };
+  try { const saved = localStorage.getItem('defense-pw'); if (saved) tryPassword(saved); } catch {}
+
+  // the buttons inside the text, wired up once it is there
+  function wire() {
   // abstract / chapter pills: each opens its panel; only one open at a time, click again to close
   const tabs = [...document.querySelectorAll('.tabs .note-link')];
   tabs.forEach(t => t.onclick = e => {
@@ -166,6 +193,11 @@
     if (navigator.clipboard) navigator.clipboard.writeText(pw.dataset.pw).catch(() => {});
   };
 
+  // "add to calendar": the calendar file is made here from the block at the end of the text
+  const icsData = document.getElementById('ics-data'), ics = document.getElementById('ics');
+  if (icsData && ics) ics.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsData.textContent.trim().replace(/\r?\n/g, '\r\n') + '\r\n');
+  }
+
   // the animation: sized to fit the window under the menu (never taller than 560px or wider than the screen allows),
   // then, once the beads have landed, the text fades in above it while its box closes up to a strip around the row
   const wrap = document.querySelector('.beads-wrap'), frame = wrap.querySelector('iframe'), content = document.querySelector('.content');
@@ -180,8 +212,7 @@
   if (spare > 0) wrap.style.marginTop = Math.round(spare / 2) + 'px';
   frame.src = frame.dataset.src;
   let revealed = false;
-  const reveal = () => {   // the text grows in from nothing above the beads
-    revealed = true;
+  const showText = () => {   // the text grows in from nothing above the beads
     content.style.display = 'block';
     const h = content.scrollHeight;
     const pad = getComputedStyle(content).paddingBottom;
@@ -190,6 +221,7 @@
     Object.assign(content.style, { transition: `height ${EASE}, padding-bottom ${EASE}, opacity ${EASE}`, height: h + 'px', paddingBottom: pad, opacity: '1' });
     content.addEventListener('transitionend', e => { if (e.propertyName === 'height') Object.assign(content.style, { height: '', paddingBottom: '', overflow: '', transition: '' }); });
   };
+  const reveal = () => { revealed = true; if (unlocked) showText(); else showGate(); };   // once the beads land: the text if unlocked, else the two lines
   const closeUp = (d, anim) => {
     const r = d.r || 10, floor = isFinite(d.floorY) ? d.floorY : frameH - 20;
     const under = Math.max(0, Math.round(frameH - floor - 4));   // the frame's empty band under the line, left out of view
