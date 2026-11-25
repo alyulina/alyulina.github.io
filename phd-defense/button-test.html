@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Button size test</title>
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=2">
+<style>
+  /* temporary page: the same pills and rows as the defense and home pages, with made-up text, at three pill sizes */
+  body { background: #fff; }
+  .intro { font-size: 16px; color: #333; }
+  .size { border-top: 1px solid #eee; padding-top: 28px; margin-top: 36px; }
+  .size > h2 { font-size: 24px; margin: 0 0 6px; }
+  .size > .sub { color: #c1c1c1; font-size: 16px; margin: 0 0 24px; }
+  .lang { margin-bottom: 36px; }
+  .lang > .tag { font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: #c1c1c1; margin-bottom: 12px; }
+
+  /* pill size for each section */
+  .s90 { --pill: 0.9em; } .s95 { --pill: 0.95em; } .s100 { --pill: 1em; }
+  .size .note-link, .size .full-text { font-size: var(--pill); }
+  button.note-link { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; line-height: normal; cursor: url("/img/cursor_pink.png"), auto !important; }
+
+  /* copied from the defense page */
+  .block { font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; color: #333; }
+  .block p { margin: 0 0 0.5em; }
+  .switch { margin: 0 0 20px; }
+  .switch .note-link { background-color: #fef2f1; color: #fa8072; }
+  .gate { margin-bottom: 20px; }
+  .gate > div + div { margin-top: 0.5em; }
+  .gate .note-link { margin-right: 0; }
+  .gate-label { margin-left: 0.5em; }
+  .tabs { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 0.5em; margin-bottom: 22px; }
+  .tabs .note-link { margin-right: 0.6em; }
+  .tabs .full-text { margin-left: 0.2em; white-space: nowrap; color: #c1c1c1; }
+  .rows { list-style: none; padding-left: 0; margin: 0 0 22px; }
+  .rows li { font-size: 16px; line-height: 1.4em; color: #333; margin-bottom: 0.35em; display: flex; gap: 1em; align-items: baseline; }
+  .rows .aside { color: #c1c1c1; }
+  .rows .note-date { flex: 0 0 8em; font-size: 1em; }
+  .rows .note-link { margin-left: 0.5em; margin-right: 0; }
+  .news li { margin-bottom: 0.6em; }
+  .news .note-date { flex: 0 0 5.5em; }
+  .news .note-link { margin-left: 0; margin-right: 0.9em; }
+  .nl-gap { padding-right: 0.4em; }
+  .replay { text-align: center; }
+  @media (hover: none) { .note-link:hover { background-color: #f4f4f4; color: #404040; } }
+  @media only screen and (max-width: 1024px) {
+    .block, .rows li { font-size: 18px; }
+    .rows li { line-height: 1.65em; }
+  }
+  @media only screen and (max-width: 560px) {
+    .rows li { flex-direction: column; gap: 0.3em; margin-bottom: 1em; line-height: 1.5em; }
+    .rows .note-date { flex: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="blurb"><h1>Button size test</h1></div>
+  </div>
+  <div class="container">
+    <p class="intro">Temporary page: the same buttons and rows as the site, with made-up text, so the three sizes can be compared on a phone. The buttons do nothing. Sizes are relative to the text around them.</p>
+    <div id="sizes"></div>
+  </div>
+<script>
+  const en = `
+    <div class="switch"><button class="note-link">по-русски</button></div>
+    <div class="gate">
+      <div><button class="note-link">unlock page</button><span class="gate-label">if you were invited</span></div>
+      <div><a class="note-link" href="#">email</a><span class="gate-label">to receive an invitation</span></div>
+    </div>
+    <div class="tabs"><a class="note-link" href="#">abstract</a><a class="note-link" href="#">chapter i</a><a class="note-link" href="#">chapter ii</a><a class="note-link" href="#">chapter iii</a><span class="full-text">full text to follow</span></div>
+    <ul class="rows">
+      <li><span class="note-date">When</span><span>at 1&nbsp;pm on a made-up date <span class="aside">&middot; with a longer note that wraps onto a second line on phones</span><a class="note-link" href="#">add to calendar</a></span></li>
+      <li><span class="note-date">Join in person</span><span>in a room of a department <span class="aside">&middot; 1&nbsp;pm to 2&nbsp;pm</span><a class="note-link" href="#">map</a></span></li>
+      <li><span class="note-date">Join online</span><span>at the link <span class="aside">&middot; 1&nbsp;pm to 2&nbsp;pm</span><a class="note-link" href="#">password</a></span></li>
+    </ul>
+    <ul class="rows news">
+      <li><span class="note-date">Sep 2025</span><span>Paper on the maintenance of genetic diversity in fluctuating environments is out in <i>Nature Ecology &amp; Evolution</i><span class="nl-gap"></span> <a class="note-link" href="#">paper</a><a class="note-link" href="#">news</a></span></li>
+    </ul>
+    <p class="replay"><a class="note-link" href="#">replay</a></p>`;
+  const ru = `
+    <div class="switch"><button class="note-link">по-русски</button></div>
+    <div class="gate">
+      <div><button class="note-link">открыть страницу</button><span class="gate-label">если у вас есть приглашение</span></div>
+      <div><a class="note-link" href="#">написать</a><span class="gate-label">чтобы пригласиться</span></div>
+    </div>
+    <div class="tabs"><a class="note-link" href="#">аннотация</a><a class="note-link" href="#">глава i</a><a class="note-link" href="#">глава ii</a><a class="note-link" href="#">глава iii</a><span class="full-text">полный текст появится позже</span></div>
+    <ul class="rows">
+      <li><span class="note-date">Когда</span><span>в&nbsp;13:00 в&nbsp;выдуманный день по&nbsp;калифорнийскому&nbsp;времени <span class="aside">&middot; в&nbsp;00:00 по&nbsp;петербургскому</span><a class="note-link" href="#">в календарь</a></span></li>
+      <li><span class="note-date">Вживую</span><span>в&nbsp;аудитории какого-то факультета <span class="aside">&middot; с&nbsp;13:00&nbsp;до&nbsp;14:00</span><a class="note-link" href="#">карта</a></span></li>
+      <li><span class="note-date">Удалённо</span><span>трансляция <span class="aside">&middot; с&nbsp;13:00&nbsp;до&nbsp;14:00 по&nbsp;калифорнийскому&nbsp;времени &middot; с&nbsp;00:00&nbsp;до&nbsp;01:00 по&nbsp;петербургскому</span><a class="note-link" href="#">пароль</a></span></li>
+    </ul>
+    <p class="replay"><a class="note-link" href="#">ещё раз</a></p>`;
+  const sizes = [['s90', '90%', 'what the site uses now'], ['s95', '95%', ''], ['s100', '100%', 'same size as the text']];
+  document.getElementById('sizes').innerHTML = sizes.map(([cls, label, note]) => `
+    <section class="size ${cls}">
+      <h2>${label}</h2><p class="sub">${note || '&nbsp;'}</p>
+      <div class="lang"><div class="tag">English</div><div class="block">${en}</div></div>
+      <div class="lang"><div class="tag">Русский</div><div class="block" lang="ru">${ru}</div></div>
+    </section>`).join('');
+  document.querySelectorAll('a[href="#"]').forEach(a => a.onclick = e => e.preventDefault());
+</script>
+</body>
+</html>
