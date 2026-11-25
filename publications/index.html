@@ -16,7 +16,7 @@ title: Publications
 		@media only screen and (min-width: 700px) and (min-height: 600px) {
 			html { overflow-x: clip; }   /* (the white band runs the full width of the window without making the page scroll sideways) */
 			.pub-footnote { position: sticky; bottom: 14px; z-index: 5; margin-top: -45px; padding-top: 45px; display: flow-root; --fade: 0px; }   /* (flow-root keeps the note's own space below it inside the white band) */
-			.pub-footnote::before { content: ''; position: absolute; z-index: -1; pointer-events: none; top: var(--top, 0px); bottom: -14px;
+			.pub-footnote::before { content: ''; position: absolute; z-index: -1; pointer-events: none; top: var(--top, 8px); bottom: -14px;
 			                        left: 50%; width: 100vw; transform: translateX(-50%);
 			                        background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.45) calc(var(--fade) * .3),
 			                                                    rgba(255,255,255,.85) calc(var(--fade) * .6), #fff var(--fade)); }   /* (the fade, then plain white down to the line) */

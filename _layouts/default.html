@@ -4,9 +4,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		{% assign tab = page.tab_title | default: page.title %}<title>{{ site.title }}{% if tab %} | {{ tab }}{% endif %}</title>
-		<link rel="stylesheet" type="text/css" href="/css/main.css?v=11">
+		<link rel="stylesheet" type="text/css" href="/css/main.css?v=12">
 		<link rel="icon" href="/img/bacteria.ico">
 		<script>try { if (localStorage.getItem('cursor') === 'bacteria') document.documentElement.classList.add('bacteria-cursor'); } catch (e) {}</script>
+		<noscript><style>nav ul li.cursor-switch { display: none !important; }</style></noscript>   <!-- the bacterium switch needs JavaScript -->
 		<script>
   // Before MathJax runs, move punctuation that directly follows an equation ("$x$," or "$x$.")
   // inside it, so the comma or period can never wrap onto the next line on its own.
@@ -35,9 +36,24 @@
         parts[i] = unwrapDisplaystyle(parts[i]);
         var m = parts[i + 1].match(/^[.,;:!?]+/);
         if (m) { parts[i] += m[0]; parts[i + 1] = parts[i + 1].slice(m[0].length); }
+        // A short equation (like N=10^3) is kept in one piece, so on a phone it moves to the next line whole
+        // instead of splitting at its = sign; long ones (or any that would not fit on a line at this text size)
+        // may still break, so they never run off the screen.
+        if (fitsOnALine(parts[i], n.parentNode)) parts[i] = '{' + parts[i] + '}';
       }
       n.data = parts.join('$');
     });
+  }
+
+  // Whether an equation is short, and would fit on one line here: it counts about how many symbols it shows
+  // (each \command as one; braces, ^, _ and spaces as none), each about 0.65 of the text size wide (measured: about 0.6).
+  function fitsOnALine(tex, el) {
+    var shown = tex.replace(/\\[a-zA-Z]+/g, '#').replace(/\\./g, '#').replace(/[{}^_\s]/g, '').length;
+    if (shown > 16) return false;
+    var block = el && el.closest ? (el.closest('p, li, div') || el) : null;
+    if (!block || !block.clientWidth) return true;
+    var size = parseFloat(getComputedStyle(block).fontSize) || 16;
+    return shown * 0.65 * size <= block.clientWidth;
   }
 
   // "\displaystyle{ ... }" makes the whole equation one unbreakable group; since
@@ -102,7 +118,7 @@
   (function () {
     var h = document.querySelector('.site-header');
     if (!h) return;
-    var set = function () { document.documentElement.style.scrollPaddingTop = getComputedStyle(h).position === 'sticky' ? (h.offsetHeight + 8) + 'px' : ''; };
+    var set = function () { var cs = getComputedStyle(h); document.documentElement.style.scrollPaddingTop = cs.position === 'sticky' ? ((parseFloat(cs.top) || 0) + h.offsetHeight + (parseFloat(cs.getPropertyValue('--fade')) || 0) + 8) + 'px' : ''; };   // (below the header and its fade)
     // the fade under the header grows in over the first 30px of scrolling, so at the top of a page nothing is dimmed
     var fade = function () { var f = parseFloat(getComputedStyle(h).getPropertyValue('--fade')) || 0; h.style.setProperty('--fade-now', f * Math.min(1, Math.max(0, scrollY) / 30) + 'px'); };
     set(); fade(); addEventListener('resize', function () { set(); fade(); }); addEventListener('load', set); addEventListener('scroll', fade, { passive: true });

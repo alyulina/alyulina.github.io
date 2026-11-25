@@ -39,6 +39,7 @@ code { font-family: 'Courier New', Courier, monospace; font-style: normal; backg
 .note-link { background-color: #f4f4f4; color: #404040; padding: 1px 4px; border-radius: 4px; font-size: 0.95em; vertical-align: 0.05em; text-decoration: none; margin-right: 0.9em; white-space: nowrap; }
 .note-link:hover { text-decoration: none; background-color: #fbefea; color: #d97757; }
 .notes-group { white-space: nowrap; display: inline-block; }
+@media only screen and (max-width: 360px) { .notes-group { white-space: normal; } .notes-group .note-link { display: inline-block; } }   /* on the narrowest phones a row of buttons may wrap, rather than run past the edge */
 /* Extra space before a row of buttons; it stays at the end of the text line, so buttons that wrap start flush left. */
 .nl-gap { padding-right: 0.4em; }
 .note-title { color: #000; }
@@ -76,7 +77,8 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
   /* the space under the menu moves inside the header, so while pinned there is as much plain white under the menu as at the top of the page;
      below that comes a fade (--fade tall; the script in the layout grows it in as you start scrolling), so text disappears softly.
      The white (and the fade) is one layer running the full width of the window and up to its top edge, so there are no seams. */
-  html { overflow-x: clip; }   /* (that layer is wider than the text column; this keeps it from making the page scroll sideways) */
+  html { overflow-x: clip; scroll-padding-top: 254px; }   /* (that layer is wider than the text column; this keeps it from making the page scroll sideways.
+                                                         The padding: links to a footnote stop below the header; the script in the layout sets it exactly) */
   .site-header { position: sticky; top: 40px; z-index: 10; padding: 20px 0 35px; --fade: 34px; --above: 40px; }   /* pinned right where it starts: it never moves */
   .site-header::before { content: ''; position: absolute; z-index: -1; pointer-events: none; top: calc(-1 * var(--above)); bottom: calc(-1 * var(--fade-now, 0px));
                          left: 50%; width: 100vw; transform: translateX(-50%);
@@ -86,7 +88,7 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
   .site-header h1 { margin-top: 0; }
   /* the 20px above the name come out of the page's top margin, so the name starts exactly where it always did */
   body { margin-top: 40px !important; }
-  @media only screen and (max-width: 1024px) { body { margin-top: 20px !important; } .site-header { padding-bottom: 27px; top: 20px; --above: 20px; --fade: 20px; } }
+  @media only screen and (max-width: 1024px) { html { scroll-padding-top: 175px; } body { margin-top: 20px !important; } .site-header { padding-bottom: 27px; top: 20px; --above: 20px; --fade: 20px; } }
 }
 
 @media only screen and (max-width: 1024px) { h1 { font-size: 38px; } nav ul { font-size: 16px; margin-top: -13px; margin-bottom: 27px; } nav ul li { margin-right: 22px; margin-bottom: -7px; } nav ul li a { display: inline-block; padding: 8px 10px; margin: 0 -10px; } p, ol, ol p { font-size: 18px; } .footnote { font-size: 16px; } }

@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">   <!-- keeps the page out of search results; delete this line to let search engines list it -->
 <title>Anastasia Lyulina | PhD Defense</title>
 <meta name="description" content="Anastasia Lyulina's PhD defense in Biology at Stanford University — join in person or online.">
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=13">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=14">   <!-- bump v= when main.css changes, so phones fetch the new one instead of a saved copy -->
 <link rel="icon" href="/img/bacteria.ico">
 <script>document.documentElement.classList.add('js');</script>
 <script>try { if (localStorage.getItem('cursor') === 'bacteria') document.documentElement.classList.add('bacteria-cursor'); } catch (e) {}</script>
@@ -98,7 +98,7 @@
   }
 </style>
 <!-- without JavaScript: leave out the animation's empty space and the unlock buttons (the text cannot be unscrambled); a still picture and an email link show instead, below -->
-<noscript><style>.beads-wrap, .replay, .needs-js { display: none; }</style></noscript>
+<noscript><style>.beads-wrap, .replay, .needs-js, nav ul li.cursor-switch { display: none !important; }</style></noscript>
 </head>
 <body>
   <header class="site-header">   <!-- the name and the menu: pinned to the top while scrolling, except on phones -->
@@ -135,7 +135,7 @@
     (function () {
       var h = document.querySelector('.site-header');
       if (!h) return;
-      var set = function () { document.documentElement.style.scrollPaddingTop = getComputedStyle(h).position === 'sticky' ? (h.offsetHeight + 8) + 'px' : ''; };
+      var set = function () { var cs = getComputedStyle(h); document.documentElement.style.scrollPaddingTop = cs.position === 'sticky' ? ((parseFloat(cs.top) || 0) + h.offsetHeight + (parseFloat(cs.getPropertyValue('--fade')) || 0) + 8) + 'px' : ''; };   // (below the header and its fade)
       // the fade under the header grows in over the first 30px of scrolling, so at the top of a page nothing is dimmed
     var fade = function () { var f = parseFloat(getComputedStyle(h).getPropertyValue('--fade')) || 0; h.style.setProperty('--fade-now', f * Math.min(1, Math.max(0, scrollY) / 30) + 'px'); };
     set(); fade(); addEventListener('resize', function () { set(); fade(); }); addEventListener('load', set); addEventListener('scroll', fade, { passive: true });
