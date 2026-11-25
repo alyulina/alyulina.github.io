@@ -11,13 +11,16 @@ sitemap: false   # temporary test page: not linked, not in the sitemap; delete t
 		.pub-abstract { font-size: 0.9em; color: #555; margin-top: 0.4em; }
 		.note-link.on { background-color: #fbefea; color: #d97757; }
 		button.note-link { border: 0; font-family: inherit; line-height: normal; cursor: var(--cursor-link) !important; }
-		/* the "contributed equally" note: pinned to the bottom of the window while the list scrolls under it, with the same 45px gap above
-		   its line as under the last paper (the upper part of that gap fades, so the list disappears softly); same screens as the pinned header */
+		/* the "contributed equally" note: pinned to the bottom of the window while the list scrolls under it (same screens as the pinned header).
+		   While pinned it sits a little above the window's edge, keeps the full 45px white gap above its line, and has a fade above that,
+		   so the list disappears softly; the fade shrinks away as the note reaches its own place under the last paper (see the script below). */
 		@media only screen and (min-width: 700px) and (min-height: 600px) {
-			html { overflow-x: clip; }   /* (the white band below runs the full width of the window without making the page scroll sideways) */
-			.pub-footnote { position: sticky; bottom: 0; z-index: 5; margin-top: -45px; padding-top: 45px; display: flow-root; }   /* (flow-root keeps the note's own space below it inside the white band) */
-			.pub-footnote::before { content: ''; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%); pointer-events: none;
-			                        background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.55) 12px, rgba(255,255,255,.9) 22px, #fff 30px); }
+			html { overflow-x: clip; }   /* (the white band runs the full width of the window without making the page scroll sideways) */
+			.pub-footnote { position: sticky; bottom: 14px; z-index: 5; margin-top: -45px; padding-top: 45px; display: flow-root; --ext: 0px; }   /* (flow-root keeps the note's own space below it inside the white band) */
+			.pub-footnote::before { content: ''; position: absolute; z-index: -1; pointer-events: none; top: calc(-1 * var(--ext)); bottom: -14px;
+			                        left: 50%; width: 100vw; transform: translateX(-50%);
+			                        background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.55) calc(var(--ext) * .4),
+			                                                    rgba(255,255,255,.9) calc(var(--ext) * .75), #fff var(--ext)); }
 		}
 	</style>
 
@@ -74,6 +77,19 @@ sitemap: false   # temporary test page: not linked, not in the sitemap; delete t
 <hr style="width:25%" align="left">
 <p class="footnote"><sup>*</sup> These authors contributed equally.</p>
 </div>
+<div class="pub-footnote-end"></div>   <!-- marks where the note's own place ends -->
+<script>
+  // how far the pinned note still is from its own place: up to 30px of that becomes the fade above it, so the fade disappears smoothly at the end of the list
+  (function () {
+    var note = document.querySelector('.pub-footnote'), end = document.querySelector('.pub-footnote-end');
+    if (!note || !end) return;
+    var update = function () {
+      var away = end.getBoundingClientRect().top - (innerHeight - 14);
+      note.style.setProperty('--ext', Math.max(0, Math.min(30, away)) + 'px');
+    };
+    addEventListener('scroll', update, { passive: true }); addEventListener('resize', update); addEventListener('load', update); update();
+  })();
+</script>
 
 <!--Thank you Claude for this bit below-->
 <script>

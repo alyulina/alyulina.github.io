@@ -74,17 +74,19 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
    It starts exactly where it always was and stays there. */
 @media only screen and (min-width: 700px) and (min-height: 600px) {
   /* the space under the menu moves inside the header, so while pinned there is as much white under the menu as at the top of the page;
-     its lower part fades out gradually, so text scrolling under it disappears softly instead of being cut off */
-  .site-header { position: sticky; top: 40px; z-index: 10; padding: 20px 0 35px;   /* pinned right where it starts: it never moves */
-                 --fade: 34px;   /* how tall the fade is */
-                 background: linear-gradient(#fff calc(100% - var(--fade)), rgba(255,255,255,.85) calc(100% - var(--fade) * .6),
-                                             rgba(255,255,255,.45) calc(100% - var(--fade) * .3), rgba(255,255,255,0));
-                 box-shadow: 0 0 0 100vmax #fff; clip-path: inset(-40px -100vmax 0); }   /* white across the whole window and above it, so nothing shows beside or above it */
+     its lower part fades out gradually, so text scrolling under it disappears softly instead of being cut off.
+     The white (and the fade) is one layer running the full width of the window and up to its top edge, so there are no seams. */
+  html { overflow-x: clip; }   /* (that layer is wider than the text column; this keeps it from making the page scroll sideways) */
+  .site-header { position: sticky; top: 40px; z-index: 10; padding: 20px 0 35px; --fade: 34px; --above: 40px; }   /* pinned right where it starts: it never moves */
+  .site-header::before { content: ''; position: absolute; z-index: -1; pointer-events: none; top: calc(-1 * var(--above)); bottom: 0;
+                         left: 50%; width: 100vw; transform: translateX(-50%);
+                         background: linear-gradient(#fff calc(100% - var(--fade)), rgba(255,255,255,.85) calc(100% - var(--fade) * .6),
+                                                     rgba(255,255,255,.45) calc(100% - var(--fade) * .3), rgba(255,255,255,0)); }
   .site-header nav ul { margin-bottom: 0; }
   .site-header h1 { margin-top: 0; }
   /* the 20px above the name come out of the page's top margin, so the name starts exactly where it always did */
   body { margin-top: 40px !important; }
-  @media only screen and (max-width: 1024px) { body { margin-top: 20px !important; } .site-header { padding-bottom: 27px; top: 20px; clip-path: inset(-20px -100vmax 0); --fade: 20px; } }
+  @media only screen and (max-width: 1024px) { body { margin-top: 20px !important; } .site-header { padding-bottom: 27px; top: 20px; --above: 20px; --fade: 20px; } }
 }
 
 @media only screen and (max-width: 1024px) { h1 { font-size: 38px; } nav ul { font-size: 16px; margin-top: -13px; margin-bottom: 27px; } nav ul li { margin-right: 22px; margin-bottom: -7px; } nav ul li a { display: inline-block; padding: 8px 10px; margin: 0 -10px; } p, ol, ol p { font-size: 18px; } .footnote { font-size: 16px; } }
