@@ -332,10 +332,18 @@
     const w = frame.contentWindow;
     if (w.settleNow) w.settleNow();
   };
+  let replaying = false;
+  addEventListener('message', e => { if (e.data && (e.data.type === 'beads:landed' || e.data.type === 'beads:rest')) replaying = false; });
   document.getElementById('replay').onclick = e => {
     e.preventDefault();
     const w = frame.contentWindow;
-    if (!w.build && !w.playOnce) return;
+    if ((!w.build && !w.playOnce) || replaying) return;
+    replaying = true;
+    // the button fades out first, and only then does the box open (and the page scroll), so it is already going when things move
+    replayRow.classList.remove('shown');
+    setTimeout(() => replayNow(w), 300);
+  };
+  const replayNow = w => {
     // open the box again under the text, and play; the space it will take is held from the start (as a margin that
     // shrinks while the box grows), so the page can scroll straight to it
     const open = frameH - trim, now = wrap.getBoundingClientRect().height;
