@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		{% assign tab = page.tab_title | default: page.title %}<title>{{ site.title }}{% if tab %} | {{ tab }}{% endif %}</title>
-		<link rel="stylesheet" type="text/css" href="/css/main.css?v=10">
+		<link rel="stylesheet" type="text/css" href="/css/main.css?v=11">
 		<link rel="icon" href="/img/bacteria.ico">
 		<script>try { if (localStorage.getItem('cursor') === 'bacteria') document.documentElement.classList.add('bacteria-cursor'); } catch (e) {}</script>
 		<script>
@@ -103,7 +103,9 @@
     var h = document.querySelector('.site-header');
     if (!h) return;
     var set = function () { document.documentElement.style.scrollPaddingTop = getComputedStyle(h).position === 'sticky' ? (h.offsetHeight + 8) + 'px' : ''; };
-    set(); addEventListener('resize', set); addEventListener('load', set);
+    // the fade under the header grows in over the first 30px of scrolling, so at the top of a page nothing is dimmed
+    var fade = function () { var f = parseFloat(getComputedStyle(h).getPropertyValue('--fade')) || 0; h.style.setProperty('--fade-now', f * Math.min(1, Math.max(0, scrollY) / 30) + 'px'); };
+    set(); fade(); addEventListener('resize', function () { set(); fade(); }); addEventListener('load', set); addEventListener('scroll', fade, { passive: true });
   })();
 </script>
 			<div class="container">

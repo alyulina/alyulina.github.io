@@ -73,15 +73,15 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 /* the name and the menu stay at the top while the page scrolls (not on phones: there is not enough room).
    It starts exactly where it always was and stays there. */
 @media only screen and (min-width: 700px) and (min-height: 600px) {
-  /* the space under the menu moves inside the header, so while pinned there is as much white under the menu as at the top of the page;
-     its lower part fades out gradually, so text scrolling under it disappears softly instead of being cut off.
+  /* the space under the menu moves inside the header, so while pinned there is as much plain white under the menu as at the top of the page;
+     below that comes a fade (--fade tall; the script in the layout grows it in as you start scrolling), so text disappears softly.
      The white (and the fade) is one layer running the full width of the window and up to its top edge, so there are no seams. */
   html { overflow-x: clip; }   /* (that layer is wider than the text column; this keeps it from making the page scroll sideways) */
   .site-header { position: sticky; top: 40px; z-index: 10; padding: 20px 0 35px; --fade: 34px; --above: 40px; }   /* pinned right where it starts: it never moves */
-  .site-header::before { content: ''; position: absolute; z-index: -1; pointer-events: none; top: calc(-1 * var(--above)); bottom: 0;
+  .site-header::before { content: ''; position: absolute; z-index: -1; pointer-events: none; top: calc(-1 * var(--above)); bottom: calc(-1 * var(--fade-now, 0px));
                          left: 50%; width: 100vw; transform: translateX(-50%);
-                         background: linear-gradient(#fff calc(100% - var(--fade)), rgba(255,255,255,.85) calc(100% - var(--fade) * .6),
-                                                     rgba(255,255,255,.45) calc(100% - var(--fade) * .3), rgba(255,255,255,0)); }
+                         background: linear-gradient(#fff calc(100% - var(--fade-now, 0px)), rgba(255,255,255,.85) calc(100% - var(--fade-now, 0px) * .6),
+                                                     rgba(255,255,255,.45) calc(100% - var(--fade-now, 0px) * .3), rgba(255,255,255,0)); }
   .site-header nav ul { margin-bottom: 0; }
   .site-header h1 { margin-top: 0; }
   /* the 20px above the name come out of the page's top margin, so the name starts exactly where it always did */
