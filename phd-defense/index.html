@@ -68,7 +68,8 @@
   #unlock-form { display: inline; }
   /* the password field is drawn like the site's pills (.note-link in main.css), and grows with what is typed */
   #unlock-form input { font-family: 'Avenir', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.9em; line-height: inherit; vertical-align: 0.05em;
-                       width: 7em; padding: 1px 4px; box-sizing: content-box; margin: 0; border: 0; border-radius: 4px; background: #f4f4f4; color: #404040; outline: none; }
+                       width: 7em; padding: 1px 4px; box-sizing: content-box; margin: 0; border: 0; border-radius: 4px; background: #f4f4f4; color: #404040; outline: none;
+                       -webkit-appearance: none; appearance: none; text-overflow: clip; }   /* no phone-specific field styling or extra inner padding */
   #unlock-form input::placeholder { color: #404040; opacity: 1; }
   #unlock-form input:hover, #unlock-form input:focus { background: #fef2f1; color: #fa8072; }
   #unlock-form input:hover::placeholder, #unlock-form input:focus::placeholder { color: #fa8072; }
@@ -162,7 +163,7 @@
   const sizer = document.createElement('span');
   Object.assign(sizer.style, { position: 'absolute', visibility: 'hidden', whiteSpace: 'pre', fontFamily: getComputedStyle(input).fontFamily, fontSize: '0.9em' });
   form.appendChild(sizer);
-  const fit = () => { sizer.textContent = input.value ? '\u2022'.repeat(input.value.length) : input.placeholder; input.style.width = (sizer.offsetWidth + 14) + 'px'; };
+  const fit = () => { sizer.textContent = input.value ? '\u2022'.repeat(input.value.length) : input.placeholder; input.style.width = (sizer.offsetWidth + (input.value ? 6 : 1)) + 'px'; };   // (a little room for the cursor once typing)
   input.addEventListener('input', fit);
   unlockBtn.onclick = () => { unlockBtn.hidden = true; form.hidden = false; fit(); input.focus(); };
   form.onsubmit = async e => {
