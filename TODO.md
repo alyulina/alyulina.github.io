@@ -20,6 +20,11 @@ After the defense:
 - [ ] When the thesis is published: replace "full text to follow" with a link to it (in `_drafts/phd-defense/content.html` and relock, if the page is still locked then).
 - [ ] Maybe also add a PDF of the introduction next to the page (for example `phd-defense/introduction.pdf`), linked from the same row.
 
+Publications page, once there are more papers:
+
+- [ ] Change the order of the sections to: manuscripts in preparation, then submitted, then published.
+- [ ] Maybe highlight a few selected papers.
+
 Code improvement and other ideas for when I have nothing else to do:
 
 - [x] Extract `<nav>` into `_includes/nav.html` and use Liquid `page.url` for active link highlighting, replacing the per-page `id`-based approach.
