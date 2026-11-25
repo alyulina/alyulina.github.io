@@ -8,7 +8,7 @@ Write and revise the note in `_drafts/`. That folder is in `.gitignore`, so draf
 
 ## Step 1: create the note file
 
-Create a new file in `notes/` named `YYYY-MM-DD-note.html`, where the date is the publication date and the slug is a short descriptive identifier, e.g. `2025-02-05-h-of-s.html`. The file should start with a front matter block:
+Create a new file in `notes/` named `YYYY-MM-DD-note.html`, where the date is the publication date and the slug is a short descriptive identifier, e.g. `2025-02-05-heterozygosity.html`. The file should start with a front matter block:
 
 ```yaml
 ---
@@ -45,7 +45,7 @@ A few things happen automatically when the page loads, so there is nothing extra
 
 To keep this working, don't put anything else (text, `<br>`, a second equation) in the centered paragraph.
 
-**Links between notes.** Link to other notes with an absolute path, e.g. `<a href="/notes/2025-02-05-h-of-s">`, so the link also works while the note is still in `_drafts/`. Don't link to a note that isn't published yet.
+**Links between notes.** Link to other notes with an absolute path, e.g. `<a href="/notes/2025-02-05-heterozygosity">`, so the link also works while the note is still in `_drafts/`. Don't link to a note that isn't published yet.
 
 **Figures.** Use the `.figure-container` class defined in `css/main.css` for figures with captions:
 
