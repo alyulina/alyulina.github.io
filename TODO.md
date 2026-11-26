@@ -32,5 +32,6 @@ Code improvement and other ideas for when I have nothing else to do:
 - [x] Author collapse edge case: co-second and other middle `*` markers — the marked author is shown correctly with their `*` in the collapsed view, but co-authors sharing that mark are not shown. This is acceptable behavior; the `*` footnote still signals equal contribution. _No action needed unless this becomes confusing in practice._
 - [ ] Auto-generate notes index: if the notes section grows, consider moving notes to `_posts/` as HTML files with proper front matter (`title`, `date`), which would allow `notes/index.html` to loop over `site.posts` automatically instead of manually adding links. _Low priority while notes are infrequent._
 - [x] Clean up CSS. The spacing feels off in a few places.
+- [ ] If the menu grows (e.g. a teaching or art page), consider a "More" item on phones that opens a short list with the rest of the pages.
 - [ ] Add a teaching and mentoring section (or page) if applying for teaching-focused positions; until then, teaching is covered in the CV.
 - [ ] Think if I want to add a separate page for misc stuff, e.g. CA backpacking notes and routes, or art that I make, including ceramics. I feel like I should not have that on my professional page, but realistically I will also not make another page for that; so it is either here or nowhere.
