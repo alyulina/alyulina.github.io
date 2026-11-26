@@ -39,6 +39,7 @@ You are welcome to use this as a template for your own site as per [`LICENSE.md`
   - `research/index.html` — replace my research description and the `description` at the top of the file.
   - `_data/publications.json` — replace with your publications.
   - `notes/` — please do not include my notes without proper acknowledgments. This also applies to the files they use, such as figures and notebooks.
+  - `phd-defense/` — my PhD defense page; delete it.
   - `assets/lyulina_cv.pdf` — replace with your own.
   - `contact/index.html` — replace the contact details and the link to this repository at the bottom.
 
