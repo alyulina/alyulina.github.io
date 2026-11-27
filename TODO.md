@@ -17,7 +17,7 @@ After the defense:
 
 Publications page, once there are more papers:
 
-- [ ] Change the order of the sections to: manuscripts in preparation, then submitted, then published.
+- [ ] Move the submitted and in preparation section above the published one, so it doesn't end up at the bottom of a long list.
 - [ ] Maybe highlight a few selected papers.
 - [ ] Maybe group the papers by year.
 

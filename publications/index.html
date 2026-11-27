@@ -10,58 +10,51 @@ title: Publications
 		.pub-abstract { font-size: 0.9em; color: #555; margin-top: 0.4em; }
 		.note-link.on { background-color: #fbefea; color: #d97757; }
 		button.note-link { border: 0; font-family: inherit; line-height: normal; cursor: var(--cursor-link) !important; }
-		/* the "contributed equally" note: pinned to the bottom of the window while the list scrolls under it (same screens as the pinned header).
-		   While pinned, the white above its line mirrors the one under the pinned menu (as much plain white, then the same fade: the script below
-		   reads them from the header); it sits a little above the window's edge, and settles into its own place under the last paper at the end. */
-		@media only screen and (min-width: 700px) and (min-height: 600px) {
-			html { overflow-x: clip; }   /* (the white band runs the full width of the window without making the page scroll sideways) */
-			.pub-footnote { position: sticky; bottom: 14px; z-index: 5; margin-top: -45px; padding-top: 45px; display: flow-root; --fade: 0px; }   /* (flow-root keeps the note's own space below it inside the white band) */
-			.pub-footnote::before { content: ''; position: absolute; z-index: -1; pointer-events: none; top: var(--top, 8px); bottom: -14px;
-			                        left: 50%; width: 100vw; transform: translateX(-50%);
-			                        background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.45) calc(var(--fade) * .3),
-			                                                    rgba(255,255,255,.85) calc(var(--fade) * .6), #fff var(--fade)); }   /* (the fade, then plain white down to the line) */
-		}
+		/* the section headings are quiet labels, in the light grey of the dates on the About page */
+		.publications h2 { font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 16px; font-weight: normal; color: #b9b9b9; }
+		@media only screen and (max-width: 1024px) { .publications h2 { font-size: 18px; } }   /* (the same size as the text, which is larger on tablets and phones) */
+		/* a note under a paper's citation and buttons ("not peer reviewed", "text available upon request"), in the same grey */
+		.pub-status { display: block; color: #b9b9b9; font-size: 0.95em; }   /* (the size of the button text, so it reads with the buttons above it) */
 	</style>
 
 <div id="publishedSection" style="display:none">
-	<h2><strong>Published manuscripts</strong></h2>
+	<h2>Published</h2>
 	<ol id="pubList" reversed style="padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;"></ol>
 	<br>
 </div>
 
 <div id="submittedSection" style="display:none">
-	<h2><strong>Submitted manuscripts</strong></h2>
+	<h2>Submitted and in preparation</h2>
 	<ol id="subList" reversed style="list-style-type:none; padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;"></ol>
-	<br>
-</div>
-
-<div id="preparationSection" style="display:none">
-	<h2><strong>Manuscripts in preparation</strong></h2>
-	<ol id="prepList" reversed style="list-style-type:none; padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;"></ol>
 	<br>
 </div>
 
 <!-- Plain list for browsers without JavaScript, built by Jekyll from the same data. -->
 <noscript>
-{%- assign statuses = "published,review,preparation" | split: "," -%}
-{%- assign headings = "Published manuscripts,Submitted manuscripts,Manuscripts in preparation" | split: "," -%}
 {%- capture bold_name %}<strong>{{ site.publication_name }}</strong>{% endcapture -%}
-{%- for status in statuses -%}
-	{%- assign papers = site.data.publications | where: "status", status -%}
-	{%- if status == "published" -%}{%- assign papers = papers | sort: "year" | reverse -%}{%- endif -%}
+{%- assign published = site.data.publications | where: "status", "published" | sort: "year" | reverse -%}
+{%- assign submitted = site.data.publications | where: "status", "submitted" -%}
+{%- assign preparing = site.data.publications | where: "status", "preparation" -%}
+{%- assign unpublished = submitted | concat: preparing -%}
+{%- assign headings = "Published,Submitted and in preparation" | split: "," -%}
+{%- for heading in headings -%}
+	{%- if forloop.first -%}{%- assign papers = published -%}{%- else -%}{%- assign papers = unpublished -%}{%- endif -%}
 	{%- if papers.size > 0 %}
-	<h2><strong>{{ headings[forloop.index0] }}</strong></h2>
+	<h2>{{ heading }}</h2>
 	<ol reversed style="padding-left:1.2em; margin-bottom: 1.2em; margin-top: 1.2em;">
 	{%- for p in papers %}
 		{%- assign authors_html = p.authors | replace: "**", "@@" | replace: "*", "<sup>*</sup>" | replace: "@@", "<sup>**</sup>" -%}
-		{%- if site.publication_name != "" and site.publication_name -%}{%- assign authors_html = authors_html | replace: site.publication_name, bold_name -%}{%- endif %}
+		{%- if site.publication_name != "" and site.publication_name -%}{%- assign authors_html = authors_html | replace: site.publication_name, bold_name -%}{%- endif -%}
+		{%- assign journal_lower = p.journal | downcase -%}
+		{%- assign is_preprint = false -%}{%- if p.status == "published" -%}{%- if journal_lower == "biorxiv" or journal_lower == "arxiv" -%}{%- assign is_preprint = true -%}{%- endif -%}{%- endif %}
 		<li><p>{{ authors_html }}. <em>{{ p.title }}</em>{% if p.journal != "" and p.journal %}. <span class="pub-journal">{{ p.journal }}</span>{% if p.volume != "" and p.volume %} {{ p.volume }}{% endif %}{% if p.pages != "" and p.pages %}, {{ p.pages }}{% endif %}{% endif %}{% if p.year != "" and p.year %} ({{ p.year }}).{% else %}.{% endif %}<span class="nl-gap"></span> <span class="notes-group">
-			{%- if p.paper != "" and p.paper %}<a class="note-link" href="{{ p.paper }}" target="_blank">{% if status == "review" %}preprint{% else %}paper{% endif %}</a>{% endif -%}
+			{%- if p.paper != "" and p.paper %}<a class="note-link" href="{{ p.paper }}" target="_blank">paper</a>{% endif -%}
 			{%- if p.code != "" and p.code %}<a class="note-link" href="{{ p.code }}" target="_blank">code</a>{% endif -%}
 			{%- if p.cover != "" and p.cover %}<a class="note-link" href="{{ p.cover }}" target="_blank">cover</a>{% endif -%}
 			{%- if p.commentary != "" and p.commentary %}<a class="note-link" href="{{ p.commentary }}" target="_blank">commentary</a>{% endif -%}
 			{%- if p.news != "" and p.news %}<a class="note-link" href="{{ p.news }}" target="_blank">news</a>{% endif -%}
-		</span></p></li>
+			{%- if p.note != "" and p.note %}<a class="note-link" href="{{ p.note }}">note</a>{% endif -%}
+		</span>{% if is_preprint %}<span class="pub-status">not peer reviewed</span>{% elsif p.status == "submitted" %}<span class="pub-status">text available upon request</span>{% endif %}</p></li>
 	{%- endfor %}
 	</ol>
 	<br>
@@ -72,34 +65,8 @@ title: Publications
 <!--
 <p style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; "><em>See citations for publications <a href="https://scholar.google.com/citations?hl=en&user=wSbesjsAAAAJ" target="_blank">here</a>.</em></p>
 -->
-<div class="pub-footnote">   <!-- stays at the bottom of the window while the list is longer than it (not on phones), then settles here under the last paper -->
 <hr style="width:25%" align="left">
 <p class="footnote"><sup>*</sup> These authors contributed equally.</p>
-</div>
-<div class="pub-footnote-end"></div>   <!-- marks where the note's own place ends -->
-<script>
-  // the white band above the pinned note mirrors the one under the pinned menu: same height (from the menu's text to the header's bottom)
-  // and the same fade. Near its own place under the last paper it eases back to the page's usual 45px gap, so the last paper is never dimmed.
-  (function () {
-    var note = document.querySelector('.pub-footnote'), end = document.querySelector('.pub-footnote-end'),
-        header = document.querySelector('.site-header'), link = header && header.querySelector('nav a');
-    if (!note || !end || !link) return;
-    var update = function () {
-      var band = header.getBoundingClientRect().bottom - link.getBoundingClientRect().bottom;
-      var fade = parseFloat(getComputedStyle(header).getPropertyValue('--fade')) || 0;
-      var away = end.getBoundingClientRect().top - (innerHeight - 14);           // how far the note still is from its own place
-      var t = Math.max(0, Math.min(1, away / 30));
-      // the fade always stays; near the end the plain white part shrinks instead, so that at the end white and fade together fit in the
-      // page's usual 45px gap under the last paper (which is empty), and the last paper is never covered
-      var solidAtEnd = Math.max(0, Math.min(band, 45 - fade));
-      var solid = solidAtEnd + (band - solidAtEnd) * t;
-      var line = note.querySelector('hr').getBoundingClientRect().top - note.getBoundingClientRect().top;   // where the line sits inside the note
-      note.style.setProperty('--top', (line - solid - fade) + 'px');
-      note.style.setProperty('--fade', fade + 'px');
-    };
-    addEventListener('scroll', update, { passive: true }); addEventListener('resize', update); addEventListener('load', update); update();
-  })();
-</script>
 
 <!--Thank you Claude for this bit below-->
 <script>
@@ -189,14 +156,14 @@ function renderNotes(p, toggleBtn, abstractBtn) {
   let html = '';
   if (abstractBtn)  html += abstractBtn;
   if (p.paper) {
-    const label = p.status === 'review' ? 'preprint' : 'paper';
-    html += `<a class="note-link" href="${p.paper}" target="_blank">${label}</a>`;
+    html += `<a class="note-link" href="${p.paper}" target="_blank">paper</a>`;
   }
   if (p.code)       html += `<a class="note-link" href="${p.code}"       target="_blank">code</a>`;
   // if (p.thread)  html += `<a class="note-link" href="${p.thread}"     target="_blank">thread</a>`;
   if (p.cover)      html += `<a class="note-link" href="${p.cover}"      target="_blank">cover</a>`;
   if (p.commentary) html += `<a class="note-link" href="${p.commentary}" target="_blank">commentary</a>`;
   if (p.news)       html += `<a class="note-link" href="${p.news}"       target="_blank">news</a>`;
+  if (p.note)       html += `<a class="note-link" href="${p.note}">note</a>`;   // (an accompanying note on this site, so it opens in the same tab)
   if (toggleBtn)    html += toggleBtn;
   return html;
 }
@@ -231,8 +198,13 @@ function renderEntry(p) {
     abstractHtml = `<p class="pub-abstract" id="${aid}" hidden>${p.abstract}</p>`;
   }
   const notes = renderNotes(p, toggleBtn, abstractBtn);
+  // a preprint (listed with the published papers) is marked as not peer reviewed; a submitted paper (not public, so it has
+  // no link) says that the text is available upon request
+  const isPreprint = p.status === 'published' && /^(biorxiv|arxiv)$/i.test(p.journal);
+  const status = isPreprint ? 'not peer reviewed' : (p.status === 'submitted' ? 'text available upon request' : '');
   return `<p>${authorsHtml}. <em>${p.title}</em>${journalPart}${yearPart}`
-       + (notes ? `<span class="nl-gap"></span> <span class="notes-group">${notes}</span>` : '') + `</p>`
+       + (notes ? `<span class="nl-gap"></span> <span class="notes-group">${notes}</span>` : '')
+       + (status ? `<span class="pub-status">${status}</span>` : '') + `</p>`
        + abstractHtml;
 }
 
@@ -267,43 +239,28 @@ const PUBLICATIONS = {{ site.data.publications | jsonify }};
 Promise.resolve(PUBLICATIONS)
   .then(pubs => {
     const pubList  = document.getElementById('pubList');
-    const prepList = document.getElementById('prepList');
     const subList  = document.getElementById('subList');
 
-    // Split by status: published / review (submitted) / preparation
-    const pubPapers  = pubs.filter(p => p.status === 'published').sort((a, b) => b.year - a.year);
-    const subPapers  = pubs.filter(p => p.status === 'review');
-    const prepPapers = pubs.filter(p => p.status === 'preparation');
+    // Two lists: published papers and preprints (newest first), then submitted papers followed by those in preparation
+    const pubPapers = pubs.filter(p => p.status === 'published').sort((a, b) => b.year - a.year);
+    const subPapers = pubs.filter(p => p.status === 'submitted').concat(pubs.filter(p => p.status === 'preparation'));
 
-    subPapers.forEach(p => {
-      const li = document.createElement('li');
-      li.innerHTML = renderEntry(p);
-      subList.appendChild(li);
-      document.getElementById('submittedSection').style.display = '';
+    [[pubPapers, pubList, 'publishedSection'], [subPapers, subList, 'submittedSection']].forEach(([papers, list, section]) => {
+      papers.forEach(p => {
+        const li = document.createElement('li');
+        li.innerHTML = renderEntry(p);
+        list.appendChild(li);
+      });
+      if (papers.length) document.getElementById(section).style.display = '';
+      // Number each list separately, counting down
+      list.setAttribute('start', papers.length);
     });
-    subList.setAttribute('start', subPapers.length);
     subList.style.listStyleType = 'decimal';
 
-    pubPapers.forEach(p => {
-      const li = document.createElement('li');
-      li.innerHTML = renderEntry(p);
-      pubList.appendChild(li);
-      document.getElementById('publishedSection').style.display = '';
-    });
-
-    prepPapers.forEach(p => {
-      const li = document.createElement('li');
-      li.innerHTML = renderEntry(p);
-      prepList.appendChild(li);
-      document.getElementById('preparationSection').style.display = '';
-    });
-
-    // Number published list: start at total count, count down
-    pubList.setAttribute('start', pubPapers.length);
-
-    // Number prep list separately: start at total count, count down
-    prepList.setAttribute('start', prepPapers.length);
-    prepList.style.listStyleType = 'decimal';
+    // Make room for two- or three-digit numbers, so they don't stick out past the headings; both lists get the same
+    // width, so their text lines up (1.2em fits one digit; each extra digit is about 0.55em wide)
+    const digits = String(Math.max(pubPapers.length, subPapers.length)).length;
+    [pubList, subList].forEach(l => l.style.paddingLeft = (1.2 + 0.55 * (digits - 1)) + 'em');
   })
   .catch(err => console.error("Error rendering publications:", err));
 </script>
