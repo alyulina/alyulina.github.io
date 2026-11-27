@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 68" fill="none" stroke="#b9b9b9" stroke-width="2.4" stroke-linecap="round">
+  <!-- git commit icon, same size and layout as the old commit.png, in the grey of the commit text next to it, with lines a little thicker than its strokes so they look as dark (thinner lines look fainter) -->
+  <circle cx="34" cy="34" r="11.5"/>
+  <path d="M9.5 34H22.5M45.5 34H58.5"/>
+</svg>
