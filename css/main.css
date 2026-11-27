@@ -88,7 +88,8 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
   .site-header h1 { margin-top: 0; }
   /* the 20px above the name come out of the page's top margin, so the name starts exactly where it always did */
   body { margin-top: 40px !important; }
-  @media only screen and (max-width: 1024px) { html { scroll-padding-top: 175px; } body { margin-top: 20px !important; } .site-header { padding-bottom: 27px; top: 20px; --above: 20px; --fade: 20px; } }
+  /* tablets: the same 35px under the menu as on laptops */
+  @media only screen and (max-width: 1024px) { html { scroll-padding-top: 175px; } body { margin-top: 20px !important; } .site-header { padding-bottom: 35px; top: 20px; --above: 20px; --fade: 20px; } }
 }
 
 /* the empty lines at the end of every page (in the layout) are left out on phones, where they take up too much of the screen */
