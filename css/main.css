@@ -92,9 +92,9 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
   @media only screen and (max-width: 1024px) { html { scroll-padding-top: 175px; } body { margin-top: 20px !important; } .site-header { padding-bottom: 35px; top: 20px; --above: 20px; --fade: 20px; } }
 }
 
-/* the empty lines at the end of every page (in the layout) are left out on phones, where they take up too much of the screen */
+/* phones: a little less space at the end of each page */
 /* phones, held either way: a little more room under the menu (its last row was 28px above the text; 40px now) */
-@media only screen and (max-width: 699px), only screen and (max-height: 599px) { .container > br { display: none; } .container:last-child { padding-bottom: 4px; } .site-header nav ul { margin-bottom: 39px; } }
+@media only screen and (max-width: 699px), only screen and (max-height: 599px) { .container:last-child { padding-bottom: 4px; } .site-header nav ul { margin-bottom: 39px; } }
 @media only screen and (max-width: 1024px) { h1 { font-size: 38px; } nav ul { font-size: 18px; margin-top: -13px; margin-bottom: 27px; } nav ul li { margin-right: 14px; margin-bottom: -7px; } nav ul li a { display: inline-block; padding: 8px 10px; margin: 0 -10px; } p, ol, ol p { font-size: 18px; } .footnote { font-size: 16px; } }
 /* on tablets and phones the text is 18px instead of 16px, so the menu (above), the dates, headings and note titles grow with it (the Notes page sets its own title size) */
 @media only screen and (max-width: 1024px) { .notes { font-size: 18px; } h2 { font-size: 22.5px; } .note-date { font-size: 18px; } }   /* (.notes: sizes given in em inside a note, like its title and date) */

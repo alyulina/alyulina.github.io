@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		{% assign tab = page.tab_title | default: page.title %}<title>{{ site.title }}{% if tab %} | {{ tab }}{% endif %}</title>
-		<link rel="stylesheet" type="text/css" href="/css/main.css?v=16">
+		<link rel="stylesheet" type="text/css" href="/css/main.css?v=17">
 		<link rel="icon" href="/img/bacteria.ico">
 		<script>try { if (localStorage.getItem('cursor') === 'bacteria') document.documentElement.classList.add('bacteria-cursor'); } catch (e) {}</script>
 		<noscript><style>nav ul li.cursor-switch { display: none !important; }</style></noscript>   <!-- the bacterium switch needs JavaScript -->
@@ -126,10 +126,6 @@
 </script>
 			<div class="container">
 				{{ content }}
-				<br>
-				<br>
-				<br>
-				<br>
 			</div>
 		</body>
 	</html>
