@@ -3,16 +3,18 @@ layout: default
 title: Notes
 ---
 <style>
+  .notes .note-title { font-family: 'Albra', 'Tiempos', 'Times New Roman', serif; font-size: 18px; }
+  @media only screen and (max-width: 1024px) { .notes .note-title { font-size: 20.25px; } }   /* (grows with the text, like the dates) */
   .notes .note-date { white-space: nowrap; }
   .notes .note-date.wrapped { display: block; }
   .notes .note-date.wrapped .note-sep { display: none; }
 </style>
  <div class="notes">
-	 <p><a href="2026-11-14-h-transform" class="note-title" style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px;">On conditioning a random process</a> <span class="note-date"><span class="note-sep">· </span>November 14, 2026</span></p>
+	 <p><a href="2026-11-14-h-transform" class="note-title">On conditioning a random process</a> <span class="note-date"><span class="note-sep">· </span>November 14, 2026</span></p>
 	 {% comment %} Unlisted for now; the page itself still works at /notes/2026-11-13-genome. Uncomment to list it again.
-	 <p><a href="2026-11-13-genome" class="note-title" style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px;">On what is in a genome</a> <span class="note-date"><span class="note-sep">· </span>November 13, 2026</span></p>
+	 <p><a href="2026-11-13-genome" class="note-title">On what is in a genome</a> <span class="note-date"><span class="note-sep">· </span>November 13, 2026</span></p>
 	 {% endcomment %}
-	 <p><a href="2025-02-05-heterozygosity" class="note-title" style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px;">On heterozygosity under selection</a> <span class="note-date"><span class="note-sep">· </span>February 5, 2025</span></p>
+	 <p><a href="2025-02-05-heterozygosity" class="note-title">On heterozygosity under selection</a> <span class="note-date"><span class="note-sep">· </span>February 5, 2025</span></p>
 </div>
 <script>
   // Drop the " · " when the date wraps onto its own line under the title.

@@ -23,10 +23,10 @@ Then write the note content inside a `<div>` with the nav block at the top. Use 
 
 ## Step 2: add it to the notes index
 
-Open `notes/index.html` and add a link to the new note inside the `<div class="notes">` block:
+Open `notes/index.html` and add a link to the new note inside the `<div class="notes">` block (the font and size of the titles are set once, in the `<style>` block at the top of that file):
 
 ```html
-<p><a href="YYYY-MM-DD-note" class="note-title" style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-size: 20px;">Note title</a> <span class="note-date"><span class="note-sep">· </span>Month D, YYYY</span></p>
+<p><a href="YYYY-MM-DD-note" class="note-title">Note title</a> <span class="note-date"><span class="note-sep">· </span>Month D, YYYY</span></p>
 ```
 
 
