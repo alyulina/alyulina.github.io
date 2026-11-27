@@ -94,7 +94,9 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 /* the empty lines at the end of every page (in the layout) are left out on phones, where they take up too much of the screen */
 /* phones, held either way: a little more room under the menu (its last row was 28px above the text; 40px now) */
 @media only screen and (max-width: 699px), only screen and (max-height: 599px) { .container > br { display: none; } .container:last-child { padding-bottom: 4px; } .site-header nav ul { margin-bottom: 39px; } }
-@media only screen and (max-width: 1024px) { h1 { font-size: 38px; } nav ul { font-size: 16px; margin-top: -13px; margin-bottom: 27px; } nav ul li { margin-right: 22px; margin-bottom: -7px; } nav ul li a { display: inline-block; padding: 8px 10px; margin: 0 -10px; } p, ol, ol p { font-size: 18px; } .footnote { font-size: 16px; } }
+@media only screen and (max-width: 1024px) { h1 { font-size: 38px; } nav ul { font-size: 18px; margin-top: -13px; margin-bottom: 27px; } nav ul li { margin-right: 14px; margin-bottom: -7px; } nav ul li a { display: inline-block; padding: 8px 10px; margin: 0 -10px; } p, ol, ol p { font-size: 18px; } .footnote { font-size: 16px; } }
+/* on tablets and phones the text is 18px instead of 16px, so the menu (above), the dates, headings and note titles grow with it */
+@media only screen and (max-width: 1024px) { .notes { font-size: 18px; } h2 { font-size: 22.5px; } .note-date { font-size: 18px; } .notes a.note-title { font-size: 22.5px !important; } }   /* (.notes: sizes given in em inside a note, like its title and date; !important: the titles on the Notes page have their size inline) */
 
 p mjx-container[jax="CHTML"][display="true"] { margin: 0; }
 mjx-container { cursor: inherit !important; } /* keep the site cursor over equations */
