@@ -1,0 +1,28 @@
+---
+layout: null
+sitemap: false
+---
+{%- comment -%}
+The notes as an Atom feed, for feed readers (linked from the page head, not shown on the pages).
+Every page in notes/ is in it, newest first, except the Notes page itself and notes marked `unlisted: true`.
+A note's date is the one at the start of its file name (YYYY-MM-DD-...).
+{%- endcomment -%}
+{%- assign notes = site.pages | where_exp: "p", "p.path contains 'notes/'" | where_exp: "p", "p.name != 'index.html'" | where_exp: "p", "p.unlisted != true" | sort: "name" | reverse -%}
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{ site.title | xml_escape }} · Notes</title>
+  <id>{{ site.url }}/notes/</id>
+  <link href="{{ site.url }}/notes/"/>
+  <link rel="self" href="{{ site.url }}/feed.xml"/>
+  <author><name>{{ site.author.name | xml_escape }}</name></author>
+  <updated>{{ notes.first.name | slice: 0, 10 }}T00:00:00Z</updated>
+{%- for p in notes %}
+  {%- assign url = site.url | append: p.url | remove: '.html' %}
+  <entry>
+    <title>{{ p.title | xml_escape }}</title>
+    <id>{{ url }}</id>
+    <link href="{{ url }}"/>
+    <updated>{{ p.name | slice: 0, 10 }}T00:00:00Z</updated>
+  </entry>
+{%- endfor %}
+</feed>

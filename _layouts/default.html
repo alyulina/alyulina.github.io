@@ -6,6 +6,7 @@
 		{% assign tab = page.tab_title | default: page.title %}<title>{{ site.title }}{% if tab %} | {{ tab }}{% endif %}</title>
 		<link rel="stylesheet" type="text/css" href="/css/main.css?v=17">
 		<link rel="icon" href="/img/bacteria.ico">
+		<link rel="alternate" type="application/atom+xml" title="Anastasia Lyulina · Notes" href="/feed.xml">   <!-- the notes feed, for feed readers; not shown on the page -->
 		<script>try { if (localStorage.getItem('cursor') === 'bacteria') document.documentElement.classList.add('bacteria-cursor'); } catch (e) {}</script>
 		<noscript><style>nav ul li.cursor-switch { display: none !important; }</style></noscript>   <!-- the bacterium switch needs JavaScript -->
 		<script>

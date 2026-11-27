@@ -19,6 +19,8 @@ title: On something
 
 Set `title` to the note's name. The browser tab then shows "Anastasia Lyulina | On something", and link previews show just the name.
 
+The note appears in the feed (`/feed.xml`, for feed readers) automatically, with the title from `title` and the date from the file name. To keep a note out of the feed, add `unlisted: true` to its front matter (and leave it out of the notes index in Step 2); the page itself still works for anyone with the link.
+
 Then write the note content inside a `<div>` with the nav block at the top. Use the existing notes as a template – they all follow the same structure.
 
 ## Step 2: add it to the notes index
