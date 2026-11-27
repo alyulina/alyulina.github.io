@@ -20,6 +20,7 @@ Publications page, once there are more papers:
 - [ ] Move the submitted and in preparation section above the published one, so it doesn't end up at the bottom of a long list.
 - [ ] Maybe highlight a few selected papers.
 - [ ] Maybe group the papers by year.
+- [ ] Let the section headings stick under the pinned menu while their section scrolls by, and make them clickable, to jump to the other section.
 
 Research page, when the postdoc starts:
 
