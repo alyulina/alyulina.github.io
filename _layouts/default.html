@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		{% assign tab = page.tab_title | default: page.title %}<title>{{ site.title }}{% if tab %} | {{ tab }}{% endif %}</title>
-		<link rel="stylesheet" type="text/css" href="/css/main.css?v=18">
+		<link rel="stylesheet" type="text/css" href="/css/main.css?v=19">
 		<link rel="icon" href="/img/bacteria.ico">
 		<link rel="alternate" type="application/atom+xml" title="Anastasia Lyulina · Notes" href="/feed.xml">   <!-- the notes feed, for feed readers; not shown on the page -->
 		<script>try { if (localStorage.getItem('cursor') === 'bacteria') document.documentElement.classList.add('bacteria-cursor'); } catch (e) {}</script>
@@ -114,18 +114,6 @@
 				</div>
 				{% include nav.html %}
 			</header>
-<script>
-  // while the header is pinned, links to a footnote or a section stop just below it instead of underneath it
-  (function () {
-    var h = document.querySelector('.site-header');
-    if (!h) return;
-    var set = function () { var cs = getComputedStyle(h); document.documentElement.style.scrollPaddingTop = cs.position === 'sticky' ? ((parseFloat(cs.top) || 0) + h.offsetHeight + (parseFloat(cs.getPropertyValue('--fade')) || 0) + 8) + 'px' : ''; };   // (below the header and its fade)
-    // the fade under the header grows in over the first 30px of scrolling, so at the top of a page nothing is dimmed
-    var fade = function () { var f = parseFloat(getComputedStyle(h).getPropertyValue('--fade')) || 0; h.style.setProperty('--fade-now', f * Math.min(1, Math.max(0, scrollY) / 30) + 'px'); };
-    set(); fade(); addEventListener('resize', function () { set(); fade(); }); addEventListener('load', set); addEventListener('scroll', fade, { passive: true });
-    if (document.fonts) document.fonts.ready.then(set);   // (again once the fonts are in: a downloaded serif for the name can change the header's height)
-  })();
-</script>
 			<div class="container">
 				{{ content }}
 			</div>

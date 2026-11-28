@@ -83,31 +83,10 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
 .epigraph .attribution { font-style: normal; font-size: 0.9em; }
 @media only screen and (min-width: 1025px) { .epigraph { margin-right: 50%; } }
 
-/* the name and the menu stay at the top while the page scrolls (not on phones: there is not enough room).
-   It starts exactly where it always was and stays there. */
-@media only screen and (min-width: 700px) and (min-height: 600px) {
-  /* the space under the menu moves inside the header, so while pinned there is as much plain white under the menu as at the top of the page;
-     below that comes a fade (--fade tall; the script in the layout grows it in as you start scrolling), so text disappears softly.
-     The white (and the fade) is one layer running the full width of the window and up to its top edge, so there are no seams. */
-  html { overflow-x: clip; scroll-padding-top: 254px; }   /* (that layer is wider than the text column; this keeps it from making the page scroll sideways.
-                                                         The padding: links to a footnote stop below the header; the script in the layout sets it exactly) */
-  .site-header { position: sticky; top: 40px; z-index: 10; padding: 20px 0 35px; --fade: 34px; --above: 40px; }   /* pinned right where it starts: it never moves */
-  .site-header::before { content: ''; position: absolute; z-index: -1; pointer-events: none; top: calc(-1 * var(--above)); bottom: calc(-1 * var(--fade-now, 0px));
-                         left: 50%; width: 100vw; transform: translateX(-50%);
-                         background: linear-gradient(#fff calc(100% - var(--fade-now, 0px)), rgba(255,255,255,.85) calc(100% - var(--fade-now, 0px) * .6),
-                                                     rgba(255,255,255,.45) calc(100% - var(--fade-now, 0px) * .3), rgba(255,255,255,0)); }
-  .site-header nav ul { margin-bottom: 0; }
-  .site-header h1 { margin-top: 0; }
-  /* the 20px above the name come out of the page's top margin, so the name starts exactly where it always did */
-  body { margin-top: 40px !important; }
-  /* tablets: the same 35px under the menu as on laptops */
-  @media only screen and (max-width: 1024px) { html { scroll-padding-top: 175px; } body { margin-top: 20px !important; } .site-header { padding-bottom: 35px; top: 20px; --above: 20px; --fade: 20px; } }
-}
-
 /* phones: a little less space at the end of each page */
 /* phones, held either way: a little more room under the menu (its last row was 28px above the text; 40px now) */
 @media only screen and (max-width: 699px), only screen and (max-height: 599px) { .container:last-child { padding-bottom: 4px; } .site-header nav ul { margin-bottom: 39px; } }
-@media only screen and (max-width: 1024px) { h1 { font-size: 38px; } nav ul { font-size: 18px; margin-top: -13px; margin-bottom: 27px; } nav ul li { margin-right: 14px; margin-bottom: -7px; } nav ul li a { display: inline-block; padding: 8px 10px; margin: 0 -10px; } p, ol, ol p { font-size: 18px; } .footnote { font-size: 16px; } }
+@media only screen and (max-width: 1024px) { h1 { font-size: 38px; } nav ul { font-size: 18px; margin-top: -13px; margin-bottom: 35px; } nav ul li { margin-right: 14px; margin-bottom: -7px; } nav ul li a { display: inline-block; padding: 8px 10px; margin: 0 -10px; } p, ol, ol p { font-size: 18px; } .footnote { font-size: 16px; } }
 /* on tablets and phones the text is 18px instead of 16px, so the menu (above), the dates, headings and note titles grow with it (the Notes page sets its own title size) */
 @media only screen and (max-width: 1024px) { .notes { font-size: 18px; } h2 { font-size: 22.5px; } .note-date { font-size: 18px; } }   /* (.notes: sizes given in em inside a note, like its title and date) */
 
