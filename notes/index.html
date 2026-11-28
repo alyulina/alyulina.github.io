@@ -29,4 +29,7 @@ title: Notes
   }
   window.addEventListener('load', placeNoteDates);
   window.addEventListener('resize', placeNoteDates);
+  // and again once the fonts are in: where the title font is downloaded (on devices without Times New Roman), it can arrive
+  // after the page has loaded and change where the titles end
+  if (document.fonts) document.fonts.ready.then(placeNoteDates);
 </script>
