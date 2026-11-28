@@ -123,6 +123,7 @@
     // the fade under the header grows in over the first 30px of scrolling, so at the top of a page nothing is dimmed
     var fade = function () { var f = parseFloat(getComputedStyle(h).getPropertyValue('--fade')) || 0; h.style.setProperty('--fade-now', f * Math.min(1, Math.max(0, scrollY) / 30) + 'px'); };
     set(); fade(); addEventListener('resize', function () { set(); fade(); }); addEventListener('load', set); addEventListener('scroll', fade, { passive: true });
+    if (document.fonts) document.fonts.ready.then(set);   // (again once the fonts are in: a downloaded serif for the name can change the header's height)
   })();
 </script>
 			<div class="container">
