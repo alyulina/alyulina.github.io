@@ -1,3 +1,15 @@
+/* the site's serif ('Site Serif') is Times New Roman, the copy installed on the device (Mac, iPhone, Windows), found by its exact name;
+   where there is none (mostly Android and Linux), TeX Gyre Termes, a free font drawn after Times, is downloaded from /fonts instead.
+   Matching the installed font by name this way avoids systems that answer "Times New Roman" with a different serif of their own. */
+@font-face { font-family: 'Site Serif'; font-weight: 400; font-style: normal; font-display: swap;
+             src: local('Times New Roman'), local('TimesNewRomanPSMT'), url('/fonts/texgyretermes-regular.otf') format('opentype'); }
+@font-face { font-family: 'Site Serif'; font-weight: 700; font-style: normal; font-display: swap;
+             src: local('Times New Roman Bold'), local('TimesNewRomanPS-BoldMT'), url('/fonts/texgyretermes-bold.otf') format('opentype'); }
+@font-face { font-family: 'Site Serif'; font-weight: 400; font-style: italic; font-display: swap;
+             src: local('Times New Roman Italic'), local('TimesNewRomanPS-ItalicMT'), url('/fonts/texgyretermes-italic.otf') format('opentype'); }
+@font-face { font-family: 'Site Serif'; font-weight: 700; font-style: italic; font-display: swap;
+             src: local('Times New Roman Bold Italic'), local('TimesNewRomanPS-BoldItalicMT'), url('/fonts/texgyretermes-bolditalic.otf') format('opentype'); }
+
 /* the bacteria cursor is off unless a visitor switches it on (the bacterium at the end of the menu); the choice is kept in their browser */
 :root { --cursor: auto; --cursor-link: pointer; }
 html.bacteria-cursor { --cursor: url("/img/cursor_black.png"), auto; --cursor-link: url("/img/cursor_clay.png"), pointer; }
@@ -7,7 +19,7 @@ body { font-size: 16px; }   /* a fixed base, so sizes given relative to it (capt
 @media only screen and (min-width: 1025px) { body { margin: 60px auto; width: 800px; overflow: visible !important; } }
 @media only screen and (max-width: 1024px) { body { margin: 40px auto; padding: 0 20px; max-width: 800px; -webkit-text-size-adjust: 100%; overflow: visible !important; } }
 
-nav ul { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; padding: 0px; list-style: none; margin-top: 0px; margin-bottom: 35px; margin-right: 0px;}
+nav ul { font-size: 18px; line-height: 1.4em; font-family:'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; padding: 0px; list-style: none; margin-top: 0px; margin-bottom: 35px; margin-right: 0px;}
 nav ul li { display: inline-block; margin-right: 25px; margin-bottom: 15px}
 /* the cursor switch: only where there is a mouse or trackpad */
 nav ul li.cursor-switch { display: none; }
@@ -22,20 +34,20 @@ a { font-size: inherit; line-height: inherit; font-family: inherit; text-decorat
 a:hover, a.active { text-decoration: none; color: #d97757; }
 a { cursor: var(--cursor-link) !important; }
 
-h1 { font-size: 52px; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; margin-bottom: 18px; overflow: visible !important; }
-h2 { font-size: 20px; line-height: 1em; font-weight: bold; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
-p { font-size: 16px; line-height: 1.4em; font-family:'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 1em; margin-top: 0px; overflow: visible !important; }
+h1 { font-size: 52px; font-family:'Site Serif', 'Times New Roman', Times, serif; margin-bottom: 18px; overflow: visible !important; }
+h2 { font-size: 20px; line-height: 1em; font-weight: bold; font-family:'Site Serif', 'Times New Roman', Times, serif; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
+p { font-size: 16px; line-height: 1.4em; font-family:'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; color: #333; margin-bottom: 1em; margin-top: 0px; overflow: visible !important; }
 sup { vertical-align: top; position: relative; top: -0.25em; }
 .notes sup a { color: #888; }
 .notes sup a:hover { color: #d97757; }
 .notes [id^="fn"] { scroll-margin-top: 1em; }
 
-ol { font-size: 16px; font-family:'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
-ol p { font-size: 16px; line-height: 1.4em; font-family:'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
+ol { font-size: 16px; font-family:'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
+ol p { font-size: 16px; line-height: 1.4em; font-family:'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; color: #333; margin-bottom: 6px; margin-top: 0px; overflow: visible !important; }
 
-.drop-cap::first-letter { font-size: 3em; font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif'; float: left; margin-right: 8px; margin-bottom: -0.2em; margin-top: 0; line-height: 1; }
+.drop-cap::first-letter { font-size: 3em; font-family:'Site Serif', 'Times New Roman', Times, serif; float: left; margin-right: 8px; margin-bottom: -0.2em; margin-top: 0; line-height: 1; }
 code { font-family: 'Courier New', Courier, monospace; font-style: normal; background-color: #f4f4f4; color: #333; padding: 1px 4px; border-radius: 5px; font-size: 0.9em; vertical-align: 0.05em; }
-/*.pub-note { font-size: 1em; font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-style: italic; padding-left:2em; }*/
+/*.pub-note { font-size: 1em; font-family: 'Site Serif', 'Times New Roman', Times, serif; font-style: italic; padding-left:2em; }*/
 .note-link { background-color: #f4f4f4; color: #404040; padding: 1px 4px; border-radius: 4px; font-size: 0.95em; vertical-align: 0.05em; text-decoration: none; margin-right: 0.9em; white-space: nowrap; }
 .note-link:hover { text-decoration: none; background-color: #fbefea; color: #d97757; }
 .notes-group { white-space: nowrap; display: inline-block; }
@@ -44,7 +56,7 @@ code { font-family: 'Courier New', Courier, monospace; font-style: normal; backg
 .nl-gap { padding-right: 0.4em; }
 .note-title { color: #000; }
 .note-title:hover { color: #d97757; }
-.note-date { font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 16px; color: #b9b9b9; }
+.note-date { font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; font-size: 16px; color: #b9b9b9; }
 
 .authors-toggle:hover { color: #d97757; }
 
@@ -67,7 +79,7 @@ hr { border: none; height: 1px; color: #333; background-color: #333; }
     .legend { margin-top: 1em }
 }
 
-.epigraph { font-family: 'Albra', 'Tiempos', 'Times New Roman', 'Serif'; font-style: italic; font-size: 0.95em; margin-bottom: 2em; }
+.epigraph { font-family: 'Site Serif', 'Times New Roman', Times, serif; font-style: italic; font-size: 0.95em; margin-bottom: 2em; }
 .epigraph .attribution { font-style: normal; font-size: 0.9em; }
 @media only screen and (min-width: 1025px) { .epigraph { margin-right: 50%; } }
 

@@ -39,5 +39,10 @@ Consortium, licensed under the Apache License 2.0. It is based on the New Comput
 Modern fonts by Antonis Tsolomitis, licensed under the GUST Font License.
 https://ctan.org/pkg/newcomputermodern
 
+This Software incorporates the TeX Gyre Termes font by the GUST e-foundry
+(Bogusław Jackowski and Janusz M. Nowacki), licensed under the GUST Font License
+(a copy is included in fonts/GUST-FONT-LICENSE.txt). Unmodified.
+https://ctan.org/pkg/tex-gyre
+
 This Software was inspired by Jonathan McGlone's website tutorial,
 and some of the code was adapted with permission.

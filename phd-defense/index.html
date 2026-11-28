@@ -21,9 +21,9 @@
   .thesis { margin-bottom: 44px; }
   .thesis h2 { font-size: 24px; line-height: 1.25em; margin: 0 0 12px; }
   /* <button> pills look exactly like the site's link pills */
-  .tabs .note-link, .pw, #replay, #skip, #lang { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.95em;
+  .tabs .note-link, .pw, #replay, #skip, #lang { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; font-size: 0.95em;
                      line-height: inherit; cursor: var(--cursor-link) !important; }
-  .tabs, .replay { font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; }
+  .tabs, .replay { font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; }
   .tabs { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 0.5em; }   /* room between the rows when the buttons wrap on small screens */
   .tabs .note-link { margin-right: 0.6em; }
   .tabs .note-link[aria-expanded="true"] { background-color: #fbefea; color: #d97757; }   /* the open one stays highlighted, like the current page in the menu */
@@ -33,7 +33,7 @@
 
   /* schedule and people, laid out like the news list on the home page */
   .rows { list-style: none; padding-left: 0; margin: 0 0 22px; }
-  .rows li { font-size: 16px; line-height: 1.4em; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif';
+  .rows li { font-size: 16px; line-height: 1.4em; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif;
              color: #333; margin-bottom: 0.35em; display: flex; gap: 1em;
              align-items: baseline; }   /* labels line up with the first line of their text, two-line ones included */
   .rows .aside { color: #b9b9b9; }   /* the times after the middle dot, in the same light grey as the labels */
@@ -58,10 +58,10 @@
   .replay.resting #replay { display: inline; }
 
   /* the lock: once the beads land, two lines show instead of the text; the right page password brings the text in */
-  .gate { display: none; font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; padding-bottom: 30px; }
+  .gate { display: none; font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; padding-bottom: 30px; }
   .gate.shown { display: block; animation: gate-in .6s ease; }
   /* the language switch: one pill above the text (or the two lines), shown once the beads land */
-  .lang-switch { display: none; font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; margin: 0 0 24px; }
+  .lang-switch { display: none; font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; margin: 0 0 24px; }
   .lang-switch.shown { display: block; animation: gate-in .6s ease; }
   .lang-switch #lang { margin-right: 0; line-height: normal; }   /* same height as the other pills (it would otherwise take the paragraph's taller line spacing) */
   #lang[aria-pressed="true"] { background-color: #fbefea; color: #d97757; }   /* stays highlighted while the page is in Russian, like an open abstract pill */
@@ -69,11 +69,11 @@
   .gate > div + div { margin-top: 0.5em; }   /* a little room between the two lines */
   .gate .note-link, .no-js .note-link { margin-right: 0; }
   .gate-label { color: #333; margin-left: 0.5em; }
-  #unlock { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.95em; line-height: inherit; cursor: var(--cursor-link) !important; }
+  #unlock { border: 0; margin: 0; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; font-size: 0.95em; line-height: inherit; cursor: var(--cursor-link) !important; }
   #unlock[hidden], #unlock-form[hidden] { display: none; }
   #unlock-form { display: inline; }
   /* the password field is drawn like the site's pills (.note-link in main.css), and grows with what is typed */
-  #unlock-form input { font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; font-size: 0.95em; line-height: inherit; vertical-align: 0.05em;
+  #unlock-form input { font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; font-size: 0.95em; line-height: inherit; vertical-align: 0.05em;
                        width: 7em; padding: 1px 4px; box-sizing: content-box; margin: 0; border: 0; border-radius: 4px; background: #f4f4f4; color: #404040; outline: none;
                        -webkit-appearance: none; appearance: none; text-overflow: clip; }   /* no phone-specific field styling or extra inner padding */
   #unlock-form input::placeholder { color: #404040; opacity: 1; }
@@ -82,7 +82,7 @@
   #unlock-form.wrong input { animation: shake .3s; }
   @keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
   /* without JavaScript: a way to ask for the details, and the row of beads as a still picture */
-  .no-js { font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', 'Sans-Serif'; color: #333; }
+  .no-js { font-size: 16px; font-family: 'Avenir', 'Avenir Next', 'Helvetica', 'Arial', sans-serif; color: #333; }
   .beads-still { display: block; margin: 30px auto 44px; max-width: 100%; height: auto; }
 
   @media only screen and (max-width: 1024px) {

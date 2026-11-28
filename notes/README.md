@@ -78,7 +78,7 @@ To keep this working, don't put anything else (text, `<br>`, a second equation) 
 **Acknowledgments.** If you want to thank people, add a serif italic paragraph just above the footnotes:
 
 ```html
-<p style="font-family:'Albra', 'Tiempos', 'Times New Roman', 'Serif';">
+<p style="font-family:'Site Serif', 'Times New Roman', Times, serif;">
   <em>Thanks to ...</em>
 </p>
 ```
